@@ -1,0 +1,154 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "Microsoft.Plugin.WindowWalker/1.1.0": {
+        "dependencies": {
+          "Flow.Launcher.Plugin": "1.3.0",
+          "JetBrains.Annotations": "2020.1.0",
+          "Microsoft.CodeAnalysis.FxCopAnalyzers": "3.3.0",
+          "System.Runtime": "4.3.1"
+        },
+        "runtime": {
+          "Microsoft.Plugin.WindowWalker.dll": {}
+        }
+      },
+      "Flow.Launcher.Plugin/1.3.0": {
+        "dependencies": {
+          "JetBrains.Annotations": "2020.1.0",
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/Flow.Launcher.Plugin.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "JetBrains.Annotations/2020.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/JetBrains.Annotations.dll": {
+            "assemblyVersion": "2020.1.0.0",
+            "fileVersion": "2020.1.0.0"
+          }
+        }
+      },
+      "Microsoft.CodeAnalysis.FxCopAnalyzers/3.3.0": {
+        "dependencies": {
+          "Microsoft.CodeAnalysis.VersionCheckAnalyzer": "3.3.0",
+          "Microsoft.CodeQuality.Analyzers": "3.3.0",
+          "Microsoft.NetCore.Analyzers": "3.3.0",
+          "Microsoft.NetFramework.Analyzers": "3.3.0"
+        }
+      },
+      "Microsoft.CodeAnalysis.VersionCheckAnalyzer/3.3.0": {},
+      "Microsoft.CodeQuality.Analyzers/3.3.0": {},
+      "Microsoft.NetCore.Analyzers/3.3.0": {},
+      "Microsoft.NETCore.Platforms/1.1.1": {},
+      "Microsoft.NETCore.Targets/1.1.3": {},
+      "Microsoft.NetFramework.Analyzers/3.3.0": {},
+      "Newtonsoft.Json/12.0.3": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.3.23909"
+          }
+        }
+      },
+      "System.Runtime/4.3.1": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.1",
+          "Microsoft.NETCore.Targets": "1.1.3"
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Microsoft.Plugin.WindowWalker/1.1.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Flow.Launcher.Plugin/1.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PqzRM2PaDfCs2zqmGBuGX/sm/it+4SfIOxUB4WllVHgQ/bh1B+5/FZInCOMPPnK2A20u+eLqX5+dT55xQ1grzQ==",
+      "path": "flow.launcher.plugin/1.3.0",
+      "hashPath": "flow.launcher.plugin.1.3.0.nupkg.sha512"
+    },
+    "JetBrains.Annotations/2020.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kD9D2ey3DGeLbfIzS8PkwLFkcF5vCOLk2rdjgfSxTfpoyovl7gAyoS6yq6T77zo9QgJGaVJ7PO/cSgLopnKlzg==",
+      "path": "jetbrains.annotations/2020.1.0",
+      "hashPath": "jetbrains.annotations.2020.1.0.nupkg.sha512"
+    },
+    "Microsoft.CodeAnalysis.FxCopAnalyzers/3.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-k3Icqx8kc+NrHImuiB8Jc/wd32Xeyd2B/7HOR5Qu9pyKzXQ4ikPeBAwzG2FSTuYhyIuNWvwL5k9yYBbbVz6w9w==",
+      "path": "microsoft.codeanalysis.fxcopanalyzers/3.3.0",
+      "hashPath": "microsoft.codeanalysis.fxcopanalyzers.3.3.0.nupkg.sha512"
+    },
+    "Microsoft.CodeAnalysis.VersionCheckAnalyzer/3.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xjLM3DRFZMan3nQyBQEM1mBw6VqQybi4iMJhMFW6Ic1E1GCvqJR3ABOwEL7WtQjDUzxyrGld9bASnAos7G/Xyg==",
+      "path": "microsoft.codeanalysis.versioncheckanalyzer/3.3.0",
+      "hashPath": "microsoft.codeanalysis.versioncheckanalyzer.3.3.0.nupkg.sha512"
+    },
+    "Microsoft.CodeQuality.Analyzers/3.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zZ3miq6u22UFQKhfJyLnVEJ+DgeOopLh3eKJnKAcOetPP2hiv3wa7kHZlBDeTvtqJQiAQhAVbttket8XxjN1zw==",
+      "path": "microsoft.codequality.analyzers/3.3.0",
+      "hashPath": "microsoft.codequality.analyzers.3.3.0.nupkg.sha512"
+    },
+    "Microsoft.NetCore.Analyzers/3.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6qptTHUu1Wfszuf83NhU0IoAb4j7YWOpJs6oc6S4G/nI6aGGWKH/Xi5Vs9L/8lrI74ijEEzPcIwafSQW5ASHtA==",
+      "path": "microsoft.netcore.analyzers/3.3.0",
+      "hashPath": "microsoft.netcore.analyzers.3.3.0.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/1.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TMBuzAHpTenGbGgk0SMTwyEkyijY/Eae4ZGsFNYJvAr/LDn1ku3Etp3FPxChmDp5HHF3kzJuoaa08N0xjqAJfQ==",
+      "path": "microsoft.netcore.platforms/1.1.1",
+      "hashPath": "microsoft.netcore.platforms.1.1.1.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Targets/1.1.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3Wrmi0kJDzClwAC+iBdUBpEKmEle8FQNsCs77fkiOIw/9oYA07bL1EZNX0kQ2OMN3xpwvl0vAtOCYY3ndDNlhQ==",
+      "path": "microsoft.netcore.targets/1.1.3",
+      "hashPath": "microsoft.netcore.targets.1.1.3.nupkg.sha512"
+    },
+    "Microsoft.NetFramework.Analyzers/3.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JTfMic5fEFWICePbr7GXOGPranqS9Qxu2U/BZEcnnGbK1SFW8TxRyGp6O1L52xsbfOdqmzjc0t5ubhDrjj+Xpg==",
+      "path": "microsoft.netframework.analyzers/3.3.0",
+      "hashPath": "microsoft.netframework.analyzers.3.3.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "path": "newtonsoft.json/12.0.3",
+      "hashPath": "newtonsoft.json.12.0.3.nupkg.sha512"
+    },
+    "System.Runtime/4.3.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-abhfv1dTK6NXOmu4bgHIONxHyEqFjW8HwXPmpY9gmll+ix9UNo4XDcmzJn6oLooftxNssVHdJC1pGT9jkSynQg==",
+      "path": "system.runtime/4.3.1",
+      "hashPath": "system.runtime.4.3.1.nupkg.sha512"
+    }
+  }
+}

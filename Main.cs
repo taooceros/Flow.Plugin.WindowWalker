@@ -5,9 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ManagedCommon;
 using Microsoft.Plugin.WindowWalker.Components;
-using Wox.Plugin;
+using Flow.Launcher.Plugin;
 
 namespace Microsoft.Plugin.WindowWalker
 {
@@ -15,7 +14,7 @@ namespace Microsoft.Plugin.WindowWalker
     {
         private static List<SearchResult> _results = new List<SearchResult>();
 
-        private string IconPath { get; set; }
+        private string IconPath { get; set; } = "Images/windowwalker.light.png";
 
         private PluginInitContext Context { get; set; }
 
@@ -31,7 +30,7 @@ namespace Microsoft.Plugin.WindowWalker
             {
                 throw new ArgumentNullException(nameof(query));
             }
-
+            
             OpenWindows.Instance.UpdateOpenWindowsList();
             SearchController.Instance.UpdateSearchText(query.Search).Wait();
 
@@ -39,6 +38,7 @@ namespace Microsoft.Plugin.WindowWalker
             {
                 Title = x.Result.Title,
                 IcoPath = IconPath,
+                Score = x.Score,
                 SubTitle = Properties.Resources.wox_plugin_windowwalker_running + ": " + x.Result.ProcessName,
                 Action = c =>
                 {
@@ -51,27 +51,9 @@ namespace Microsoft.Plugin.WindowWalker
         public void Init(PluginInitContext context)
         {
             Context = context;
-            Context.API.ThemeChanged += OnThemeChanged;
-            UpdateIconPath(Context.API.GetCurrentTheme());
         }
 
-        // Todo : Update with theme based IconPath
-        private void UpdateIconPath(Theme theme)
-        {
-            if (theme == Theme.Light || theme == Theme.HighContrastWhite)
-            {
-                IconPath = "Images/windowwalker.light.png";
-            }
-            else
-            {
-                IconPath = "Images/windowwalker.dark.png";
-            }
-        }
 
-        private void OnThemeChanged(Theme currentTheme, Theme newTheme)
-        {
-            UpdateIconPath(newTheme);
-        }
 
         public string GetTranslatedPluginTitle()
         {

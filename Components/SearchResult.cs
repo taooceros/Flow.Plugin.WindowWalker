@@ -18,7 +18,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         public Window Result
         {
             get;
-            private set;
+            internal set;
         }
 
         /// <summary>
@@ -79,6 +79,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
             SearchResultMatchType = matchType;
             CalculateScore();
         }
+
+        public SearchResult() { }
 
         /// <summary>
         /// Calculates the score for how closely this window matches the search string

@@ -7,7 +7,6 @@ D:\Document\Dotnet\temp\Microsoft.Plugin.WindowWalker\Output\Debug\Microsoft.Plu
 D:\Document\Dotnet\temp\Microsoft.Plugin.WindowWalker\Output\Debug\Microsoft.Plugin.WindowWalker\Flow.Launcher.Plugin.dll
 D:\Document\Dotnet\temp\Microsoft.Plugin.WindowWalker\Output\Debug\Microsoft.Plugin.WindowWalker\JetBrains.Annotations.dll
 D:\Document\Dotnet\temp\Microsoft.Plugin.WindowWalker\Output\Debug\Microsoft.Plugin.WindowWalker\Newtonsoft.Json.dll
-D:\Document\Dotnet\temp\Microsoft.Plugin.WindowWalker\obj\x64\Debug\Microsoft.Plugin.WindowWalker.csprojAssemblyReference.cache
 D:\Document\Dotnet\temp\Microsoft.Plugin.WindowWalker\obj\x64\Debug\Microsoft.Plugin.WindowWalker.Properties.Resources.resources
 D:\Document\Dotnet\temp\Microsoft.Plugin.WindowWalker\obj\x64\Debug\Microsoft.Plugin.WindowWalker.csproj.GenerateResource.cache
 D:\Document\Dotnet\temp\Microsoft.Plugin.WindowWalker\obj\x64\Debug\Microsoft.Plugin.WindowWalker.AssemblyInfoInputs.cache

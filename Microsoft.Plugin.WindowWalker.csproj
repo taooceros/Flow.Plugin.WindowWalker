@@ -50,9 +50,13 @@
 
   <ItemGroup>
     <Compile Remove="Languages\**" />
+    <Compile Remove="Output\**" />
     <EmbeddedResource Remove="Languages\**" />
+    <EmbeddedResource Remove="Output\**" />
     <None Remove="Languages\**" />
+    <None Remove="Output\**" />
     <Page Remove="Languages\**" />
+    <Page Remove="Output\**" />
   </ItemGroup>
   <ItemGroup>
     <None Include="plugin.json">

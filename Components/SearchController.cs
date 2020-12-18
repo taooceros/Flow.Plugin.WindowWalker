@@ -81,13 +81,13 @@ namespace Microsoft.Plugin.WindowWalker.Components
         public List<SearchResult> UpdateSearchText(string searchText)
         {
             SearchText = searchText;
-            return SyncOpenWindowsWithModel();
+            return OpenWindowsWithModel();
         }
 
         /// <summary>
         /// Syncs the open windows with the OpenWindows Model
         /// </summary>
-        public List<SearchResult> SyncOpenWindowsWithModel()
+        public List<SearchResult> OpenWindowsWithModel()
         {
             System.Diagnostics.Debug.Print("Syncing WindowSearch result with OpenWindows Model");
 
@@ -95,9 +95,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
 
             if (string.IsNullOrWhiteSpace(SearchText))
             {
-                return searchMatches = Main.Context.CurrentPluginMetadata.ActionKeyword != "*" ?
-                                            snapshotOfOpenWindows.Select(x => new SearchResult { Result = x }).ToList() :
-                                            new List<SearchResult>();
+                return searchMatches = snapshotOfOpenWindows.Select(x => new SearchResult { Result = x }).ToList();
             }
             else
             {
@@ -112,17 +110,23 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <returns>Returns search results</returns>
         private List<SearchResult> FuzzySearchOpenWindows(List<Window> openWindows)
         {
-            List<SearchResult> result = new List<SearchResult>();
             List<SearchString> searchStrings = new List<SearchString> { new SearchString(SearchText, SearchResult.SearchType.Fuzzy) };
 
-            result = (
-                         from searchString in searchStrings
-                         from window in openWindows
-                         let titleMatch = FuzzyMatching.FindBestFuzzyMatch(window.Title, searchString.SearchText)
-                         let processMatch = FuzzyMatching.FindBestFuzzyMatch(window.ProcessName, searchString.SearchText)
-                         where titleMatch.Any() || processMatch.Any() && window.Title.Any()
-                         select new SearchResult(window, titleMatch, processMatch, searchString.SearchType)
-                     ).ToList();
+            var result = new List<SearchResult>();
+
+            foreach (var searchString in searchStrings)
+            {
+                foreach (var window in openWindows)
+                {
+                    var titleMatch = FuzzyMatching.FindBestFuzzyMatch(window.Title, searchString.SearchText);
+                    var processMatch = FuzzyMatching.FindBestFuzzyMatch(window.ProcessName, searchString.SearchText);
+
+                    if (titleMatch.Any() || processMatch.Any() && window.Title.Any())
+                    {
+                        result.Add(new SearchResult(window, titleMatch, processMatch, searchString.SearchType));
+                    }
+                }
+            }
 
             System.Diagnostics.Debug.Print("Found " + result.Count + " windows that match the search text");
 

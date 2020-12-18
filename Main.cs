@@ -16,7 +16,7 @@ namespace Microsoft.Plugin.WindowWalker
 
         private string IconPath { get; set; } = "Images/windowwalker.light.png";
 
-        private PluginInitContext Context { get; set; }
+        public static PluginInitContext Context { get; private set; }
 
         static Main()
         {
@@ -30,7 +30,7 @@ namespace Microsoft.Plugin.WindowWalker
             {
                 throw new ArgumentNullException(nameof(query));
             }
-            
+
             OpenWindows.Instance.UpdateOpenWindowsList();
             SearchController.Instance.UpdateSearchText(query.Search).Wait();
 

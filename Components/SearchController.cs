@@ -112,7 +112,9 @@ namespace Microsoft.Plugin.WindowWalker.Components
 
             if (string.IsNullOrWhiteSpace(SearchText))
             {
-                searchMatches = snapshotOfOpenWindows.Select(x => new SearchResult { Result = x}).ToList();
+                searchMatches = Main.Context.CurrentPluginMetadata.ActionKeyword != "*"?
+                                            snapshotOfOpenWindows.Select(x => new SearchResult { Result = x }).ToList():
+                                            new List<SearchResult>();
             }
             else
             {

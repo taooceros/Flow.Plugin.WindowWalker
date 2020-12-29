@@ -121,7 +121,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
                     var titleMatch = FuzzyMatching.FindBestFuzzyMatch(window.Title, searchString.SearchText);
                     var processMatch = FuzzyMatching.FindBestFuzzyMatch(window.ProcessName, searchString.SearchText);
 
-                    if (titleMatch.Any() || processMatch.Any() && window.Title.Any())
+                    if ((titleMatch.Any() || processMatch.Any()) && window.Title.Length != 0)
                     {
                         result.Add(new SearchResult(window, titleMatch, processMatch, searchString.SearchType));
                     }

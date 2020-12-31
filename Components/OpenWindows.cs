@@ -14,11 +14,6 @@ namespace Microsoft.Plugin.WindowWalker.Components
     internal class OpenWindows
     {
         /// <summary>
-        /// Delegate handler for open windows updates
-        /// </summary>
-        public delegate void OpenWindowsUpdateEventHandler(object sender, SearchController.SearchResultUpdateEventArgs e);
-
-        /// <summary>
         /// List of all the open windows
         /// </summary>
         private readonly List<Window> windows = new List<Window>();

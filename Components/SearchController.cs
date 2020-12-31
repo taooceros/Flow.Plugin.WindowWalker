@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace Microsoft.Plugin.WindowWalker.Components
 {
@@ -33,16 +34,6 @@ namespace Microsoft.Plugin.WindowWalker.Components
         private static SearchController instance;
 
         /// <summary>
-        /// Delegate handler for open windows updates
-        /// </summary>
-        public delegate void SearchResultUpdateEventHandler(object sender, SearchResultUpdateEventArgs e);
-
-        /// <summary>
-        /// Event raised when there is an update to the list of open windows
-        /// </summary>
-        public event SearchResultUpdateEventHandler OnSearchResultUpdateEventHandler;
-
-        /// <summary>
         /// Gets or sets the current search text
         /// </summary>
         public string SearchText
@@ -57,14 +48,6 @@ namespace Microsoft.Plugin.WindowWalker.Components
                 // Using CurrentCulture since this is user facing
                 searchText = value.ToLower(CultureInfo.CurrentCulture).Trim();
             }
-        }
-
-        /// <summary>
-        /// Gets the open window search results
-        /// </summary>
-        public List<SearchResult> SearchMatches
-        {
-            get { return new List<SearchResult>(searchMatches).OrderByDescending(x => x.Score).ToList(); }
         }
 
         /// <summary>
@@ -95,16 +78,16 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <summary>
         /// Event handler for when the search text has been updated
         /// </summary>
-        public async Task UpdateSearchText(string searchText)
+        public List<SearchResult> UpdateSearchText(string searchText)
         {
             SearchText = searchText;
-            await SyncOpenWindowsWithModelAsync().ConfigureAwait(false);
+            return OpenWindowsWithModel();
         }
 
         /// <summary>
         /// Syncs the open windows with the OpenWindows Model
         /// </summary>
-        public async Task SyncOpenWindowsWithModelAsync()
+        public List<SearchResult> OpenWindowsWithModel()
         {
             System.Diagnostics.Debug.Print("Syncing WindowSearch result with OpenWindows Model");
 
@@ -112,28 +95,12 @@ namespace Microsoft.Plugin.WindowWalker.Components
 
             if (string.IsNullOrWhiteSpace(SearchText))
             {
-                searchMatches = Main.Context.CurrentPluginMetadata.ActionKeyword != "*"?
-                                            snapshotOfOpenWindows.Select(x => new SearchResult { Result = x }).ToList():
-                                            new List<SearchResult>();
+                return searchMatches = snapshotOfOpenWindows.Select(x => new SearchResult { Result = x }).ToList();
             }
             else
             {
-                searchMatches = await FuzzySearchOpenWindowsAsync(snapshotOfOpenWindows).ConfigureAwait(false);
+                return searchMatches = FuzzySearchOpenWindows(snapshotOfOpenWindows);
             }
-
-            OnSearchResultUpdateEventHandler?.Invoke(this, new SearchResultUpdateEventArgs());
-        }
-
-        /// <summary>
-        /// Redirecting method for Fuzzy searching
-        /// </summary>
-        /// <param name="openWindows">what windows are open</param>
-        /// <returns>Returns search results</returns>
-        private Task<List<SearchResult>> FuzzySearchOpenWindowsAsync(List<Window> openWindows)
-        {
-            return Task.Run(
-                () =>
-                    FuzzySearchOpenWindows(openWindows));
         }
 
         /// <summary>
@@ -143,10 +110,9 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <returns>Returns search results</returns>
         private List<SearchResult> FuzzySearchOpenWindows(List<Window> openWindows)
         {
-            List<SearchResult> result = new List<SearchResult>();
-            List<SearchString> searchStrings = new List<SearchString>();
+            List<SearchString> searchStrings = new List<SearchString> { new SearchString(SearchText, SearchResult.SearchType.Fuzzy) };
 
-            searchStrings.Add(new SearchString(searchText, SearchResult.SearchType.Fuzzy));
+            var result = new List<SearchResult>();
 
             foreach (var searchString in searchStrings)
             {
@@ -155,11 +121,9 @@ namespace Microsoft.Plugin.WindowWalker.Components
                     var titleMatch = FuzzyMatching.FindBestFuzzyMatch(window.Title, searchString.SearchText);
                     var processMatch = FuzzyMatching.FindBestFuzzyMatch(window.ProcessName, searchString.SearchText);
 
-                    if ((titleMatch.Count != 0 || processMatch.Count != 0) &&
-                                window.Title.Length != 0)
+                    if ((titleMatch.Any() || processMatch.Any()) && !string.IsNullOrWhiteSpace(window.Title))
                     {
-                        var temp = new SearchResult(window, titleMatch, processMatch, searchString.SearchType);
-                        result.Add(temp);
+                        result.Add(new SearchResult(window, titleMatch, processMatch, searchString.SearchType));
                     }
                 }
             }
@@ -167,13 +131,6 @@ namespace Microsoft.Plugin.WindowWalker.Components
             System.Diagnostics.Debug.Print("Found " + result.Count + " windows that match the search text");
 
             return result;
-        }
-
-        /// <summary>
-        /// Event args for a window list update event
-        /// </summary>
-        public class SearchResultUpdateEventArgs : EventArgs
-        {
         }
     }
 }

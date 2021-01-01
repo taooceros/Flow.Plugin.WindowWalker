@@ -12,7 +12,7 @@ jobs:
       id: version
       uses: notiz-dev/github-action-json-property@release
       with: 
-        path: 'Microsoft.Plugin.WindowWalker/plugin.json'
+        path: '../src/plugin.json'
         prop_path: 'Version'
     - run: echo ${{steps.version.outputs.prop}} 
     - uses: actions/checkout@v2

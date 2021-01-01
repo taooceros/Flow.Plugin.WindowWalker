@@ -8,14 +8,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-    - run: |
-            dirname $0
-            ls
     - name: get version
       id: version
       uses: notiz-dev/github-action-json-property@release
       with: 
-        path: 'src/Microsoft.Plugin.WindowWalker/plugin.json'
+        path: '/plugin.json'
         prop_path: 'Version'
     - run: echo ${{steps.version.outputs.prop}} 
     - uses: actions/checkout@v2
@@ -27,7 +24,7 @@ jobs:
       run: |
         tag=$(git describe --tags --abbrev=0)
         release_name="WindowWalker-$tag"
-        dotnet publish src/Microsoft.Plugin.WindowWalker/Microsoft.Plugin.WindowWalker.csproj --framework netcoreapp3.1  -c Release -o "$release_name"
+        dotnet publish /Microsoft.Plugin.WindowWalker.csproj --framework netcoreapp3.1  -c Release -o "$release_name"
         7z a -tzip "${release_name}.zip" "./${release_name}/*"
         rm -r "$release_name"
     - name: Publish

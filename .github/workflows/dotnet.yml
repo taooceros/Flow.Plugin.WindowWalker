@@ -8,7 +8,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-    - run: dirname $0
+    - run: |
+            dirname $0
+            ls
     - name: get version
       id: version
       uses: notiz-dev/github-action-json-property@release

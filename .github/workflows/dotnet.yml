@@ -22,7 +22,7 @@ jobs:
       - run: echo ${{steps.version.outputs.prop}} 
       - name: Build
         run: |
-          release_name="WindowWalker-${{steps.version.outputs.prop}}"
+          release_name='WindowWalker-${{steps.version.outputs.prop}}'
           dotnet publish 'Microsoft.Plugin.WindowWalker.csproj' --framework netcoreapp3.1  -c Release -o "$release_name"
           7z a -tzip "${release_name}.zip" "./${release_name}/*"
           rm -r "$release_name"

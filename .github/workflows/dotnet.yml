@@ -29,6 +29,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: "WindowWalker*"
+          tag_name: "v${{steps.version.outputs.prop}}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         

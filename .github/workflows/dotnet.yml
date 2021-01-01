@@ -8,6 +8,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+    - run: find . -name "plugin.json"
     - name: get version
       id: version
       uses: notiz-dev/github-action-json-property@release

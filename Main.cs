@@ -31,7 +31,7 @@ namespace Microsoft.Plugin.WindowWalker
             }
 
             OpenWindows.Instance.UpdateOpenWindowsList();
-            _results = SearchController.Instance.UpdateSearchText(query.Search); 
+            _results = SearchController.Instance.UpdateSearchText(query.Search);
 
             return _results.Select(x => new Result()
             {
@@ -41,7 +41,10 @@ namespace Microsoft.Plugin.WindowWalker
                 SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.ProcessName}",
                 Action = c =>
                 {
-                    x.Result.SwitchToWindow();
+                    if (c.SpecialKeyState.CtrlPressed)
+                        x.Result.Close();
+                    else 
+                        x.Result.SwitchToWindow();
                     return true;
                 },
             }).ToList();

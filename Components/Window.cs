@@ -243,6 +243,11 @@ namespace Microsoft.Plugin.WindowWalker.Components
             this.hwnd = hwnd;
         }
 
+        public void Close()
+        {
+            NativeMethods.CloseWindow(Hwnd);
+        }
+
         /// <summary>
         /// Switches desktop focus to the window
         /// </summary>

@@ -7,16 +7,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Plugin.WindowWalker.Components;
 using Flow.Launcher.Plugin;
+using System.Xml.Linq;
 
 namespace Microsoft.Plugin.WindowWalker
 {
-    public class Main : IPlugin, IPluginI18n
+    public class Main : IPlugin, IPluginI18n, IContextMenu
     {
+        internal readonly static Dictionary<string, Window> cachedWindows = new Dictionary<string, Window>();
+
         private static IEnumerable<SearchResult> _results;
 
-        private string IconPath { get; set; } = "Images/windowwalker.light.png";
+        public const string IconPath = "Images/windowwalker.light.png";
 
         public static PluginInitContext Context { get; private set; }
+
+        private ContextMenu contextMenu = new ContextMenu();
 
         static Main()
         {
@@ -30,8 +35,36 @@ namespace Microsoft.Plugin.WindowWalker
                 throw new ArgumentNullException(nameof(query));
             }
 
+            if (cachedWindows.ContainsKey(query.Search))
+            {
+                if (cachedWindows[query.Search].IsWindow)
+                {
+                    var window = cachedWindows[query.Search];
+                    return new List<Result>
+                    {
+                        new Result
+                        {
+                            Title = window.Title,
+                            IcoPath= IconPath,
+                            Score=100,
+                            SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {window.ProcessName}",
+                            ContextData = window,
+                            Action = c =>
+                            {
+                                window.SwitchToWindow();
+                                return true;
+                            }
+                        }
+                    };
+                }
+                else
+                {
+                    cachedWindows.Remove(query.Search);
+                }
+            }
+
             OpenWindows.Instance.UpdateOpenWindowsList();
-            _results = SearchController.Instance.UpdateSearchText(query.Search); 
+            _results = SearchController.Instance.UpdateSearchText(query.Search);
 
             return _results.Select(x => new Result()
             {
@@ -39,6 +72,7 @@ namespace Microsoft.Plugin.WindowWalker
                 IcoPath = IconPath,
                 Score = x.Score,
                 SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.ProcessName}",
+                ContextData = x.Result,
                 Action = c =>
                 {
                     x.Result.SwitchToWindow();
@@ -62,6 +96,11 @@ namespace Microsoft.Plugin.WindowWalker
         public string GetTranslatedPluginDescription()
         {
             return Properties.Resources.wox_plugin_windowwalker_plugin_description;
+        }
+
+        public List<Result> LoadContextMenus(Result selectedResult)
+        {
+            return contextMenu.LoadContextMenus(selectedResult);
         }
     }
 }

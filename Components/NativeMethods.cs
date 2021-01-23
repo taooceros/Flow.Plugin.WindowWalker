@@ -805,6 +805,9 @@ namespace Microsoft.Plugin.WindowWalker.Components
             WS_EX_NOACTIVATE = 0x8000000,
         }
 
+        [DllImport("user32.dll")]
+        public static extern IntPtr GetForegroundWindow();
+
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern int EnumWindows(CallBackPtr callPtr, int lPar);
 

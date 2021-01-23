@@ -6,17 +6,26 @@
         xmlns:local="clr-namespace:Microsoft.Plugin.WindowWalker.Views"
         mc:Ignorable="d"
         Loaded="OnLoad"
-        Title="Quick AccessKeyword Assigned Window" Width="300" Height="180">
+        Title="Quick AccessKeyword Assigned Window" Width="300" Height="240">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="80"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Height="60" Orientation="Horizontal">
-            <TextBlock Margin="20,0,20,0" Height="20" ToolTip="Keyword for quick accessing this window">Keyword:</TextBlock>
-            <TextBox Width="100" Height="40" x:Name="keywordBox" TextChanged="TextBox_TextChanged" PreviewKeyDown="KeywordBoxOnKeywordDown"></TextBox>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+            <TextBlock Margin="20,0,0,0">Window:</TextBlock>
+            <TextBlock Margin="20,0,0,0" x:Name="CurrentWindow" Grid.Column="1" Width="180"></TextBlock>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="3" Grid.Column="1">
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Grid.Column="0" Margin="20,0,20,0" Height="20" ToolTip="Keyword for quick accessing this window">Keyword:</TextBlock>
+            <TextBox Grid.Column="1" Width="100" Height="40" x:Name="keywordBox" TextChanged="TextBox_TextChanged" PreviewKeyDown="KeywordBoxOnKeywordDown"></TextBox>
+        </StackPanel>
+        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="3">
             <Button x:Name="btnCancel" Click="BtnCancel_OnClick" Margin="10 0 10 0" Width="80" Height="30"
                     Content="Cancel"/>
             <Button x:Name="btnDone" Margin="10 0 10 0" Width="80" Height="30" Click="BtnDone_OnClick">

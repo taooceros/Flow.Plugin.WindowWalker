@@ -8,6 +8,8 @@ using System.Linq;
 using Microsoft.Plugin.WindowWalker.Components;
 using Flow.Launcher.Plugin;
 using System.Xml.Linq;
+using System.Windows.Input;
+using Microsoft.Plugin.WindowWalker.Views;
 
 namespace Microsoft.Plugin.WindowWalker
 {
@@ -84,9 +86,28 @@ namespace Microsoft.Plugin.WindowWalker
         public void Init(PluginInitContext context)
         {
             Context = context;
+            RegisterQuickAccessKeyword();
         }
 
+        public void RegisterQuickAccessKeyword()
+        {
+            Context.API.GlobalKeyboardEvent += API_GlobalKeyboardEvent;
+        }
 
+        private bool API_GlobalKeyboardEvent(int keyevent, int vkcode, SpecialKeyState state)
+        {
+            if (keyevent == 256 && vkcode == 68 && state.CtrlPressed && state.AltPressed) // 68 is D
+            {
+                var foreGroundWindowPtr = NativeMethods.GetForegroundWindow();
+                Window foreGroundWindow = new Window(foreGroundWindowPtr);
+
+                var quickAccessWindow = new QuickAccessKeywordAssignedWindow(foreGroundWindow);
+                quickAccessWindow.ShowDialog();
+
+                return false;
+            }
+            return true;
+        }
 
         public string GetTranslatedPluginTitle()
         {

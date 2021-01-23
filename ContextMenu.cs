@@ -16,20 +16,7 @@ namespace Microsoft.Plugin.WindowWalker
 
             var window = selectedResult.ContextData as Window;
 
-            return new List<Result>
-            {
-                new Result
-                {
-                    Title="Create Quick Access for this window",
-                    IcoPath= Main.IconPath,
-                    Action = _ =>
-                    {
-                        var quickAccessAssign = new QuickAccessKeywordAssignedWindow(window);
-                        quickAccessAssign.ShowDialog();
-                        return true;
-                    }
-                }
-            };
+            return window.ContextMenu();
         }
     }
 }

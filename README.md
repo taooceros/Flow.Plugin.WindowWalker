@@ -9,4 +9,4 @@ Type `pm install Window Walker` and hit enter to install
 1. Search windows with fuzzy search.
 2. Enter to switch to selected window.
 3. Ctrl + Enter to close the selected window.
-4. Ctrl+Alt+D to generate a quick access keyword to access a specific window.
+4. Ctrl+Alt+D to link a quick access keyword to access a specific window.

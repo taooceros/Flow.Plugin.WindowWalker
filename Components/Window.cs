@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
+using Flow.Launcher.Plugin;
+using Microsoft.Plugin.WindowWalker.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -132,6 +134,24 @@ namespace Microsoft.Plugin.WindowWalker.Components
             }
         }
 
+        public List<Result> ContextMenu()
+        {
+            return new List<Result>
+            {
+                new Result
+                {
+                    Title="Create Quick Access for this window",
+                    IcoPath= Main.IconPath,
+                    Action = _ =>
+                    {
+                        var quickAccessAssign = new QuickAccessKeywordAssignedWindow(this);
+                        quickAccessAssign.ShowDialog();
+                        return true;
+                    }
+                }
+            };
+        }
+
         /// <summary>
         /// Gets returns the name of the class for the window represented
         /// </summary>
@@ -241,6 +261,11 @@ namespace Microsoft.Plugin.WindowWalker.Components
         {
             // TODO: Add verification as to whether the window handle is valid
             this.hwnd = hwnd;
+        }
+
+        public void Close()
+        {
+            NativeMethods.CloseWindow(Hwnd);
         }
 
         /// <summary>

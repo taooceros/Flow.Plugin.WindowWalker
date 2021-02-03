@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
+using Flow.Launcher.Plugin.SharedModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -78,7 +79,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <summary>
         /// Event handler for when the search text has been updated
         /// </summary>
-        public List<SearchResult> UpdateSearchText(string searchText)
+        public List<SearchResult> GetResult(string searchText)
         {
             SearchText = searchText;
             return OpenWindowsWithModel();
@@ -114,19 +115,15 @@ namespace Microsoft.Plugin.WindowWalker.Components
 
             var result = new List<SearchResult>();
 
-            foreach (var searchString in searchStrings)
+            foreach (var window in openWindows)
             {
-                foreach (var window in openWindows)
-                {
-                    var titleMatch = FuzzyMatching.FindBestFuzzyMatch(window.Title, searchString.SearchText);
-                    var processMatch = FuzzyMatching.FindBestFuzzyMatch(window.ProcessName, searchString.SearchText);
+                var titleMatch = Main.Context.API.FuzzySearch(SearchText, window.Title);
+                var processMatch = Main.Context.API.FuzzySearch(SearchText, window.ProcessName);
 
-                    if ((titleMatch.Any() || processMatch.Any()) && !string.IsNullOrWhiteSpace(window.Title))
-                    {
-                        result.Add(new SearchResult(window, titleMatch, processMatch, searchString.SearchType));
-                    }
-                }
+                if (titleMatch.IsSearchPrecisionScoreMet() || processMatch.IsSearchPrecisionScoreMet())
+                    result.Add(new SearchResult(window, titleMatch, processMatch));
             }
+
 
             System.Diagnostics.Debug.Print("Found " + result.Count + " windows that match the search text");
 

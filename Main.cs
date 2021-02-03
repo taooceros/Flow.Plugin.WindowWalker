@@ -66,7 +66,7 @@ namespace Microsoft.Plugin.WindowWalker
             }
 
             OpenWindows.Instance.UpdateOpenWindowsList();
-            _results = SearchController.Instance.UpdateSearchText(query.Search);
+            _results = SearchController.Instance.GetResult(query.Search); 
 
             return _results.Select(x => new Result()
             {

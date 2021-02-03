@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
+using Flow.Launcher.Plugin.SharedModels;
 using System.Collections.Generic;
 
 namespace Microsoft.Plugin.WindowWalker.Components
@@ -24,7 +25,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the list of indexes of the matching characters for the search in the title window
         /// </summary>
-        public List<int> SearchMatchesInTitle
+        public MatchResult SearchMatchesInTitle
         {
             get;
             private set;
@@ -34,20 +35,12 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// Gets the list of indexes of the matching characters for the search in the
         /// name of the process
         /// </summary>
-        public List<int> SearchMatchesInProcessName
+        public MatchResult SearchMatchesInProcessName
         {
             get;
             private set;
         }
 
-        /// <summary>
-        /// Gets the type of match (shortcut, fuzzy or nothing)
-        /// </summary>
-        public SearchType SearchResultMatchType
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
         /// Gets a score indicating how well this matches what we are looking for
@@ -71,13 +64,12 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// Initializes a new instance of the <see cref="SearchResult"/> class.
         /// Constructor
         /// </summary>
-        public SearchResult(Window window, List<int> matchesInTitle, List<int> matchesInProcessName, SearchType matchType)
+        public SearchResult(Window window, MatchResult titleMatch, MatchResult processMatch)
         {
             Result = window;
-            SearchMatchesInTitle = matchesInTitle;
-            SearchMatchesInProcessName = matchesInProcessName;
-            SearchResultMatchType = matchType;
-            CalculateScore();
+            SearchMatchesInTitle = titleMatch;
+            SearchMatchesInProcessName = processMatch;
+            GetBestScore();
         }
 
         public SearchResult() { }
@@ -88,18 +80,17 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <remarks>
         /// Higher Score is better
         /// </remarks>
-        private void CalculateScore()
+        private void GetBestScore()
         {
-            if (FuzzyMatching.CalculateScoreForMatches(SearchMatchesInProcessName) >
-                FuzzyMatching.CalculateScoreForMatches(SearchMatchesInTitle))
+            if (SearchMatchesInTitle.Score > SearchMatchesInProcessName.Score)
             {
-                Score = FuzzyMatching.CalculateScoreForMatches(SearchMatchesInProcessName);
-                BestScoreSource = TextType.ProcessName;
+                Score = SearchMatchesInTitle.Score;
+                BestScoreSource = TextType.WindowTitle;
             }
             else
             {
-                Score = FuzzyMatching.CalculateScoreForMatches(SearchMatchesInTitle);
-                BestScoreSource = TextType.WindowTitle;
+                Score = SearchMatchesInProcessName.Score;
+                BestScoreSource = TextType.ProcessName;
             }
         }
 

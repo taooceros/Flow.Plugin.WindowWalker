@@ -67,7 +67,7 @@
   
   
   <ItemGroup>
-    <PackageReference Include="Flow.Launcher.Plugin" Version="1.3.0" />
+    <PackageReference Include="Flow.Launcher.Plugin" Version="1.4.0" />
     <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
       <PrivateAssets>all</PrivateAssets>

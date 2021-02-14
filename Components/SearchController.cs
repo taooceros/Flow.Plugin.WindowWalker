@@ -25,11 +25,6 @@ namespace Microsoft.Plugin.WindowWalker.Components
         private string searchText;
 
         /// <summary>
-        /// Open window search results
-        /// </summary
-        private List<SearchResult> searchMatches;
-
-        /// <summary>
         /// Singleton pattern
         /// </summary>
         private static SearchController instance;
@@ -39,33 +34,16 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// </summary>
         public string SearchText
         {
-            get
-            {
-                return searchText;
-            }
+            get => searchText;
 
-            set
-            {
-                // Using CurrentCulture since this is user facing
-                searchText = value.ToLower(CultureInfo.CurrentCulture).Trim();
-            }
+            // Using CurrentCulture since this is user facing
+            set => searchText = value.ToLower(CultureInfo.CurrentCulture).Trim();
         }
 
         /// <summary>
         /// Gets singleton Pattern
         /// </summary>
-        public static SearchController Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new SearchController();
-                }
-
-                return instance;
-            }
-        }
+        public static SearchController Instance => instance ??= new SearchController();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SearchController"/> class.
@@ -94,14 +72,9 @@ namespace Microsoft.Plugin.WindowWalker.Components
 
             List<Window> snapshotOfOpenWindows = OpenWindows.Instance.Windows;
 
-            if (string.IsNullOrWhiteSpace(SearchText))
-            {
-                return searchMatches = snapshotOfOpenWindows.Select(x => new SearchResult { Result = x }).ToList();
-            }
-            else
-            {
-                return searchMatches = FuzzySearchOpenWindows(snapshotOfOpenWindows);
-            }
+            return string.IsNullOrWhiteSpace(SearchText)
+                ? snapshotOfOpenWindows.Select(x => new SearchResult { Result = x }).ToList()
+                : FuzzySearchOpenWindows(snapshotOfOpenWindows);
         }
 
         /// <summary>
@@ -111,9 +84,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <returns>Returns search results</returns>
         private List<SearchResult> FuzzySearchOpenWindows(List<Window> openWindows)
         {
-            List<SearchString> searchStrings = new List<SearchString> { new SearchString(SearchText, SearchResult.SearchType.Fuzzy) };
-
-            var result = new List<SearchResult>();
+            var result = new List<SearchResult>(openWindows.Count);
 
             foreach (var window in openWindows)
             {

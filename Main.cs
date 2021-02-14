@@ -23,8 +23,6 @@ namespace Microsoft.Plugin.WindowWalker
 
         public static PluginInitContext Context { get; private set; }
 
-        private ContextMenu contextMenu = new ContextMenu();
-
         static Main()
         {
             OpenWindows.Instance.UpdateOpenWindowsList();
@@ -124,7 +122,12 @@ namespace Microsoft.Plugin.WindowWalker
 
         public List<Result> LoadContextMenus(Result selectedResult)
         {
-            return contextMenu.LoadContextMenus(selectedResult);
+            if (selectedResult == null)
+                return new List<Result>();
+
+            var window = selectedResult.ContextData as Window;
+
+            return window.ContextMenu();
         }
     }
 }

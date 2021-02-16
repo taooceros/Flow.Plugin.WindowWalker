@@ -93,14 +93,12 @@ namespace Microsoft.Plugin.WindowWalker
                         })
                     .ToList();
 
-            var cachedWindowsList = cachedWindows.ToList();
-
             for (int i = 0; i < results.Count; i++)
             {
-                for (int c = 0; c < cachedWindowsList.Count; c++)
+                foreach (var cache in cachedWindows)
                 {
-                    if (cachedWindowsList[c].Value.Title == results[i].Title)
-                        results[i].Title = $"{cachedWindowsList[c].Key} - {results[i].Title}";
+                    if (cache.Value.Title == results[i].Title)
+                        results[i].Title = $"{cache.Key} - {results[i].Title}";
                 }
             }
 

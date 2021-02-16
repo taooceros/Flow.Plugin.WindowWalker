@@ -17,7 +17,7 @@ namespace Microsoft.Plugin.WindowWalker
     {
         internal readonly static Dictionary<string, Window> cachedWindows = new Dictionary<string, Window>();
 
-        private static IEnumerable<SearchResult> _results;
+        private static IEnumerable<SearchResult> searchResults;
 
         public const string IconPath = "Images/windowwalker.light.png";
 
@@ -64,24 +64,42 @@ namespace Microsoft.Plugin.WindowWalker
             }
 
             OpenWindows.Instance.UpdateOpenWindowsList();
-            _results = SearchController.Instance.GetResult(query.Search); 
 
-            return _results.Select(x => new Result()
+            searchResults = SearchController.GetResult(query.Search);
+
+            var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
+                          .Select(x => new Result()
+                          {
+                              Title = x.Result.Title,
+                              IcoPath = IconPath,
+                              Score = x.Score,
+                              SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.ProcessName}",
+                              ContextData = x.Result,
+                              Action = c =>
+                              {
+                                  if (c.SpecialKeyState.CtrlPressed)
+                                  {
+                                      x.Result.Close();
+                                  }
+                                  else
+                                  {
+                                      x.Result.SwitchToWindow();
+                                  }
+
+                                  return true;
+                              },
+                          }).ToList();
+
+            for (int i = 0; i < results.Count; i++)
             {
-                Title = x.Result.Title,
-                IcoPath = IconPath,
-                Score = x.Score,
-                SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.ProcessName}",
-                ContextData = x.Result,
-                Action = c =>
+                foreach (var cache in cachedWindows)
                 {
-                    if (c.SpecialKeyState.CtrlPressed)
-                        x.Result.Close();
-                    else 
-                        x.Result.SwitchToWindow();
-                    return true;
-                },
-            }).ToList();
+                    if (cache.Value.Title == results[i].Title)
+                        results[i].Title = $"{cache.Key} - {results[i].Title}";
+                }
+            }
+
+            return results.OrderBy(x => x.Title).ToList();
         }
 
         public void Init(PluginInitContext context)

@@ -64,34 +64,31 @@ namespace Microsoft.Plugin.WindowWalker
             }
 
             OpenWindows.Instance.UpdateOpenWindowsList();
-            searchResults = SearchController.GetResult(query.Search); 
 
-            var results =
-                    searchResults
-                    .Where(x => !string.IsNullOrEmpty(x.Result.Title))
-                    .Select(x =>
-                        new Result()
-                        {
-                            Title = x.Result.Title,
-                            IcoPath = IconPath,
-                            Score = x.Score,
-                            SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.ProcessName}",
-                            ContextData = x.Result,
-                            Action = c =>
-                            {
-                                if (c.SpecialKeyState.CtrlPressed)
-                                {
-                                    x.Result.Close();
-                                }
-                                else
-                                {
-                                    x.Result.SwitchToWindow();
-                                }
+            searchResults = SearchController.GetResult(query.Search);
 
-                                return true;
-                            },
-                        })
-                    .ToList();
+            var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
+                          .Select(x => new Result()
+                          {
+                              Title = x.Result.Title,
+                              IcoPath = IconPath,
+                              Score = x.Score,
+                              SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.ProcessName}",
+                              ContextData = x.Result,
+                              Action = c =>
+                              {
+                                  if (c.SpecialKeyState.CtrlPressed)
+                                  {
+                                      x.Result.Close();
+                                  }
+                                  else
+                                  {
+                                      x.Result.SwitchToWindow();
+                                  }
+
+                                  return true;
+                              },
+                          }).ToList();
 
             for (int i = 0; i < results.Count; i++)
             {

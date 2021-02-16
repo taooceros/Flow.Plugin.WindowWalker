@@ -17,22 +17,15 @@ namespace Microsoft.Plugin.WindowWalker.Components
     /// Responsible for searching and finding matches for the strings provided.
     /// Essentially the UI independent model of the application
     /// </summary>
-    internal class SearchController
+    internal static class SearchController
     {
-        /// <summary>
-        /// the current search text
-        /// </summary>
-        private string searchText;
+        private static string searchText = string.Empty;
 
-        /// <summary>
-        /// Singleton pattern
-        /// </summary>
-        private static SearchController instance;
 
         /// <summary>
         /// Gets or sets the current search text
         /// </summary>
-        public string SearchText
+        public static string SearchText
         {
             get => searchText;
 
@@ -40,24 +33,11 @@ namespace Microsoft.Plugin.WindowWalker.Components
             set => searchText = value.ToLower(CultureInfo.CurrentCulture).Trim();
         }
 
-        /// <summary>
-        /// Gets singleton Pattern
-        /// </summary>
-        public static SearchController Instance => instance ??= new SearchController();
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SearchController"/> class.
-        /// Initializes the search controller object
-        /// </summary>
-        private SearchController()
-        {
-            searchText = string.Empty;
-        }
 
         /// <summary>
         /// Event handler for when the search text has been updated
         /// </summary>
-        public List<SearchResult> GetResult(string searchText)
+        public static List<SearchResult> GetResult(string searchText)
         {
             SearchText = searchText;
             return OpenWindowsWithModel();
@@ -66,7 +46,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <summary>
         /// Syncs the open windows with the OpenWindows Model
         /// </summary>
-        public List<SearchResult> OpenWindowsWithModel()
+        public static List<SearchResult> OpenWindowsWithModel()
         {
             System.Diagnostics.Debug.Print("Syncing WindowSearch result with OpenWindows Model");
 
@@ -82,7 +62,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="openWindows">what windows are open</param>
         /// <returns>Returns search results</returns>
-        private List<SearchResult> FuzzySearchOpenWindows(List<Window> openWindows)
+        private static List<SearchResult> FuzzySearchOpenWindows(List<Window> openWindows)
         {
             var result = new List<SearchResult>(openWindows.Count);
 

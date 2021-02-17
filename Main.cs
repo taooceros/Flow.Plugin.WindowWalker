@@ -19,7 +19,9 @@ namespace Microsoft.Plugin.WindowWalker
 
         public const string IconPath = "Images/windowwalker.light.png";
 
-        public const int cachedWindowsScore = 100;
+        // High score to displayed on top against results 
+        // that are frequently selected by user which recieve a boost too from Flow.
+        public const int cachedWindowsScore = 500;
 
         public static PluginInitContext Context { get; private set; }
 
@@ -96,14 +98,7 @@ namespace Microsoft.Plugin.WindowWalker
                 {
                     // Add score condition as there could be multiple windows with the same title, eg. same web pages opened
                     if (cache.Value.Title == results[i].Title && results[i].Score == cachedWindowsScore)
-                    {
                         results[i].Title = $"{cache.Key} - {results[i].Title}";
-
-                        // If just listing the windows,
-                        // bump up the score so the quick access windows can be displayed on top
-                        // against results that are frequently selected by user which recieve a boost too from Flow.
-                        results[i].Score += string.IsNullOrEmpty(query.Search) ? 500 : 0; 
-                    }
                 }
             }
 

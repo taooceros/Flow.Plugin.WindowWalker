@@ -73,6 +73,7 @@ namespace Microsoft.Plugin.WindowWalker
                               Title = x.Result.Title,
                               IcoPath = IconPath,
                               Score = x.Score,
+                              TitleHighlightData = x.SearchMatchesInTitle.MatchData,
                               SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.ProcessName}",
                               ContextData = x.Result,
                               Action = c =>

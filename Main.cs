@@ -97,8 +97,12 @@ namespace Microsoft.Plugin.WindowWalker
                 foreach (var cache in cachedWindows)
                 {
                     // Add score condition as there could be multiple windows with the same title, eg. same web pages opened
-                    if (cache.Value.Title == results[i].Title && results[i].Score == cachedWindowsScore)
+                    if (cache.Value.Title == results[i].Title)
+                    {
                         results[i].Title = $"{cache.Key} - {results[i].Title}";
+                        if (string.IsNullOrEmpty(query.Search))
+                            results[i].Score = cachedWindowsScore;
+                    }
                 }
             }
 

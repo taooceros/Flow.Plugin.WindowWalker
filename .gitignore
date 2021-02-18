@@ -6,3 +6,4 @@ Output/Release/**
 /obj/x64/Release
 /obj/x64/Debug
 /.vs
+/.vscode

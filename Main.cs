@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Plugin.WindowWalker.Components;
 using Flow.Launcher.Plugin;
-using System.Xml.Linq;
-using System.Windows.Input;
 using Microsoft.Plugin.WindowWalker.Views;
 
 namespace Microsoft.Plugin.WindowWalker
@@ -20,6 +18,10 @@ namespace Microsoft.Plugin.WindowWalker
         private static IEnumerable<SearchResult> searchResults;
 
         public const string IconPath = "Images/windowwalker.light.png";
+
+        // High score to displayed on top against results 
+        // that are frequently selected by user which recieve a boost too from Flow.
+        public const int cachedWindowsScore = 500;
 
         public static PluginInitContext Context { get; private set; }
 
@@ -46,7 +48,7 @@ namespace Microsoft.Plugin.WindowWalker
                         {
                             Title = window.Title,
                             IcoPath= IconPath,
-                            Score=100,
+                            Score= cachedWindowsScore,
                             SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {window.ProcessName}",
                             ContextData = window,
                             Action = c =>
@@ -95,8 +97,13 @@ namespace Microsoft.Plugin.WindowWalker
             {
                 foreach (var cache in cachedWindows)
                 {
+                    // Add score condition as there could be multiple windows with the same title, eg. same web pages opened
                     if (cache.Value.Title == results[i].Title)
+                    {
                         results[i].Title = $"{cache.Key} - {results[i].Title}";
+                        if (string.IsNullOrEmpty(query.Search))
+                            results[i].Score = cachedWindowsScore;
+                    }
                 }
             }
 

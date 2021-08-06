@@ -138,4 +138,7 @@
   <data name="Win" xml:space="preserve">
     <value>Win</value>
   </data>
+  <data name="QuickAccessHotkey" xml:space="preserve">
+    <value>Quick Access Window Hotkey</value>
+  </data>
 </root>

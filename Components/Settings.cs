@@ -15,8 +15,18 @@ namespace Microsoft.Plugin.WindowWalker.Components
     public class Settings : INotifyPropertyChanged
     {
         private KeyModel quickAccessKeyword = (true, false, true, false, Keys.D);
+        private bool enableQuickAccessHotKey = true;
 
-        public KeyModel QuickAccessKeyword
+        public bool EnableQuickAccessHotKey
+        {
+            get => enableQuickAccessHotKey;
+            set
+            {
+                enableQuickAccessHotKey = value;
+                OnPropertyChanged();
+            }
+        }
+        public KeyModel QuickAccessHotKey
         {
             get => quickAccessKeyword;
             set

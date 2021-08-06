@@ -116,7 +116,6 @@ namespace Microsoft.Plugin.WindowWalker
             Settings = Context.API.LoadSettingJsonStorage<Settings>();
             RegisterQuickAccessKeyword();
             OpenWindows.Instance.UpdateOpenWindowsList();
-            SettingWindow = new SettingWindow(Settings);
         }
 
         public void RegisterQuickAccessKeyword()
@@ -126,11 +125,12 @@ namespace Microsoft.Plugin.WindowWalker
 
         private bool API_GlobalKeyboardEvent(int keyevent, int vkcode, SpecialKeyState state)
         {
-            if (keyevent == 256 && vkcode == (int)Settings.QuickAccessKeyword.Key &&
-                state.CtrlPressed == Settings.QuickAccessKeyword.Ctrl &&
-                state.AltPressed == Settings.QuickAccessKeyword.Alt &&
-                state.ShiftPressed == Settings.QuickAccessKeyword.Shift &&
-                state.WinPressed == Settings.QuickAccessKeyword.Win) // 68 is D
+            if (Settings.EnableQuickAccessHotKey &&
+                keyevent == 256 && vkcode == (int)Settings.QuickAccessHotKey.Key &&
+                state.CtrlPressed == Settings.QuickAccessHotKey.Ctrl &&
+                state.AltPressed == Settings.QuickAccessHotKey.Alt &&
+                state.ShiftPressed == Settings.QuickAccessHotKey.Shift &&
+                state.WinPressed == Settings.QuickAccessHotKey.Win) // 68 is D
             {
                 var foreGroundWindowPtr = NativeMethods.GetForegroundWindow();
                 Window foreGroundWindow = new Window(foreGroundWindowPtr);
@@ -165,7 +165,7 @@ namespace Microsoft.Plugin.WindowWalker
 
         public Control CreateSettingPanel()
         {
-            return new SettingWindow(this.Settings);
+            return SettingWindow ??= new SettingWindow(Settings);
         }
 
         protected virtual void Dispose(bool disposing)

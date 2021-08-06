@@ -25,6 +25,7 @@ namespace Microsoft.Plugin.WindowWalker.Views
         {
             Settings = settings;
             InitializeComponent();
+            QuickAccessWindowKeySet.Text = Settings.QuickAccessHotKey.ToString();
         }
 
 
@@ -50,7 +51,7 @@ namespace Microsoft.Plugin.WindowWalker.Views
                 var currentKey = new KeyModel(key);
                 QuickAccessWindowKeySet.Text = currentKey.ToString();
                 Task.Delay(500).ContinueWith(_ =>
-                Settings.QuickAccessKeyword = currentKey, updateSource.Token);
+                Settings.QuickAccessHotKey = currentKey, updateSource.Token);
             }
             e.Handled = true;
         }

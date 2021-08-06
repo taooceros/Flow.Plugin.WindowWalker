@@ -79,6 +79,15 @@ namespace Microsoft.Plugin.WindowWalker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quick Access Window Hotkey.
+        /// </summary>
+        public static string QuickAccessHotkey {
+            get {
+                return ResourceManager.GetString("QuickAccessHotkey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shift.
         /// </summary>
         public static string Shift {

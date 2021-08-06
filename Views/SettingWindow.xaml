@@ -6,17 +6,23 @@
              xmlns:local="clr-namespace:Microsoft.Plugin.WindowWalker.Views" 
              xmlns:components="clr-namespace:Microsoft.Plugin.WindowWalker.Components"
              xmlns:p="clr-namespace:Microsoft.Plugin.WindowWalker.Properties"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
              DataContext="{Binding RelativeSource={RelativeSource Self}, Path=Settings}"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="400">
+             d:DesignHeight="300" d:DesignWidth="500">
     <Grid>
         <StackPanel Orientation="Vertical">
-            <TextBox x:Name="QuickAccessWindowKeySet"
-                     Width="350"
+            <StackPanel Orientation="Horizontal">
+                <CheckBox IsChecked="{Binding EnableQuickAccessHotKey}" Margin="15,15,0,15"/>
+                <TextBlock Text="{x:Static p:Resources.QuickAccessHotkey}" Margin="15"/>
+                <TextBox x:Name="QuickAccessWindowKeySet"
+                     Width="250"
                      Margin="15"
                      HorizontalAlignment="Left"
-                     Text="{Binding QuickAccessKeyword, Mode=OneTime}" 
+                     Text="{Binding QuickAccessKeyword, Mode=TwoWay}"
+                     IsEnabled="{Binding EnableQuickAccessHotKey}"
                      PreviewKeyDown="OnAccessKeyChange"/>
-        </StackPanel> 
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -24,7 +24,7 @@ jobs:
       - run: echo ${{steps.version.outputs.prop}} 
       - name: Build
         run: |
-          dotnet publish 'Microsoft.Plugin.WindowWalker.csproj' --framework netcoreapp3.1  -c Release -o "WindowWalker-${{steps.version.outputs.prop}}"
+          dotnet publish 'Microsoft.Plugin.WindowWalker.csproj' -r win-x64  -c Release -o "WindowWalker-${{steps.version.outputs.prop}}"
           7z a -tzip "WindowWalker-${{steps.version.outputs.prop}}.zip" "./WindowWalker-${{steps.version.outputs.prop}}/*"
           rm -r "WindowWalker-${{steps.version.outputs.prop}}"
       - name: Publish

@@ -8,10 +8,11 @@ using System.Linq;
 using Microsoft.Plugin.WindowWalker.Components;
 using Flow.Launcher.Plugin;
 using Microsoft.Plugin.WindowWalker.Views;
+using System.Windows.Controls;
 
 namespace Microsoft.Plugin.WindowWalker
 {
-    public class Main : IPlugin, IPluginI18n, IContextMenu
+    public class Main : IPlugin, IPluginI18n, IContextMenu, ISettingProvider, IDisposable
     {
         internal readonly static Dictionary<string, Window> cachedWindows = new Dictionary<string, Window>();
 
@@ -23,12 +24,11 @@ namespace Microsoft.Plugin.WindowWalker
         // that are frequently selected by user which recieve a boost too from Flow.
         public const int cachedWindowsScore = 500;
 
-        public static PluginInitContext Context { get; private set; }
+        private SettingWindow SettingWindow;
+        private bool disposedValue;
 
-        static Main()
-        {
-            OpenWindows.Instance.UpdateOpenWindowsList();
-        }
+        public static PluginInitContext Context { get; private set; }
+        public Settings Settings { get; private set; }
 
         public List<Result> Query(Query query)
         {
@@ -113,7 +113,10 @@ namespace Microsoft.Plugin.WindowWalker
         public void Init(PluginInitContext context)
         {
             Context = context;
+            Settings = Context.API.LoadSettingJsonStorage<Settings>();
             RegisterQuickAccessKeyword();
+            OpenWindows.Instance.UpdateOpenWindowsList();
+            SettingWindow = new SettingWindow(Settings);
         }
 
         public void RegisterQuickAccessKeyword()
@@ -123,7 +126,11 @@ namespace Microsoft.Plugin.WindowWalker
 
         private bool API_GlobalKeyboardEvent(int keyevent, int vkcode, SpecialKeyState state)
         {
-            if (keyevent == 256 && vkcode == 68 && state.CtrlPressed && state.AltPressed) // 68 is D
+            if (keyevent == 256 && vkcode == (int)Settings.QuickAccessKeyword.Key &&
+                state.CtrlPressed == Settings.QuickAccessKeyword.Ctrl &&
+                state.AltPressed == Settings.QuickAccessKeyword.Alt &&
+                state.ShiftPressed == Settings.QuickAccessKeyword.Shift &&
+                state.WinPressed == Settings.QuickAccessKeyword.Win) // 68 is D
             {
                 var foreGroundWindowPtr = NativeMethods.GetForegroundWindow();
                 Window foreGroundWindow = new Window(foreGroundWindowPtr);
@@ -154,6 +161,41 @@ namespace Microsoft.Plugin.WindowWalker
             var window = selectedResult.ContextData as Window;
 
             return window.ContextMenu();
+        }
+
+        public Control CreateSettingPanel()
+        {
+            return new SettingWindow(this.Settings);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects)
+                }
+                SettingWindow.Dispose();
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                disposedValue = true;
+            }
+        }
+
+        // override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        ~Main()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: false);
+        }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }

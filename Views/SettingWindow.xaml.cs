@@ -61,12 +61,8 @@ namespace Microsoft.Plugin.WindowWalker.Views
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects)
+                    updateSource?.Dispose();
                 }
-                updateSource?.Dispose();
-
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
                 disposedValue = true;
             }
         }

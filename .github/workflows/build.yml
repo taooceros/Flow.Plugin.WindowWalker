@@ -1,4 +1,4 @@
-name: Build
+name: build
 
 on:
   push
@@ -13,8 +13,13 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.201
+        dotnet-version: 5.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore -c Release
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: WindowsWalker
+        path: Output/Release/

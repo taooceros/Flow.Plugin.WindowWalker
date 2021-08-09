@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.Plugin.WindowWalker.Components;
 using Flow.Launcher.Plugin;
 using Microsoft.Plugin.WindowWalker.Views;
@@ -69,11 +70,29 @@ namespace Microsoft.Plugin.WindowWalker
 
             searchResults = SearchController.GetResult(query.Search);
 
+            string getExePath(SearchResult sr)
+            {
+                string exePath = "";
+                uint processId = sr.Result.ProcessID;
+                
+                IntPtr processHandle =
+                    NativeMethods.OpenProcess(NativeMethods.ProcessAccessFlags.AllAccess, true, (int)processId);
+
+                uint limit = 1000;
+                StringBuilder processName2 = new StringBuilder((int) limit);
+                if (NativeMethods.QueryFullProcessImageName(processHandle, 0, processName2, ref  limit))
+                {
+                    exePath = processName2.ToString();
+                }
+                
+                return exePath;
+            } 
+            
             var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
                           .Select(x => new Result()
                           {
                               Title = x.Result.Title,
-                              IcoPath = IconPath,
+                              IcoPath = getExePath(x),
                               Score = x.Score,
                               TitleHighlightData = x.SearchMatchesInTitle?.MatchData,
                               SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.ProcessName}",

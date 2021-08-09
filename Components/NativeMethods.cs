@@ -858,6 +858,11 @@ namespace Microsoft.Plugin.WindowWalker.Components
 
         [DllImport("psapi.dll", BestFitMapping = false)]
         public static extern uint GetProcessImageFileName(IntPtr hProcess, [Out] StringBuilder lpImageFileName, [In][MarshalAs(UnmanagedType.U4)] int nSize);
+        
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool QueryFullProcessImageName(IntPtr hProcess, uint dwFlags,
+            [Out, MarshalAs(UnmanagedType.LPTStr)] StringBuilder lpExeName,
+            ref uint lpdwSize);
 
         [DllImport("user32.dll", SetLastError = true, BestFitMapping = false)]
         public static extern IntPtr GetProp(IntPtr hWnd, string lpString);

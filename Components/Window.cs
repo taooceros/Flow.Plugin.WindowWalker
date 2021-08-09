@@ -282,8 +282,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
                 case NativeMethods.ShowWindowCommands.Minimize:
                 case NativeMethods.ShowWindowCommands.ShowMinimized:
                     return WindowSizeState.Minimized;
-                case NativeMethods.ShowWindowCommands.Maximize
-                    : // No need for ShowMaximized here since its also of value 3
+                // No need for ShowMaximized here since its also of value 3
+                case NativeMethods.ShowWindowCommands.Maximize:
                     return WindowSizeState.Maximized;
                 default:
                     // throw new Exception("Don't know how to handle window state = " + placement.ShowCmd);

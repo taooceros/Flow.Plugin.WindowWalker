@@ -71,10 +71,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the handle to the window
         /// </summary>
-        public IntPtr Hwnd
-        {
-            get { return hwnd; }
-        }
+        public IntPtr Hwnd => hwnd;
 
         public uint ProcessID { get; set; }
 
@@ -177,52 +174,33 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets a value indicating whether is the window visible (might return false if it is a hidden IE tab)
         /// </summary>
-        public bool Visible
-        {
-            get { return NativeMethods.IsWindowVisible(Hwnd); }
-        }
+        public bool Visible => NativeMethods.IsWindowVisible(Hwnd);
 
         /// <summary>
         /// Gets a value indicating whether determines whether the specified window handle identifies an existing window.
         /// </summary>
-        public bool IsWindow
-        {
-            get { return NativeMethods.IsWindow(Hwnd); }
-        }
+        public bool IsWindow => NativeMethods.IsWindow(Hwnd);
 
         /// <summary>
         /// Gets a value indicating whether get a value indicating whether is the window GWL_EX_STYLE is a toolwindow
         /// </summary>
-        public bool IsToolWindow
-        {
-            get
-            {
-                return (NativeMethods.GetWindowLong(Hwnd, NativeMethods.GWL_EXSTYLE) &
-                        (uint)NativeMethods.ExtendedWindowStyles.WS_EX_TOOLWINDOW) ==
-                       (uint)NativeMethods.ExtendedWindowStyles.WS_EX_TOOLWINDOW;
-            }
-        }
+        public bool IsToolWindow =>
+            (NativeMethods.GetWindowLong(Hwnd, NativeMethods.GWL_EXSTYLE) &
+             (uint)NativeMethods.ExtendedWindowStyles.WS_EX_TOOLWINDOW) ==
+            (uint)NativeMethods.ExtendedWindowStyles.WS_EX_TOOLWINDOW;
 
         /// <summary>
         /// Gets a value indicating whether get a value indicating whether the window GWL_EX_STYLE is an appwindow
         /// </summary>
-        public bool IsAppWindow
-        {
-            get
-            {
-                return (NativeMethods.GetWindowLong(Hwnd, NativeMethods.GWL_EXSTYLE) &
-                        (uint)NativeMethods.ExtendedWindowStyles.WS_EX_APPWINDOW) ==
-                       (uint)NativeMethods.ExtendedWindowStyles.WS_EX_APPWINDOW;
-            }
-        }
+        public bool IsAppWindow =>
+            (NativeMethods.GetWindowLong(Hwnd, NativeMethods.GWL_EXSTYLE) &
+             (uint)NativeMethods.ExtendedWindowStyles.WS_EX_APPWINDOW) ==
+            (uint)NativeMethods.ExtendedWindowStyles.WS_EX_APPWINDOW;
 
         /// <summary>
         /// Gets a value indicating whether get a value indicating whether the window has ITaskList_Deleted property
         /// </summary>
-        public bool TaskListDeleted
-        {
-            get { return NativeMethods.GetProp(Hwnd, "ITaskList_Deleted") != IntPtr.Zero; }
-        }
+        public bool TaskListDeleted => NativeMethods.GetProp(Hwnd, "ITaskList_Deleted") != IntPtr.Zero;
 
         /// <summary>
         /// Gets a value indicating whether determines whether the specified windows is the owner
@@ -239,10 +217,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets a value indicating whether returns true if the window is minimized
         /// </summary>
-        public bool Minimized
-        {
-            get { return GetWindowSizeState() == WindowSizeState.Minimized; }
-        }
+        public bool Minimized => GetWindowSizeState() == WindowSizeState.Minimized;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Window"/> class.

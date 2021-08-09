@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
+
 using Flow.Launcher.Plugin;
 using Microsoft.Plugin.WindowWalker.Views;
 using System;
@@ -112,19 +113,20 @@ namespace Microsoft.Plugin.WindowWalker.Components
                     {
                         new Task(() =>
                         {
-                            NativeMethods.CallBackPtr callbackptr = new NativeMethods.CallBackPtr((IntPtr hwnd, IntPtr lParam) =>
-                            {
-                                var childProcessId = GetProcessIDFromWindowHandle(hwnd);
-                                if (childProcessId != ProcessID)
+                            NativeMethods.CallBackPtr callbackptr = new NativeMethods.CallBackPtr(
+                                (IntPtr hwnd, IntPtr lParam) =>
                                 {
-                                    _handlesToProcessCache[Hwnd] = GetProcessNameFromWindowHandle(hwnd);
-                                    return false;
-                                }
-                                else
-                                {
-                                    return true;
-                                }
-                            });
+                                    var childProcessId = GetProcessIDFromWindowHandle(hwnd);
+                                    if (childProcessId != ProcessID)
+                                    {
+                                        _handlesToProcessCache[Hwnd] = GetProcessNameFromWindowHandle(hwnd);
+                                        return false;
+                                    }
+                                    else
+                                    {
+                                        return true;
+                                    }
+                                });
                             _ = NativeMethods.EnumChildWindows(Hwnd, callbackptr, 0);
                         }).Start();
                     }
@@ -140,8 +142,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
             {
                 new Result
                 {
-                    Title="Create Quick Access for this window",
-                    IcoPath= Main.IconPath,
+                    Title = "Create Quick Access for this window",
+                    IcoPath = Main.IconPath,
                     Action = _ =>
                     {
                         var quickAccessAssign = new QuickAccessKeywordAssignedWindow(this);
@@ -160,7 +162,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
             get
             {
                 StringBuilder windowClassName = new StringBuilder(300);
-                var numCharactersWritten = NativeMethods.GetClassName(Hwnd, windowClassName, windowClassName.MaxCapacity);
+                var numCharactersWritten =
+                    NativeMethods.GetClassName(Hwnd, windowClassName, windowClassName.MaxCapacity);
 
                 if (numCharactersWritten == 0)
                 {
@@ -176,10 +179,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// </summary>
         public bool Visible
         {
-            get
-            {
-                return NativeMethods.IsWindowVisible(Hwnd);
-            }
+            get { return NativeMethods.IsWindowVisible(Hwnd); }
         }
 
         /// <summary>
@@ -187,10 +187,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// </summary>
         public bool IsWindow
         {
-            get
-            {
-                return NativeMethods.IsWindow(Hwnd);
-            }
+            get { return NativeMethods.IsWindow(Hwnd); }
         }
 
         /// <summary>
@@ -201,8 +198,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
             get
             {
                 return (NativeMethods.GetWindowLong(Hwnd, NativeMethods.GWL_EXSTYLE) &
-                    (uint)NativeMethods.ExtendedWindowStyles.WS_EX_TOOLWINDOW) ==
-                    (uint)NativeMethods.ExtendedWindowStyles.WS_EX_TOOLWINDOW;
+                        (uint)NativeMethods.ExtendedWindowStyles.WS_EX_TOOLWINDOW) ==
+                       (uint)NativeMethods.ExtendedWindowStyles.WS_EX_TOOLWINDOW;
             }
         }
 
@@ -214,8 +211,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
             get
             {
                 return (NativeMethods.GetWindowLong(Hwnd, NativeMethods.GWL_EXSTYLE) &
-                    (uint)NativeMethods.ExtendedWindowStyles.WS_EX_APPWINDOW) ==
-                    (uint)NativeMethods.ExtendedWindowStyles.WS_EX_APPWINDOW;
+                        (uint)NativeMethods.ExtendedWindowStyles.WS_EX_APPWINDOW) ==
+                       (uint)NativeMethods.ExtendedWindowStyles.WS_EX_APPWINDOW;
             }
         }
 
@@ -224,10 +221,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// </summary>
         public bool TaskListDeleted
         {
-            get
-            {
-                return NativeMethods.GetProp(Hwnd, "ITaskList_Deleted") != IntPtr.Zero;
-            }
+            get { return NativeMethods.GetProp(Hwnd, "ITaskList_Deleted") != IntPtr.Zero; }
         }
 
         /// <summary>
@@ -237,7 +231,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
         {
             get
             {
-                return NativeMethods.GetWindow(Hwnd, NativeMethods.GetWindowCmd.GW_OWNER) != IntPtr.Zero;
+                var owner = NativeMethods.GetWindow(Hwnd, NativeMethods.GetWindowCmd.GW_OWNER);
+                return owner == IntPtr.Zero || owner == Hwnd;
             }
         }
 
@@ -246,10 +241,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// </summary>
         public bool Minimized
         {
-            get
-            {
-                return GetWindowSizeState() == WindowSizeState.Minimized;
-            }
+            get { return GetWindowSizeState() == WindowSizeState.Minimized; }
         }
 
         /// <summary>
@@ -315,7 +307,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
                 case NativeMethods.ShowWindowCommands.Minimize:
                 case NativeMethods.ShowWindowCommands.ShowMinimized:
                     return WindowSizeState.Minimized;
-                case NativeMethods.ShowWindowCommands.Maximize: // No need for ShowMaximized here since its also of value 3
+                case NativeMethods.ShowWindowCommands.Maximize
+                    : // No need for ShowMaximized here since its also of value 3
                     return WindowSizeState.Maximized;
                 default:
                     // throw new Exception("Don't know how to handle window state = " + placement.ShowCmd);
@@ -343,7 +336,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
         {
             uint processId = GetProcessIDFromWindowHandle(hwnd);
             ProcessID = processId;
-            IntPtr processHandle = NativeMethods.OpenProcess(NativeMethods.ProcessAccessFlags.AllAccess, true, (int)processId);
+            IntPtr processHandle =
+                NativeMethods.OpenProcess(NativeMethods.ProcessAccessFlags.AllAccess, true, (int)processId);
             StringBuilder processName = new StringBuilder(MaximumFileNameLength);
 
             if (NativeMethods.GetProcessImageFileName(processHandle, processName, MaximumFileNameLength) != 0)

@@ -174,7 +174,7 @@ namespace Microsoft.Plugin.WindowWalker
             {
                 if (disposing)
                 {
-                    SettingWindow.Dispose();
+                    SettingWindow?.Dispose();
                 }
 
                 disposedValue = true;

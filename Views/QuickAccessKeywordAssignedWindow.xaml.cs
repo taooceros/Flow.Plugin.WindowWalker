@@ -31,7 +31,7 @@ namespace Microsoft.Plugin.WindowWalker.Views
         {
             ActionKeyword = (sender as TextBox).Text;
         }
-
+        
         private void OnLoad(object sender, RoutedEventArgs e)
         {
             CurrentWindow.Text = window.ProcessName;

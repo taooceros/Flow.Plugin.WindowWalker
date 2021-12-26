@@ -120,7 +120,7 @@ namespace Microsoft.Plugin.WindowWalker
 
         public void RegisterQuickAccessKeyword()
         {
-            Context.API.GlobalKeyboardEvent += API_GlobalKeyboardEvent;
+            Context.API.RegisterGlobalKeyboardCallback(API_GlobalKeyboardEvent);
         }
 
         private bool API_GlobalKeyboardEvent(int keyevent, int vkcode, SpecialKeyState state)

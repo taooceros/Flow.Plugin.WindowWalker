@@ -9,12 +9,13 @@ using Microsoft.Plugin.WindowWalker.Components;
 using Flow.Launcher.Plugin;
 using Microsoft.Plugin.WindowWalker.Views;
 using System.Windows.Controls;
+using ContextMenu = Microsoft.Plugin.WindowWalker.Components.ContextMenu;
 
 namespace Microsoft.Plugin.WindowWalker
 {
     public class Main : IPlugin, IPluginI18n, IContextMenu, ISettingProvider, IDisposable
     {
-        internal readonly static Dictionary<string, Window> cachedWindows = new Dictionary<string, Window>();
+        internal static readonly Dictionary<string, Window> cachedWindows = new Dictionary<string, Window>();
 
         private static IEnumerable<SearchResult> searchResults;
 
@@ -47,9 +48,9 @@ namespace Microsoft.Plugin.WindowWalker
                         new Result
                         {
                             Title = window.Title,
-                            IcoPath= IconPath,
-                            Score= cachedWindowsScore,
-                            SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {window.ProcessName}",
+                            IcoPath = IconPath,
+                            Score = cachedWindowsScore,
+                            SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {window.Process.Name}",
                             ContextData = window,
                             Action = c =>
                             {
@@ -70,40 +71,37 @@ namespace Microsoft.Plugin.WindowWalker
             searchResults = SearchController.GetResult(query.Search);
 
             var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
-                          .Select(x => new Result()
-                          {
-                              Title = x.Result.Title,
-                              IcoPath = IconPath,
-                              Score = x.Score,
-                              TitleHighlightData = x.SearchMatchesInTitle?.MatchData,
-                              SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.ProcessName}",
-                              ContextData = x.Result,
-                              Action = c =>
-                              {
-                                  if (c.SpecialKeyState.CtrlPressed)
-                                  {
-                                      x.Result.Close();
-                                  }
-                                  else
-                                  {
-                                      x.Result.SwitchToWindow();
-                                  }
-
-                                  return true;
-                              },
-                          }).ToList();
-
-            for (int i = 0; i < results.Count; i++)
-            {
-                foreach (var cache in cachedWindows)
+                .Select(x => new Result()
                 {
-                    if (cache.Value.Title == results[i].Title)
+                    Title = x.Result.Title,
+                    IcoPath = IconPath,
+                    Score = x.Score,
+                    TitleHighlightData = x.SearchMatchesInTitle?.MatchData,
+                    SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.Process.Name}",
+                    ContextData = x.Result,
+                    Action = c =>
                     {
-                        results[i].Title = $"{cache.Key} - {results[i].Title}";
+                        if (c.SpecialKeyState.CtrlPressed)
+                        {
+                            x.Result.CloseThisWindow(true);
+                        }
+                        else
+                        {
+                            x.Result.SwitchToWindow();
+                        }
 
-                        if (string.IsNullOrEmpty(query.Search))
-                            results[i].Score = cachedWindowsScore;
-                    }
+                        return true;
+                    },
+                }).ToList();
+
+            foreach (var result in results)
+            {
+                foreach (var cache in cachedWindows.Where(cache => cache.Value.Title == result.Title))
+                {
+                    result.Title = $"{cache.Key} - {result.Title}";
+
+                    if (string.IsNullOrEmpty(query.Search))
+                        result.Score = cachedWindowsScore;
                 }
             }
 
@@ -157,10 +155,8 @@ namespace Microsoft.Plugin.WindowWalker
         {
             if (selectedResult == null)
                 return new List<Result>();
+            return selectedResult.ContextData is not Window window ? new List<Result>() : ContextMenu.GetContextMenu(window);
 
-            var window = selectedResult.ContextData as Window;
-
-            return window.ContextMenu();
         }
 
         public Control CreateSettingPanel()

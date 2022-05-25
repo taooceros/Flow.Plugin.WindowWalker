@@ -69,7 +69,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
             foreach (var window in openWindows)
             {
                 var titleMatch = Main.Context.API.FuzzySearch(SearchText, window.Title);
-                var processMatch = Main.Context.API.FuzzySearch(SearchText, window.ProcessName);
+                var processMatch = Main.Context.API.FuzzySearch(SearchText, window.Process.Name);
 
                 if (titleMatch.IsSearchPrecisionScoreMet() || processMatch.IsSearchPrecisionScoreMet())
                     result.Add(new SearchResult(window, titleMatch, processMatch));

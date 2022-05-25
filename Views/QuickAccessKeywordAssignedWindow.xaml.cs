@@ -34,7 +34,7 @@ namespace Microsoft.Plugin.WindowWalker.Views
         
         private void OnLoad(object sender, RoutedEventArgs e)
         {
-            CurrentWindow.Text = window.ProcessName;
+            CurrentWindow.Text = window.Process.Name;
             keywordBox.Focus();
         }
 

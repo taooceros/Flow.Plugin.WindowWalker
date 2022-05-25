@@ -7,3 +7,4 @@ Output/Release/**
 /obj/x64/Debug
 /.vs
 /.vscode
+/.idea

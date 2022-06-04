@@ -9,7 +9,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Microsoft.Plugin.WindowWalker.Components
+namespace Flow.Plugin.WindowWalker.Components
 {
     /// <summary>
     /// Represents the process data of an open window. This class is used in the process cache and for the process object of the open window

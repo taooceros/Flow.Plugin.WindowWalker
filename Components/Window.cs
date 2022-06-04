@@ -3,15 +3,17 @@
 // See the LICENSE file in the project root for more information.
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
+
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
-using static Microsoft.Plugin.WindowWalker.Main;
+using static Flow.Plugin.WindowWalker.Main;
 
-namespace Microsoft.Plugin.WindowWalker.Components
+namespace Flow.Plugin.WindowWalker.Components
 {
     /// <summary>
     /// Represents a specific open window
@@ -33,12 +35,6 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// An instance of <see cref="WindowProcess"/> that contains the process information for the window
         /// </summary>
         private readonly WindowProcess processInfo;
-
-        /// <summary>
-        /// An instance of <see cref="VDesktop"/> that contains the desktop information for the window
-        /// </summary>
-        // TODO
-        // private readonly VDesktop desktopInfo;
 
         /// <summary>
         /// Gets the title of the window (the string displayed at the top of the window)
@@ -85,11 +81,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the object of with the desktop information of the window
         /// </summary>
-        // TODO
-        // internal VDesktop Desktop
-        // {
-        //     get { return desktopInfo; }
-        // }
+        internal VDesktop Desktop { get; }
 
         /// <summary>
         /// Gets the name of the class for the window represented
@@ -205,8 +197,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
             // TODO: Add verification as to whether the window handle is valid
             this.hwnd = hwnd;
             processInfo = CreateWindowProcessInstance(hwnd);
-            // TODO
-            // desktopInfo = Main.VirtualDesktopHelperInstance.GetWindowDesktop(hwnd);
+            
+            Desktop = Main.VirtualDesktopHelperInstance.GetWindowDesktop(hwnd);
         }
 
         /// <summary>
@@ -307,9 +299,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
                     return WindowCloakState.None;
                 case (int)DwmWindowCloakStates.CloakedApp:
                     return WindowCloakState.App;
-                // TODO
-                // case (int)DwmWindowCloakStates.CloakedShell:
-                //     return Main.VirtualDesktopHelperInstance.IsWindowCloakedByVirtualDesktopManager(hwnd, Desktop.Id) ? WindowCloakState.OtherDesktop : WindowCloakState.Shell;
+                case (int)DwmWindowCloakStates.CloakedShell:
+                    return VirtualDesktopHelperInstance.IsWindowCloakedByVirtualDesktopManager(hwnd, Desktop.Id) ? WindowCloakState.OtherDesktop : WindowCloakState.Shell;
                 case (int)DwmWindowCloakStates.CloakedInherited:
                     return WindowCloakState.Inherited;
                 default:

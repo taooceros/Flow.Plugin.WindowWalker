@@ -3,10 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
+
 using System;
 using System.Collections.Generic;
 
-namespace Microsoft.Plugin.WindowWalker.Components
+namespace Flow.Plugin.WindowWalker.Components
 {
     /// <summary>
     /// Class that represents the state of the desktops windows

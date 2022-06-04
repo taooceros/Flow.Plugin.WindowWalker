@@ -1,8 +1,8 @@
 ﻿using Flow.Launcher.Plugin;
-using Microsoft.Plugin.WindowWalker.Views;
+using Flow.Plugin.WindowWalker.Views;
 using System.Collections.Generic;
 
-namespace Microsoft.Plugin.WindowWalker.Components
+namespace Flow.Plugin.WindowWalker.Components
 {
     public static class ContextMenu
     {

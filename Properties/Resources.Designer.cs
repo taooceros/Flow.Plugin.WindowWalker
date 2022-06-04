@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Plugin.WindowWalker.Properties {
+namespace Flow.Plugin.WindowWalker.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.Plugin.WindowWalker.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Plugin.WindowWalker.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Flow.Plugin.WindowWalker.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -97,11 +97,38 @@ namespace Microsoft.Plugin.WindowWalker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to On all Desktops.
+        /// </summary>
+        public static string VirtualDesktopHelper_AllDesktops {
+            get {
+                return ResourceManager.GetString("VirtualDesktopHelper_AllDesktops", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Desktop {0}.
+        /// </summary>
+        public static string VirtualDesktopHelper_Desktop {
+            get {
+                return ResourceManager.GetString("VirtualDesktopHelper_Desktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Win.
         /// </summary>
         public static string Win {
             get {
                 return ResourceManager.GetString("Win", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Desktop.
+        /// </summary>
+        public static string wox_plugin_windowwalker_Desktop {
+            get {
+                return ResourceManager.GetString("wox_plugin_windowwalker_Desktop", resourceCulture);
             }
         }
         

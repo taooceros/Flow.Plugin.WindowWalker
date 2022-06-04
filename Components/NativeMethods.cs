@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using SuppressMessageAttribute = System.Diagnostics.CodeAnalysis.SuppressMessageAttribute;
 
-namespace Microsoft.Plugin.WindowWalker.Components
+namespace Flow.Plugin.WindowWalker.Components
 {
     [SuppressMessage("Interoperability", "CA1401:P/Invokes should not be visible", Justification = "We want plugins to share this NativeMethods class, instead of each one creating its own.")]
     public static class NativeMethods

@@ -1,0 +1,2 @@
+﻿IVirtualDesktopManager
+// CVirtualDesktopManager

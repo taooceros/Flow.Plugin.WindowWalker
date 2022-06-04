@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
-using Flow.Launcher.Plugin.SharedModels;
-using System.Collections.Generic;
 
-namespace Microsoft.Plugin.WindowWalker.Components
+using Flow.Launcher.Plugin.SharedModels;
+
+namespace Flow.Plugin.WindowWalker.Components
 {
     /// <summary>
     /// Contains search result windows with each window including the reason why the result was included

@@ -3,15 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
-using Flow.Launcher.Plugin.SharedModels;
-using System;
+
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
-namespace Microsoft.Plugin.WindowWalker.Components
+namespace Flow.Plugin.WindowWalker.Components
 {
     /// <summary>
     /// Responsible for searching and finding matches for the strings provided.

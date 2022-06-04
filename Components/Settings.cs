@@ -1,16 +1,12 @@
-﻿using Microsoft.Plugin.WindowWalker.Properties;
+﻿using Flow.Plugin.WindowWalker.Properties;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
 
-namespace Microsoft.Plugin.WindowWalker.Components
+namespace Flow.Plugin.WindowWalker.Components
 {
     public class Settings : INotifyPropertyChanged
     {

@@ -2,16 +2,17 @@
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Flow.Launcher.Plugin;
+using Flow.Plugin.WindowWalker.Components;
+using Flow.Plugin.WindowWalker.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Plugin.WindowWalker.Components;
-using Flow.Launcher.Plugin;
-using Microsoft.Plugin.WindowWalker.Views;
 using System.Windows.Controls;
-using ContextMenu = Microsoft.Plugin.WindowWalker.Components.ContextMenu;
+using static Flow.Plugin.WindowWalker.Properties.Resources;
+using ContextMenu = Flow.Plugin.WindowWalker.Components.ContextMenu;
 
-namespace Microsoft.Plugin.WindowWalker
+namespace Flow.Plugin.WindowWalker
 {
     public class Main : IPlugin, IPluginI18n, IContextMenu, ISettingProvider, IDisposable
     {
@@ -30,6 +31,8 @@ namespace Microsoft.Plugin.WindowWalker
 
         public static PluginInitContext Context { get; private set; }
         public Settings Settings { get; private set; }
+
+        internal static readonly VirtualDesktopHelper VirtualDesktopHelperInstance = new VirtualDesktopHelper();
 
         public List<Result> Query(Query query)
         {
@@ -50,7 +53,7 @@ namespace Microsoft.Plugin.WindowWalker
                             Title = window.Title,
                             IcoPath = IconPath,
                             Score = cachedWindowsScore,
-                            SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {window.Process.Name}",
+                            SubTitle = $"{wox_plugin_windowwalker_running} : {window.Process.Name}",
                             ContextData = window,
                             Action = c =>
                             {
@@ -67,6 +70,7 @@ namespace Microsoft.Plugin.WindowWalker
             }
 
             OpenWindows.Instance.UpdateOpenWindowsList();
+            VirtualDesktopHelperInstance.UpdateDesktopList();
 
             searchResults = SearchController.GetResult(query.Search);
 
@@ -77,7 +81,8 @@ namespace Microsoft.Plugin.WindowWalker
                     IcoPath = IconPath,
                     Score = x.Score,
                     TitleHighlightData = x.SearchMatchesInTitle?.MatchData,
-                    SubTitle = $"{Properties.Resources.wox_plugin_windowwalker_running} : {x.Result.Process.Name}",
+                    SubTitle =
+                        $"{wox_plugin_windowwalker_running} : {x.Result.Process.Name}{(VirtualDesktopHelperInstance.GetDesktopCount() > 1 ? $" - {wox_plugin_windowwalker_Desktop}: {x.Result.Desktop.Name}" : "")}",
                     ContextData = x.Result,
                     Action = c =>
                     {
@@ -143,12 +148,13 @@ namespace Microsoft.Plugin.WindowWalker
 
         public string GetTranslatedPluginTitle()
         {
-            return Properties.Resources.wox_plugin_windowwalker_plugin_name;
+
+            return wox_plugin_windowwalker_plugin_name;
         }
 
         public string GetTranslatedPluginDescription()
         {
-            return Properties.Resources.wox_plugin_windowwalker_plugin_description;
+            return wox_plugin_windowwalker_plugin_description;
         }
 
         public List<Result> LoadContextMenus(Result selectedResult)

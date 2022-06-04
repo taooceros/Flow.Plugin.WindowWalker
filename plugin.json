@@ -7,6 +7,6 @@
     "Version":"2.0.2",
     "Language":"csharp",
     "Website":"https://www.windowwalker.com/",
-    "ExecuteFileName":"Microsoft.Plugin.WindowWalker.dll",
+    "ExecuteFileName":"Flow.Plugin.WindowWalker.dll",
     "IcoPath":"Images\\windowwalker.dark.png"
 }

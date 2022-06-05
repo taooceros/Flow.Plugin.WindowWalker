@@ -117,6 +117,7 @@ namespace Flow.Plugin.WindowWalker
         {
             Context = context;
             Settings = Context.API.LoadSettingJsonStorage<Settings>();
+            Log.API = Context.API;
             RegisterQuickAccessKeyword();
             OpenWindows.Instance.UpdateOpenWindowsList();
         }

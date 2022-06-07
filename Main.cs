@@ -109,7 +109,6 @@ namespace Flow.Plugin.WindowWalker
                         result.Score = cachedWindowsScore;
                 }
             }
-
             return results.OrderBy(x => x.Title).ToList();
         }
 

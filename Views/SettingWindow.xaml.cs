@@ -10,7 +10,7 @@ namespace Flow.Plugin.WindowWalker.Views
     /// <summary>
     /// Interaction logic for SettingWindow.xaml
     /// </summary>
-    public partial class SettingWindow : UserControl, IDisposable
+    public partial class SettingWindow : IDisposable
     {
         public SettingWindow(Settings settings)
         {

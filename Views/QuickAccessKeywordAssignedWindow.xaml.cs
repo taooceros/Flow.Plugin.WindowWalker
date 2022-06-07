@@ -9,24 +9,20 @@ namespace Flow.Plugin.WindowWalker.Views
     /// </summary>
     public partial class QuickAccessKeywordAssignedWindow : System.Windows.Window
     {
-        private string ActionKeyword;
+        public string ActionKeyword { get; set; }
+        public string WindowName { get; set; }
         private Components.Window window;
 
         public QuickAccessKeywordAssignedWindow(Components.Window window)
         {
             this.window = window;
+            WindowName = window.Process.Name;
             InitializeComponent();
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            ActionKeyword = (sender as TextBox).Text;
         }
         
         private void OnLoad(object sender, RoutedEventArgs e)
         {
-            CurrentWindow.Text = window.Process.Name;
-            keywordBox.Focus();
+            KeywordBox.Focus();
         }
 
         private void BtnCancel_OnClick(object sender, RoutedEventArgs e)

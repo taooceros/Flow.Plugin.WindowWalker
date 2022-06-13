@@ -32,11 +32,6 @@ namespace Flow.Plugin.WindowWalker.Components
         private static readonly Dictionary<IntPtr, WindowProcess> _handlesToProcessCache = new Dictionary<IntPtr, WindowProcess>();
 
         /// <summary>
-        /// An instance of <see cref="WindowProcess"/> that contains the process information for the window
-        /// </summary>
-        private readonly WindowProcess processInfo;
-
-        /// <summary>
         /// Gets the title of the window (the string displayed at the top of the window)
         /// </summary>
         internal string Title
@@ -65,18 +60,12 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the handle to the window
         /// </summary>
-        internal IntPtr Hwnd
-        {
-            get { return hwnd; }
-        }
+        internal IntPtr Hwnd => hwnd;
 
         /// <summary>
         /// Gets the object of with the process information of the window
         /// </summary>
-        internal WindowProcess Process
-        {
-            get { return processInfo; }
-        }
+        internal WindowProcess Process { get; }
 
         /// <summary>
         /// Gets the object of with the desktop information of the window
@@ -86,106 +75,52 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the name of the class for the window represented
         /// </summary>
-        internal string ClassName
-        {
-            get
-            {
-                return GetWindowClassName(Hwnd);
-            }
-        }
+        internal string ClassName => GetWindowClassName(Hwnd);
 
         /// <summary>
         /// Gets a value indicating whether the window is visible (might return false if it is a hidden IE tab)
         /// </summary>
-        internal bool Visible
-        {
-            get
-            {
-                return NativeMethods.IsWindowVisible(Hwnd);
-            }
-        }
+        internal bool Visible => NativeMethods.IsWindowVisible(Hwnd);
 
         /// <summary>
         /// Gets a value indicating whether the window is cloaked (true) or not (false).
         /// (A cloaked window is not visible to the user. But the window is still composed by DWM.)
         /// </summary>
-        internal bool IsCloaked
-        {
-            get
-            {
-                return GetWindowCloakState() != WindowCloakState.None;
-            }
-        }
+        internal bool IsCloaked => GetWindowCloakState() != WindowCloakState.None;
 
         /// <summary>
         /// Gets a value indicating whether the specified window handle identifies an existing window.
         /// </summary>
-        internal bool IsWindow
-        {
-            get
-            {
-                return NativeMethods.IsWindow(Hwnd);
-            }
-        }
+        internal bool IsWindow => NativeMethods.IsWindow(Hwnd);
 
         /// <summary>
         /// Gets a value indicating whether the window is a toolwindow
         /// </summary>
-        internal bool IsToolWindow
-        {
-            get
-            {
-                return (NativeMethods.GetWindowLong(Hwnd, Win32Constants.GWL_EXSTYLE) &
-                    (uint)ExtendedWindowStyles.WS_EX_TOOLWINDOW) ==
-                    (uint)ExtendedWindowStyles.WS_EX_TOOLWINDOW;
-            }
-        }
+        internal bool IsToolWindow => (NativeMethods.GetWindowLong(Hwnd, Win32Constants.GWL_EXSTYLE) &
+                                       (uint)ExtendedWindowStyles.WS_EX_TOOLWINDOW) ==
+                                      (uint)ExtendedWindowStyles.WS_EX_TOOLWINDOW;
 
         /// <summary>
         /// Gets a value indicating whether the window is an appwindow
         /// </summary>
-        internal bool IsAppWindow
-        {
-            get
-            {
-                return (NativeMethods.GetWindowLong(Hwnd, Win32Constants.GWL_EXSTYLE) &
-                    (uint)ExtendedWindowStyles.WS_EX_APPWINDOW) ==
-                    (uint)ExtendedWindowStyles.WS_EX_APPWINDOW;
-            }
-        }
+        internal bool IsAppWindow => (NativeMethods.GetWindowLong(Hwnd, Win32Constants.GWL_EXSTYLE) &
+                                      (uint)ExtendedWindowStyles.WS_EX_APPWINDOW) ==
+                                     (uint)ExtendedWindowStyles.WS_EX_APPWINDOW;
 
         /// <summary>
         /// Gets a value indicating whether the window has ITaskList_Deleted property
         /// </summary>
-        internal bool TaskListDeleted
-        {
-            get
-            {
-                return NativeMethods.GetProp(Hwnd, "ITaskList_Deleted") != IntPtr.Zero;
-            }
-        }
+        internal bool TaskListDeleted => NativeMethods.GetProp(Hwnd, "ITaskList_Deleted") != IntPtr.Zero;
 
         /// <summary>
         /// Gets a value indicating whether the specified windows is the owner (i.e. doesn't have an owner)
         /// </summary>
-        internal bool IsOwner
-        {
-            get
-            {
-                return NativeMethods.GetWindow(Hwnd, GetWindowCmd.GW_OWNER) == IntPtr.Zero;
-            }
-        }
+        internal bool IsOwner => NativeMethods.GetWindow(Hwnd, GetWindowCmd.GW_OWNER) == IntPtr.Zero;
 
         /// <summary>
         /// Gets a value indicating whether the window is minimized
         /// </summary>
-        internal bool Minimized
-        {
-            get
-            {
-                return GetWindowSizeState() == WindowSizeState.Minimized;
-            }
-        }
+        internal bool Minimized => GetWindowSizeState() == WindowSizeState.Minimized;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Window"/> class.
@@ -196,7 +131,7 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             // TODO: Add verification as to whether the window handle is valid
             this.hwnd = hwnd;
-            processInfo = CreateWindowProcessInstance(hwnd);
+            Process = CreateWindowProcessInstance(hwnd);
             
             Desktop = Main.VirtualDesktopHelperInstance.GetWindowDesktop(hwnd);
         }
@@ -211,7 +146,7 @@ namespace Flow.Plugin.WindowWalker.Components
             //    to use ShowWindow for switching tabs in IE
             // 2) SetForegroundWindow fails on minimized windows
             // Using Ordinal since this is internal
-            if (processInfo.Name.ToUpperInvariant().Equals("IEXPLORE.EXE", StringComparison.Ordinal) || !Minimized)
+            if (Process.Name.ToUpperInvariant().Equals("IEXPLORE.EXE", StringComparison.Ordinal) || !Minimized)
             {
                 NativeMethods.SetForegroundWindow(Hwnd);
             }
@@ -247,7 +182,7 @@ namespace Flow.Plugin.WindowWalker.Components
         public override string ToString()
         {
             // Using CurrentCulture since this is user facing
-            return Title + " (" + processInfo.Name.ToUpper(CultureInfo.CurrentCulture) + ")";
+            return Title + " (" + Process.Name.ToUpper(CultureInfo.CurrentCulture) + ")";
         }
 
         /// <summary>

@@ -22,11 +22,6 @@ namespace Flow.Plugin.WindowWalker.Components
         private const int MaximumFileNameLength = 1000;
 
         /// <summary>
-        /// An indicator if the window belongs to an 'Universal Windows Platform (UWP)' process
-        /// </summary>
-        private readonly bool _isUwpApp;
-
-        /// <summary>
         /// Gets the id of the process
         /// </summary>
         internal uint ProcessID
@@ -53,10 +48,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets a value indicating whether the window belongs to an 'Universal Windows Platform (UWP)' process
         /// </summary>
-        internal bool IsUwpApp
-        {
-            get { return _isUwpApp; }
-        }
+        internal bool IsUwpApp { get; }
 
         /// <summary>
         /// Gets a value indicating whether this is the shell process or not
@@ -114,7 +106,7 @@ namespace Flow.Plugin.WindowWalker.Components
         internal WindowProcess(uint pid, uint tid, string name)
         {
             UpdateProcessInfo(pid, tid, name);
-            _isUwpApp = Name.ToUpperInvariant().Equals("APPLICATIONFRAMEHOST.EXE", StringComparison.Ordinal);
+            IsUwpApp = Name.ToUpperInvariant().Equals("APPLICATIONFRAMEHOST.EXE", StringComparison.Ordinal);
         }
 
         /// <summary>
@@ -239,11 +231,8 @@ namespace Flow.Plugin.WindowWalker.Components
                 _ = CloseHandleIfNotNull(processHandle);
                 return true;
             }
-            else
-            {
-                _ = CloseHandleIfNotNull(processHandle);
-                return false;
-            }
+            _ = CloseHandleIfNotNull(processHandle);
+            return false;
         }
     }
 }

@@ -1,12 +1,13 @@
-﻿<Window x:Class="Microsoft.Plugin.WindowWalker.Views.QuickAccessKeywordAssignedWindow"
+﻿<Window x:Class="Flow.Plugin.WindowWalker.Views.QuickAccessKeywordAssignedWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Microsoft.Plugin.WindowWalker.Views"
+        xmlns:p="clr-namespace:Flow.Plugin.WindowWalker.Properties"
         mc:Ignorable="d"
         Loaded="OnLoad"
-        Title="Quick AccessKeyword Assigned Window" Width="300" Height="240">
+        Title="{x:Static p:Resources.quick_access_title}" Width="300" Height="240"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -18,18 +19,29 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-            <TextBlock Margin="20,0,0,0">Window:</TextBlock>
-            <TextBlock Margin="20,0,0,0" x:Name="CurrentWindow" Grid.Column="1" Width="180"></TextBlock>
+            <TextBlock Margin="20,0,0,0"
+                       Text="{x:Static p:Resources.Window}"/>
+            <TextBlock Margin="20,0,0,0"
+                       Text="{Binding WindowName, Mode=OneTime}"
+                       Width="180"/>
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" Orientation="Horizontal">
-            <TextBlock Grid.Column="0" Margin="20,0,20,0" Height="20" ToolTip="Keyword for quick accessing this window">Keyword:</TextBlock>
-            <TextBox Grid.Column="1" Width="100" Height="40" x:Name="keywordBox" TextChanged="TextBox_TextChanged" PreviewKeyDown="KeywordBoxOnKeywordDown"></TextBox>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Margin="20,0,20,0"
+                       Height="20"
+                       ToolTip="{x:Static p:Resources.quick_access_tooltip}"
+                       Text="{x:Static p:Resources.Keyword}"/>
+            <TextBox
+                Width="100"
+                Height="40"
+                Text="{Binding ActionKeyword, Mode=OneWay}"
+                PreviewKeyDown="KeywordBoxOnKeywordDown"
+                Name="KeywordBox"/>
         </StackPanel>
-        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="3">
-            <Button x:Name="btnCancel" Click="BtnCancel_OnClick" Margin="10 0 10 0" Width="80" Height="30"
-                    Content="Cancel"/>
-            <Button x:Name="btnDone" Margin="10 0 10 0" Width="80" Height="30" Click="BtnDone_OnClick">
-                <TextBlock x:Name="lblAdd" Text="Done" />
+        <StackPanel Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="2">
+            <Button Click="BtnCancel_OnClick" Margin="10 0 10 0" Width="80" Height="30"
+                    Content="{x:Static p:Resources.Cancel}"/>
+            <Button Margin="10 0 10 0" Width="80" Height="30" Click="BtnDone_OnClick">
+                <TextBlock Text="{x:Static p:Resources.Done}" />
             </Button>
         </StackPanel>
     </Grid>

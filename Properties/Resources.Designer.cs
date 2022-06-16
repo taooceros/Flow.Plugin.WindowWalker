@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Plugin.WindowWalker.Properties {
+namespace Flow.Plugin.WindowWalker.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.Plugin.WindowWalker.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Plugin.WindowWalker.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Flow.Plugin.WindowWalker.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -70,11 +70,56 @@ namespace Microsoft.Plugin.WindowWalker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ctrl.
         /// </summary>
         public static string Ctrl {
             get {
                 return ResourceManager.GetString("Ctrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keyword.
+        /// </summary>
+        public static string Keyword {
+            get {
+                return ResourceManager.GetString("Keyword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick AccessKeyword Assigned Window.
+        /// </summary>
+        public static string quick_access_title {
+            get {
+                return ResourceManager.GetString("quick_access_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keyword for quick accessing this window.
+        /// </summary>
+        public static string quick_access_tooltip {
+            get {
+                return ResourceManager.GetString("quick_access_tooltip", resourceCulture);
             }
         }
         
@@ -97,11 +142,47 @@ namespace Microsoft.Plugin.WindowWalker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to On all Desktops.
+        /// </summary>
+        public static string VirtualDesktopHelper_AllDesktops {
+            get {
+                return ResourceManager.GetString("VirtualDesktopHelper_AllDesktops", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Desktop {0}.
+        /// </summary>
+        public static string VirtualDesktopHelper_Desktop {
+            get {
+                return ResourceManager.GetString("VirtualDesktopHelper_Desktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Win.
         /// </summary>
         public static string Win {
             get {
                 return ResourceManager.GetString("Win", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window.
+        /// </summary>
+        public static string Window {
+            get {
+                return ResourceManager.GetString("Window", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Desktop.
+        /// </summary>
+        public static string wox_plugin_windowwalker_Desktop {
+            get {
+                return ResourceManager.GetString("wox_plugin_windowwalker_Desktop", resourceCulture);
             }
         }
         

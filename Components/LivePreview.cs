@@ -3,9 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
+
 using System;
 
-namespace Microsoft.Plugin.WindowWalker.Components
+namespace Flow.Plugin.WindowWalker.Components
 {
     /// <summary>
     /// Class containing methods to control the live preview
@@ -18,7 +19,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
         /// <param name="hwnd">handle to the window to exclude</param>
         public static void SetWindowExclusionFromLivePreview(IntPtr hwnd)
         {
-            int renderPolicy = (int)NativeMethods.DwmNCRenderingPolicy.Enabled;
+            var renderPolicy = (int)DwmNCRenderingPolicies.Enabled;
 
             _ = NativeMethods.DwmSetWindowAttribute(
                 hwnd,
@@ -38,7 +39,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
                     true,
                     targetWindow,
                     windowToSpare,
-                    NativeMethods.LivePreviewTrigger.Superbar,
+                    LivePreviewTrigger.Superbar,
                     IntPtr.Zero);
         }
 
@@ -51,7 +52,7 @@ namespace Microsoft.Plugin.WindowWalker.Components
                     false,
                     IntPtr.Zero,
                     IntPtr.Zero,
-                    NativeMethods.LivePreviewTrigger.AltTab,
+                    LivePreviewTrigger.AltTab,
                     IntPtr.Zero);
         }
     }

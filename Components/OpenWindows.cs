@@ -3,10 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
+
 using System;
 using System.Collections.Generic;
+using System.IO;
 
-namespace Microsoft.Plugin.WindowWalker.Components
+namespace Flow.Plugin.WindowWalker.Components
 {
     /// <summary>
     /// Class that represents the state of the desktops windows
@@ -64,9 +66,11 @@ namespace Microsoft.Plugin.WindowWalker.Components
         public void UpdateOpenWindowsList()
         {
             windows.Clear();
-            NativeMethods.CallBackPtr callbackptr = WindowEnumerationCallBack;
+            EnumWindowsProc callbackptr = WindowEnumerationCallBack;
             _ = NativeMethods.EnumWindows(callbackptr, 0);
         }
+        
+        private static string flowLauncherExe = "Flow.Launcher.exe";
 
         /// <summary>
         /// Call back method for window enumeration
@@ -81,7 +85,8 @@ namespace Microsoft.Plugin.WindowWalker.Components
 
             if (newWindow.IsWindow && newWindow.Visible && newWindow.IsOwner &&
                 (!newWindow.IsToolWindow || newWindow.IsAppWindow) && !newWindow.TaskListDeleted &&
-                newWindow.ClassName != "Windows.UI.Core.CoreWindow")
+                (newWindow.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2) &&
+                newWindow.ClassName != "Windows.UI.Core.CoreWindow" && newWindow.Process.Name != flowLauncherExe)
             {
                 windows.Add(newWindow);
             }

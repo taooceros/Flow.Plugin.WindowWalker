@@ -4,9 +4,9 @@
     "Name":"Window Walker",
     "Description":"Alt-Tab alternative enabling searching through your windows.",
     "Author":"betadele",
-    "Version":"2.0.2",
+    "Version":"2.1.0",
     "Language":"csharp",
     "Website":"https://www.windowwalker.com/",
-    "ExecuteFileName":"Microsoft.Plugin.WindowWalker.dll",
+    "ExecuteFileName":"Flow.Plugin.WindowWalker.dll",
     "IcoPath":"Images\\windowwalker.dark.png"
 }

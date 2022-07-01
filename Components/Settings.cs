@@ -28,7 +28,7 @@ namespace Flow.Plugin.WindowWalker.Components
             }
         }
 
-        public bool SearchWindowsAcrossAllVDesktop { get; set; } = true;
+        public bool SearchWindowsAcrossAllVDesktop { get; set; } = false;
         
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {

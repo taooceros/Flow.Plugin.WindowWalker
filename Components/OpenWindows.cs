@@ -69,7 +69,7 @@ namespace Flow.Plugin.WindowWalker.Components
             EnumWindowsProc callbackptr = WindowEnumerationCallBack;
             _ = NativeMethods.EnumWindows(callbackptr, 0);
         }
-        
+
         private static string flowLauncherExe = "Flow.Launcher.exe";
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Flow.Plugin.WindowWalker.Components
 
             if (newWindow.IsWindow && newWindow.Visible && newWindow.IsOwner &&
                 (!newWindow.IsToolWindow || newWindow.IsAppWindow) && !newWindow.TaskListDeleted &&
-                (newWindow.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2) &&
+                (newWindow.Desktop.IsVisible || Main.Settings.SearchWindowsAcrossAllVDesktop || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2) &&
                 newWindow.ClassName != "Windows.UI.Core.CoreWindow" && newWindow.Process.Name != flowLauncherExe)
             {
                 windows.Add(newWindow);

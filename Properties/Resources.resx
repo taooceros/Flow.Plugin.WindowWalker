@@ -168,4 +168,7 @@
   <data name="Window" xml:space="preserve">
     <value>Window</value>
   </data>
+  <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
+    <value>Search Windows Across All Desktop</value>
+  </data>
 </root>

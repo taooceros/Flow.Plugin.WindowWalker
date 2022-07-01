@@ -1,8 +1,8 @@
 ﻿<UserControl x:Class="Flow.Plugin.WindowWalker.Views.SettingWindow"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:Flow.Plugin.WindowWalker.Views"
              xmlns:ui="http://schemas.modernwpf.com/2019"
              xmlns:p="clr-namespace:Flow.Plugin.WindowWalker.Properties"
@@ -12,15 +12,24 @@
     <Grid>
         <StackPanel Orientation="Vertical">
             <StackPanel Orientation="Horizontal">
-                <CheckBox IsChecked="{Binding EnableQuickAccessHotKey}" Margin="15,15,0,15"/>
-                <TextBlock Text="{x:Static p:Resources.QuickAccessHotkey}" Margin="15"/>
+                <CheckBox
+                    IsChecked="{Binding EnableQuickAccessHotKey}"
+                    Margin="15,15,0,15" 
+                    Content="{x:Static p:Resources.QuickAccessHotkey}"/>
                 <TextBox x:Name="QuickAccessWindowKeySet"
-                     Width="250"
-                     Margin="15"
-                     HorizontalAlignment="Left"
-                     Text="{Binding QuickAccessKeyword, Mode=TwoWay}"
-                     IsEnabled="{Binding EnableQuickAccessHotKey}"
-                     PreviewKeyDown="OnAccessKeyChange"/>
+                         Width="250"
+                         Margin="15"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Text="{Binding QuickAccessHotKey, Mode=TwoWay}"
+                         IsEnabled="{Binding EnableQuickAccessHotKey}"
+                         PreviewKeyDown="OnAccessKeyChange" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox 
+                    IsChecked="{Binding SearchWindowsAcrossAllVDesktop}" 
+                    Margin="15,15,0,15"
+                    Content="{x:Static p:Resources.setting_searchWindowsAllDesktop}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

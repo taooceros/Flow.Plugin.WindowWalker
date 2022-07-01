@@ -30,7 +30,7 @@ namespace Flow.Plugin.WindowWalker
         private bool disposedValue;
 
         public static PluginInitContext Context { get; private set; }
-        public Settings Settings { get; private set; }
+        public static Settings Settings { get; private set; }
 
         internal static readonly VirtualDesktopHelper VirtualDesktopHelperInstance = new VirtualDesktopHelper();
 
@@ -69,8 +69,8 @@ namespace Flow.Plugin.WindowWalker
                 }
             }
 
-            OpenWindows.Instance.UpdateOpenWindowsList();
             VirtualDesktopHelperInstance.UpdateDesktopList();
+            OpenWindows.Instance.UpdateOpenWindowsList();
 
             searchResults = SearchController.GetResult(query.Search);
 

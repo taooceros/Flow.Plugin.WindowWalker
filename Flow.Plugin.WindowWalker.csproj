@@ -14,6 +14,7 @@
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
         <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <Nullable>enable</Nullable>
         <Platforms>x64</Platforms>
         <NeutralLanguage>en-US</NeutralLanguage>
         <LangVersion>9.0</LangVersion>

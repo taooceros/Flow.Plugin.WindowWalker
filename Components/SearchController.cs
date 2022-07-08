@@ -47,10 +47,10 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             System.Diagnostics.Debug.Print("Syncing WindowSearch result with OpenWindows Model");
 
-            List<Window> snapshotOfOpenWindows = OpenWindows.Instance.Windows;
+            var snapshotOfOpenWindows = OpenWindows.Instance.Windows;
 
             return string.IsNullOrWhiteSpace(SearchText)
-                ? snapshotOfOpenWindows.Select(x => new SearchResult { Result = x }).ToList()
+                ? snapshotOfOpenWindows.Select(x => new SearchResult(x)).ToList()
                 : FuzzySearchOpenWindows(snapshotOfOpenWindows);
         }
 

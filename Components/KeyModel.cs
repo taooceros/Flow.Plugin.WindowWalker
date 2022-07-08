@@ -33,7 +33,7 @@ namespace Flow.Plugin.WindowWalker.Components
             Win = Keyboard.IsKeyDown(System.Windows.Input.Key.LWin) || Keyboard.IsKeyDown(System.Windows.Input.Key.RWin);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is KeyModel other &&
                    Ctrl == other.Ctrl &&
@@ -59,7 +59,7 @@ namespace Flow.Plugin.WindowWalker.Components
             if (Win)
                 result.Add(Resources.Win);
 
-            result.Add(Enum.GetName(Key));
+            result.Add(Enum.GetName(Key)!);
             return string.Join('+', result);
         }
 

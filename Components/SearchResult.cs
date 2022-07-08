@@ -25,7 +25,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the list of indexes of the matching characters for the search in the title window
         /// </summary>
-        public MatchResult SearchMatchesInTitle
+        public MatchResult? SearchMatchesInTitle
         {
             get;
             private set;
@@ -35,10 +35,10 @@ namespace Flow.Plugin.WindowWalker.Components
         /// Gets the list of indexes of the matching characters for the search in the
         /// name of the process
         /// </summary>
-        public MatchResult SearchMatchesInProcessName
+        private MatchResult? SearchMatchesInProcessName
         {
             get;
-            private set;
+            set;
         }
 
 
@@ -72,7 +72,10 @@ namespace Flow.Plugin.WindowWalker.Components
             GetBestScore();
         }
 
-        public SearchResult() { }
+        public SearchResult(Window window)
+        {
+            Result = window;
+        }
 
         /// <summary>
         /// Calculates the score for how closely this window matches the search string
@@ -82,14 +85,14 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </remarks>
         private void GetBestScore()
         {
-            if (SearchMatchesInTitle.Score > SearchMatchesInProcessName.Score)
+            if ((SearchMatchesInTitle?.Score ?? 0) > (SearchMatchesInProcessName?.Score ?? 0))
             {
-                Score = SearchMatchesInTitle.Score;
+                Score = SearchMatchesInTitle?.Score ?? 0;
                 BestScoreSource = TextType.WindowTitle;
             }
             else
             {
-                Score = SearchMatchesInProcessName.Score;
+                Score = SearchMatchesInProcessName?.Score ?? 0;
                 BestScoreSource = TextType.ProcessName;
             }
         }

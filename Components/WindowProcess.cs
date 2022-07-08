@@ -106,7 +106,7 @@ namespace Flow.Plugin.WindowWalker.Components
         internal WindowProcess(uint pid, uint tid, string name)
         {
             UpdateProcessInfo(pid, tid, name);
-            IsUwpApp = Name.ToUpperInvariant().Equals("APPLICATIONFRAMEHOST.EXE", StringComparison.Ordinal);
+            IsUwpApp = Name!.ToUpperInvariant().Equals("APPLICATIONFRAMEHOST.EXE", StringComparison.Ordinal);
         }
 
         /// <summary>

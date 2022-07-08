@@ -23,7 +23,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// An instance of the class OpenWindows
         /// </summary>
-        private static OpenWindows instance;
+        private static OpenWindows? instance;
 
         /// <summary>
         /// Gets the list of all open windows
@@ -38,18 +38,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// the first instance gets created and that all the requests
         /// end up at that one instance
         /// </summary>
-        public static OpenWindows Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new OpenWindows();
-                }
-
-                return instance;
-            }
-        }
+        public static OpenWindows Instance => instance ??= new OpenWindows();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OpenWindows"/> class.

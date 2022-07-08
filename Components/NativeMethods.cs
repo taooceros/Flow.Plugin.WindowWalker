@@ -680,7 +680,7 @@ namespace Flow.Plugin.WindowWalker.Components
             return this == other;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is WINDOWPLACEMENT wp)
             {
@@ -818,7 +818,7 @@ namespace Flow.Plugin.WindowWalker.Components
             return other.Left == Left && other.Top == Top && other.Right == Right && other.Bottom == Bottom;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is RECT rect)
             {
@@ -880,7 +880,7 @@ namespace Flow.Plugin.WindowWalker.Components
             return new POINT(p.X, p.Y);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj is POINT pt)
             {

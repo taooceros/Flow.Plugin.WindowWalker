@@ -9,7 +9,7 @@ namespace Flow.Plugin.WindowWalker.Views
     /// </summary>
     public partial class QuickAccessKeywordAssignedWindow : System.Windows.Window
     {
-        public string ActionKeyword { get; set; }
+        public string ActionKeyword { get; set; } = "";
         public string WindowName { get; set; }
         private Components.Window window;
 

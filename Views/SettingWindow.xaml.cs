@@ -21,7 +21,7 @@ namespace Flow.Plugin.WindowWalker.Views
 
 
         public Settings Settings { get; }
-        private CancellationTokenSource updateSource;
+        private CancellationTokenSource? updateSource;
         private bool disposedValue;
 
         private void OnAccessKeyChange(object sender, KeyEventArgs e)

@@ -8,7 +8,7 @@
         <RootNamespace>Flow.Plugin.WindowWalker</RootNamespace>
         <AssemblyName>Flow.Plugin.WindowWalker</AssemblyName>
         <Version>1.1.0</Version>
-        <useWPF>true</useWPF>
+        <UseWpf>true</UseWpf>
         <IncludePackageReferencesDuringMarkupCompilation>true</IncludePackageReferencesDuringMarkupCompilation>
         <UseWindowsForms>true</UseWindowsForms>
         <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>

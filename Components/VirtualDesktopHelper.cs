@@ -34,7 +34,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Instance of "Virtual Desktop Manager"
         /// </summary>
-        private readonly IVirtualDesktopManager _virtualDesktopManager;
+        private readonly IVirtualDesktopManager? _virtualDesktopManager;
 
         /// <summary>
         /// Internal settings to enable automatic update of desktop list.
@@ -94,7 +94,7 @@ namespace Flow.Plugin.WindowWalker.Components
             var registryExplorerVirtualDesktops = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VirtualDesktops";
 
             // List of all desktops
-            var allDeskValue = (byte[])Registry.CurrentUser.OpenSubKey(registryExplorerVirtualDesktops, false)?.GetValue("VirtualDesktopIDs", null);
+            var allDeskValue = (byte[]?)Registry.CurrentUser.OpenSubKey(registryExplorerVirtualDesktops, false)?.GetValue("VirtualDesktopIDs", null);
             if (allDeskValue != null)
             {
                 // We clear only, if we can read from registry. Otherwise we keep the existing values.

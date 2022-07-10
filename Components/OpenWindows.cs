@@ -23,7 +23,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// An instance of the class OpenWindows
         /// </summary>
-        private static OpenWindows instance;
+        private static OpenWindows? instance;
 
         /// <summary>
         /// Gets the list of all open windows
@@ -38,18 +38,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// the first instance gets created and that all the requests
         /// end up at that one instance
         /// </summary>
-        public static OpenWindows Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new OpenWindows();
-                }
-
-                return instance;
-            }
-        }
+        public static OpenWindows Instance => instance ??= new OpenWindows();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OpenWindows"/> class.
@@ -69,7 +58,7 @@ namespace Flow.Plugin.WindowWalker.Components
             EnumWindowsProc callbackptr = WindowEnumerationCallBack;
             _ = NativeMethods.EnumWindows(callbackptr, 0);
         }
-        
+
         private static string flowLauncherExe = "Flow.Launcher.exe";
 
         /// <summary>
@@ -85,7 +74,7 @@ namespace Flow.Plugin.WindowWalker.Components
 
             if (newWindow.IsWindow && newWindow.Visible && newWindow.IsOwner &&
                 (!newWindow.IsToolWindow || newWindow.IsAppWindow) && !newWindow.TaskListDeleted &&
-                (newWindow.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2) &&
+                (newWindow.Desktop.IsVisible || Main.Settings.SearchWindowsAcrossAllVDesktop || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2) &&
                 newWindow.ClassName != "Windows.UI.Core.CoreWindow" && newWindow.Process.Name != flowLauncherExe)
             {
                 windows.Add(newWindow);

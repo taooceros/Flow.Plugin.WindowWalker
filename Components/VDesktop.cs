@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
+
 using System;
 
 namespace Flow.Plugin.WindowWalker.Components
@@ -17,7 +18,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         public Guid Id
         {
-            get; set;
+            get;
+            init;
         }
 
         /// <summary>
@@ -25,15 +27,17 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         public string Name
         {
-            get; set;
-        }
+            get;
+            init;
+        } = "";
 
         /// <summary>
         /// Gets or sets the number (position) of the desktop
         /// </summary>
         public int Number
         {
-            get; set;
+            get;
+            init;
         }
 
         /// <summary>
@@ -41,7 +45,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         public bool IsVisible
         {
-            get; set;
+            get;
+            init;
         }
 
         /// <summary>
@@ -50,7 +55,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         public bool IsAllDesktopsView
         {
-            get; set;
+            get;
+            init;
         }
 
         /// <summary>
@@ -58,26 +64,21 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         public VirtualDesktopPosition Position
         {
-            get; set;
+            get;
+            init;
         }
 
         /// <summary>
         /// Gets an empty instance of <see cref="VDesktop"/>
         /// </summary>
-        public static VDesktop Empty
+        public static VDesktop Empty => new()
         {
-            get
-            {
-                return new VDesktop()
-                {
-                    Id = Guid.Empty,
-                    Name = string.Empty,
-                    Number = 0,
-                    IsVisible = true, // Setting this always to true to simulate a visible desktop
-                    IsAllDesktopsView = false,
-                    Position = VirtualDesktopPosition.NotApplicable,
-                };
-            }
-        }
+            Id = Guid.Empty,
+            Name = string.Empty,
+            Number = 0,
+            IsVisible = true, // Setting this always to true to simulate a visible desktop
+            IsAllDesktopsView = false,
+            Position = VirtualDesktopPosition.NotApplicable,
+        };
     }
 }

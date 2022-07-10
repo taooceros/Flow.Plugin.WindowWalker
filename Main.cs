@@ -18,7 +18,6 @@ namespace Flow.Plugin.WindowWalker
     {
         internal static readonly Dictionary<string, Window> cachedWindows = new Dictionary<string, Window>();
 
-        private static IEnumerable<SearchResult> searchResults;
 
         public const string IconPath = "Images/windowwalker.light.png";
 
@@ -26,13 +25,13 @@ namespace Flow.Plugin.WindowWalker
         // that are frequently selected by user which recieve a boost too from Flow.
         public const int cachedWindowsScore = 500;
 
-        private SettingWindow SettingWindow;
+        private SettingWindow? SettingWindow;
         private bool disposedValue;
 
-        public static PluginInitContext Context { get; private set; }
-        public Settings Settings { get; private set; }
+        public static PluginInitContext Context { get; private set; } = null!;
+        public static Settings Settings { get; private set; } = null!;
 
-        internal static readonly VirtualDesktopHelper VirtualDesktopHelperInstance = new VirtualDesktopHelper();
+        internal static VirtualDesktopHelper VirtualDesktopHelperInstance { get; private set; } = null!;
 
         public List<Result> Query(Query query)
         {
@@ -69,10 +68,10 @@ namespace Flow.Plugin.WindowWalker
                 }
             }
 
-            OpenWindows.Instance.UpdateOpenWindowsList();
             VirtualDesktopHelperInstance.UpdateDesktopList();
+            OpenWindows.Instance.UpdateOpenWindowsList();
 
-            searchResults = SearchController.GetResult(query.Search);
+            var searchResults = SearchController.GetResult(query.Search);
 
             var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
                 .Select(x => new Result()
@@ -117,6 +116,7 @@ namespace Flow.Plugin.WindowWalker
             Context = context;
             Settings = Context.API.LoadSettingJsonStorage<Settings>();
             Log.API = Context.API;
+            VirtualDesktopHelperInstance = new VirtualDesktopHelper();
             RegisterQuickAccessKeyword();
             OpenWindows.Instance.UpdateOpenWindowsList();
         }

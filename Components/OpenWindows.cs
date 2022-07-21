@@ -72,10 +72,17 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             Window newWindow = new Window(hwnd);
 
-            if (newWindow.IsWindow && newWindow.Visible && newWindow.IsOwner &&
-                (!newWindow.IsToolWindow || newWindow.IsAppWindow) && !newWindow.TaskListDeleted &&
-                (newWindow.Desktop.IsVisible || Main.Settings.SearchWindowsAcrossAllVDesktop || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2) &&
-                newWindow.ClassName != "Windows.UI.Core.CoreWindow" && newWindow.Process.Name != flowLauncherExe)
+            if (newWindow.IsWindow && newWindow.Visible && newWindow.IsOwner
+                && (!newWindow.IsToolWindow || newWindow.IsAppWindow) && !newWindow.TaskListDeleted
+                && (newWindow.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2)
+                && newWindow.ClassName != "Windows.UI.Core.CoreWindow"
+                && newWindow.Process.Name != flowLauncherExe
+                && (!newWindow.IsCloaked ||
+                    newWindow.GetWindowCloakState() ==
+                    Window.WindowCloakState.OtherDesktop) 
+                // To hide (not add) preloaded uwp app windows that are invisible to the user and other cloaked windows,
+                // we check the cloak state.
+               )
             {
                 windows.Add(newWindow);
             }

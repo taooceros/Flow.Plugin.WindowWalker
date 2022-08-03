@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="wox_plugin_windowwalker_plugin_name" xml:space="preserve">
-    <value>Window Walker</value>
+    <value>Percorrer janelas</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternative enabling searching through your windows.</value>
+    <value>Alternativa ao atalho Alt+Tab para pesquisar nas janelas abertas.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Running</value>
+    <value>Em execução</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,16 +139,16 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Quick Access Window Hotkey</value>
+    <value>Tecla de acesso rápido à janela</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>Ambiente de trabalho {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>On all Desktops</value><comment>The window is shown on all desktops.</comment>
+    <value>Em todos os ambientes de trabalho</value><comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>Ambiente de trabalho</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>Feito</value>
@@ -157,18 +157,18 @@
     <value>Cancelar</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>Keyword for quick accessing this window</value>
+    <value>Palavra-chave para acesso rápido a esta janela</value>
   </data>
   <data name="Keyword" xml:space="preserve">
-    <value>Keyword</value>
+    <value>Palavra-chave</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
     <value>Quick AccessKeyword Assigned Window</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Janela</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Search Windows Across All Desktop</value>
+    <value>Pesquisar janelas em todos os ambientes de trabalho</value>
   </data>
 </root>

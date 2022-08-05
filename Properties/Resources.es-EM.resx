@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="wox_plugin_windowwalker_plugin_name" xml:space="preserve">
-    <value>Window Walker</value>
+    <value>Buscador de ventanas (Window Walker)</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternativa que permite buscar a través de sus ventanas.</value>
+    <value>Alt-Tab alternativa que permite buscar a través de las ventanas.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
     <value>Ejecutando</value>

@@ -121,7 +121,7 @@
     <value>Buscador de ventanas (Window Walker)</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternativa que permite buscar a través de las ventanas.</value>
+    <value>Alternativa a Alt-Tab que permite buscar por las ventanas.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
     <value>Ejecutando</value>
@@ -163,12 +163,12 @@
     <value>Palabra clave</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>Palabra clave de acceso rápido a ventana asignada</value>
+    <value>Asignar palabra clave de acceso rápido a una ventana</value>
   </data>
   <data name="Window" xml:space="preserve">
     <value>Ventana</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Buscar Windows en todo el escritorio</value>
+    <value>Buscar ventanas en todo el escritorio</value>
   </data>
 </root>

@@ -151,7 +151,7 @@
     <value>Escritorio</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Listo</value>
+    <value>Aceptar</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>

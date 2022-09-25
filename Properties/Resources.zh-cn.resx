@@ -121,10 +121,10 @@
     <value>Window Walker</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternative enabling searching through your windows.</value>
+    <value>Alt-Tab 快捷键的替代品。搜索打开的窗口。</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Running</value>
+    <value>运行中</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,7 +139,7 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Quick Access Window Hotkey</value>
+    <value>快速访问窗口快捷键</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
     <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>

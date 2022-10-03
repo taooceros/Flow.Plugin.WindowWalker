@@ -121,7 +121,7 @@
     <value>Buscador de ventanas (Window Walker)</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>La alternativa Alt-Tab permite buscar entre las ventanas.</value>
+    <value>Alternativa a Alt-Tab que permite buscar por las ventanas.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
     <value>Ejecutando</value>

@@ -124,7 +124,7 @@
     <value>L'alternativa è Alt-Tab che consente la ricerca nelle finestre.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Running</value>
+    <value>In esecuzione</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,7 +139,7 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Quick Access Window Hotkey</value>
+    <value>Tasto di accesso rapido alla finestra</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
     <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>

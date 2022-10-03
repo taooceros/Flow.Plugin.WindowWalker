@@ -121,7 +121,7 @@
     <value>Window Walker</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternative enabling searching through your windows.</value>
+    <value>L'alternativa è Alt-Tab che consente la ricerca nelle finestre.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
     <value>Running</value>
@@ -145,7 +145,7 @@
     <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>On all Desktops</value><comment>The window is shown on all desktops.</comment>
+    <value>Su tutti i desktop</value><comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
     <value>Desktop</value>
@@ -157,18 +157,18 @@
     <value>Annulla</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>Keyword for quick accessing this window</value>
+    <value>Keyword per accedere rapidamente a questa finestra</value>
   </data>
   <data name="Keyword" xml:space="preserve">
     <value>Keyword</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>Quick AccessKeyword Assigned Window</value>
+    <value>Finestra Di AccessKeyword Rapida Assegnata</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Finestra</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Search Windows Across All Desktop</value>
+    <value>Ricerca delle finestre su tutti i desktop</value>
   </data>
 </root>

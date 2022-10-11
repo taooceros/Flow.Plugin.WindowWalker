@@ -34,9 +34,10 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Event handler for when the search text has been updated
         /// </summary>
-        public static List<SearchResult> GetResult(string searchText)
+        public static List<SearchResult> GetResult(string searchText, bool searchWindowsAcrossAllVDesktop)
         {
             SearchText = searchText;
+            OpenWindows.Instance.SearchWindowsAcrossAllVDesktop = searchWindowsAcrossAllVDesktop;
             return OpenWindowsWithModel();
         }
 

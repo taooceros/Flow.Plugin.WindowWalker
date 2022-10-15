@@ -40,6 +40,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         public static OpenWindows Instance => instance ??= new OpenWindows();
 
+        public bool SearchWindowsAcrossAllVDesktop = false;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="OpenWindows"/> class.
         /// Private constructor to make sure there is never
@@ -74,14 +76,14 @@ namespace Flow.Plugin.WindowWalker.Components
 
             if (newWindow.IsWindow && newWindow.Visible && newWindow.IsOwner
                 && (!newWindow.IsToolWindow || newWindow.IsAppWindow) && !newWindow.TaskListDeleted
-                && (newWindow.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2)
+                && (SearchWindowsAcrossAllVDesktop || (newWindow.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2))
                 && newWindow.ClassName != "Windows.UI.Core.CoreWindow"
                 && newWindow.Process.Name != flowLauncherExe
                 && (!newWindow.IsCloaked ||
                     newWindow.GetWindowCloakState() ==
-                    Window.WindowCloakState.OtherDesktop) 
-                // To hide (not add) preloaded uwp app windows that are invisible to the user and other cloaked windows,
-                // we check the cloak state.
+                    Window.WindowCloakState.OtherDesktop)
+               // To hide (not add) preloaded uwp app windows that are invisible to the user and other cloaked windows,
+               // we check the cloak state.
                )
             {
                 windows.Add(newWindow);

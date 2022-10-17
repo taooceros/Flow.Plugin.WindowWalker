@@ -132,7 +132,6 @@ namespace Flow.Plugin.WindowWalker.Components
             // TODO: Add verification as to whether the window handle is valid
             this.hwnd = hwnd;
             Process = CreateWindowProcessInstance(hwnd);
-            
             Desktop = Main.VirtualDesktopHelperInstance.GetWindowDesktop(hwnd);
         }
 
@@ -295,17 +294,17 @@ namespace Flow.Plugin.WindowWalker.Components
                     // Get process ID and name
                     var processId = WindowProcess.GetProcessIDFromWindowHandle(hWindow);
                     var threadId = WindowProcess.GetThreadIDFromWindowHandle(hWindow);
-                    var processName = WindowProcess.GetProcessNameFromProcessID(processId);
+                    (var processName, var processImage) = WindowProcess.GetProcessNameAndImageFromProcessID(processId);
 
                     if (processName.Length != 0)
                     {
-                        _handlesToProcessCache.Add(hWindow, new WindowProcess(processId, threadId, processName));
+                        _handlesToProcessCache.Add(hWindow, new WindowProcess(processId, threadId, processName, processImage));
                     }
                     else
                     {
                         // For the dwm process we can not receive the name. This is no problem because the window isn't part of result list.
-                        Context.API.LogDebug("Flow.Plugin.WindowWalker.Components.Window",$"Invalid process {processId} ({processName}) for window handle {hWindow}.");
-                        _handlesToProcessCache.Add(hWindow, new WindowProcess(0, 0, string.Empty));
+                        Context.API.LogDebug("Flow.Plugin.WindowWalker.Components.Window", $"Invalid process {processId} ({processName}) for window handle {hWindow}.");
+                        _handlesToProcessCache.Add(hWindow, new WindowProcess(0, 0, string.Empty, String.Empty));
                     }
                 }
 
@@ -323,10 +322,10 @@ namespace Flow.Plugin.WindowWalker.Components
                             {
                                 var childProcessId = WindowProcess.GetProcessIDFromWindowHandle(hwnd);
                                 var childThreadId = WindowProcess.GetThreadIDFromWindowHandle(hwnd);
-                                var childProcessName = WindowProcess.GetProcessNameFromProcessID(childProcessId);
+                                (var childProcessName, var childProcessImage) = WindowProcess.GetProcessNameAndImageFromProcessID(childProcessId);
 
                                 // Update process info in cache
-                                _handlesToProcessCache[hWindow].UpdateProcessInfo(childProcessId, childThreadId, childProcessName);
+                                _handlesToProcessCache[hWindow].UpdateProcessInfo(childProcessId, childThreadId, childProcessName, childProcessImage);
                                 return false;
                             }
                             else

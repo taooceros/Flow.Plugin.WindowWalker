@@ -516,7 +516,6 @@ namespace Flow.Plugin.WindowWalker.Components
     [Flags]
     public enum ProcessAccessFlags
     {
-
         /// <summary>
         /// Required to create a thread.
         /// </summary>

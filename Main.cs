@@ -70,7 +70,7 @@ namespace Flow.Plugin.WindowWalker
 
             VirtualDesktopHelperInstance.UpdateDesktopList();
             OpenWindows.Instance.UpdateOpenWindowsList();
-
+            var currentDesktop = VirtualDesktopHelperInstance.GetCurrentDesktop();
             var searchResults = SearchController.GetResult(query.Search, Settings.SearchWindowsAcrossAllVDesktop);
 
             var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
@@ -92,6 +92,10 @@ namespace Flow.Plugin.WindowWalker
                         else
                         {
                             x.Result.SwitchToWindow();
+
+                            if (OpenWindows.Instance.FlowWindow is not null &&
+                                x.Result.Desktop.ComVirtualDesktop is not null)
+                                VirtualDesktopHelper.MoveWindowToDesktop(OpenWindows.Instance.FlowWindow.Hwnd, x.Result.Desktop.ComVirtualDesktop);
                         }
 
                         return true;

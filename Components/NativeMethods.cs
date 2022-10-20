@@ -20,6 +20,10 @@ namespace Flow.Plugin.WindowWalker.Components
             [Out] StringBuilder lpExeName,
             ref int lpdwSize);
 
+        // get process id to window handle
+        [DllImport("user32.dll")]
+        private static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern int EnumWindows(EnumWindowsProc callPtr, int lPar);
 

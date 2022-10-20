@@ -78,6 +78,24 @@ namespace Flow.Plugin.WindowWalker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move to this desktop ({0}).
+        /// </summary>
+        public static string ContextMenu_MoveToCurrentDesktop {
+            get {
+                return ResourceManager.GetString("ContextMenu_MoveToCurrentDesktop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Quick Access for this window.
+        /// </summary>
+        public static string ContextMenu_QuickAccess {
+            get {
+                return ResourceManager.GetString("ContextMenu_QuickAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ctrl.
         /// </summary>
         public static string Ctrl {

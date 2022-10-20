@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -30,8 +31,10 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         public List<Window> Windows
         {
-            get { return new List<Window>(windows); }
+            get { return new List<Window>(windows.Where(w => !w.IsFlowWindow)); }
         }
+
+        public Window? FlowWindow => windows.Find(w => w.IsFlowWindow);
 
         /// <summary>
         /// Gets an instance property of this class that makes sure that
@@ -74,6 +77,12 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             Window newWindow = new Window(hwnd);
 
+            if (newWindow.Process.Name == flowLauncherExe && newWindow.IsWindow)
+            {
+                newWindow.IsFlowWindow = true;
+                windows.Add(newWindow);
+            }
+
             if (newWindow.IsWindow && newWindow.Visible && newWindow.IsOwner
                 && (!newWindow.IsToolWindow || newWindow.IsAppWindow) && !newWindow.TaskListDeleted
                 && (SearchWindowsAcrossAllVDesktop || (newWindow.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2))
@@ -82,8 +91,8 @@ namespace Flow.Plugin.WindowWalker.Components
                 && (!newWindow.IsCloaked ||
                     newWindow.GetWindowCloakState() ==
                     Window.WindowCloakState.OtherDesktop)
-               // To hide (not add) preloaded uwp app windows that are invisible to the user and other cloaked windows,
-               // we check the cloak state.
+                // To hide (not add) preloaded uwp app windows that are invisible to the user and other cloaked windows,
+                // we check the cloak state.
                )
             {
                 windows.Add(newWindow);

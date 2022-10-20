@@ -10,7 +10,9 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using Windows.Win32;
 using Windows.Win32.Foundation;
-using Windows.Win32.UI.Shell;
+using Flow.Plugin.WindowWalker.Components.COM;
+using IVirtualDesktopManager = Windows.Win32.UI.Shell.IVirtualDesktopManager;
+using System.Windows.Controls;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -394,25 +396,54 @@ namespace Flow.Plugin.WindowWalker.Components
             return GetWindowDesktopAssignmentType(hWindow, desktop) == VirtualDesktopAssignmentType.OtherDesktop && dwmCloakedState == (int)DwmWindowCloakStates.CloakedShell;
         }
 
+        public static bool IsWindowPinned(IntPtr hWnd)
+        {
+            // return true if window is pinned to all desktops
+            if (hWnd == IntPtr.Zero) throw new ArgumentNullException();
+            return DesktopManager.VirtualDesktopPinnedApps.IsViewPinned(hWnd.GetApplicationView());
+        }
+
         /// <summary>
         /// Moves the window to a specific desktop.
         /// </summary>
         /// <param name="hWindow">Handle of the top level window.</param>
         /// <param name="desktopId">Guid of the target desktop.</param>
         /// <returns><see langword="True"/> on success and <see langword="false"/> on failure.</returns>
-        public bool MoveWindowToDesktop(IntPtr hWindow, in Guid desktopId)
+        public static bool MoveWindowToDesktop(IntPtr hWnd, IVirtualDesktop comVirtualDesktop)
         {
-            if (_virtualDesktopManager == null)
-            {
-                Log.Error("VirtualDesktopHelper.MoveWindowToDesktop() failed: The instance of <IVirtualDesktopHelper> isn't available.", typeof(VirtualDesktopHelper));
-                return false;
-            }
+            // move window to this desktop
+            if (hWnd == IntPtr.Zero) throw new ArgumentNullException();
+            _ = NativeMethods.GetWindowThreadProcessId(hWnd, out var processId);
 
-            var hr = _virtualDesktopManager.MoveWindowToDesktop((HWND)hWindow, desktopId);
-            if (hr != (int)HRESULT.S_OK)
+            if (Process.GetCurrentProcess().Id == processId)
             {
-                Log.Exception($"VirtualDesktopHelper.MoveWindowToDesktop() failed: An exception was thrown when moving the window ({hWindow}) to an other desktop ({desktopId}).", Marshal.GetExceptionForHR(hr), typeof(VirtualDesktopHelper));
-                return false;
+                // window of process
+                try // the easy way (if we are owner)
+                {
+                    DesktopManager.VirtualDesktopManager.MoveWindowToDesktop(hWnd, comVirtualDesktop.GetId());
+                }
+                catch // window of process, but we are not the owner
+                {
+                    DesktopManager.ApplicationViewCollection.GetViewForHWnd(hWnd, out var view);
+                    DesktopManager.VirtualDesktopManagerInternal.MoveViewToDesktop(view, comVirtualDesktop);
+                }
+            }
+            else
+            {
+                // window of other process
+                DesktopManager.ApplicationViewCollection.GetViewForHWnd(hWnd, out var view);
+                try
+                {
+                    DesktopManager.VirtualDesktopManagerInternal.MoveViewToDesktop(view, comVirtualDesktop);
+                }
+                catch
+                {
+                    // could not move active window, try main window (or whatever windows thinks is the main window)
+                    DesktopManager.ApplicationViewCollection.GetViewForHWnd(
+                        Process.GetProcessById((int)processId).MainWindowHandle,
+                        out view);
+                    DesktopManager.VirtualDesktopManagerInternal.MoveViewToDesktop(view, comVirtualDesktop);
+                }
             }
 
             return true;
@@ -446,7 +477,8 @@ namespace Flow.Plugin.WindowWalker.Components
             }
 
             var newDesktop = availableDesktops[windowDesktopNumber - 1];
-            return MoveWindowToDesktop(hWindow, newDesktop);
+
+            return MoveWindowToDesktop(hWindow, DesktopManager.VirtualDesktopManagerInternal.FindDesktop(ref newDesktop));
         }
 
         /// <summary>
@@ -477,7 +509,7 @@ namespace Flow.Plugin.WindowWalker.Components
             }
 
             var newDesktop = availableDesktops[windowDesktopNumber + 1];
-            return MoveWindowToDesktop(hWindow, newDesktop);
+            return MoveWindowToDesktop(hWindow, DesktopManager.VirtualDesktopManagerInternal.FindDesktop(ref newDesktop));
         }
 
         /// <summary>
@@ -497,7 +529,7 @@ namespace Flow.Plugin.WindowWalker.Components
             var desktopType = hWindow != default ? GetWindowDesktopAssignmentType(hWindow, desktop) : VirtualDesktopAssignmentType.Unknown;
             var isAllDesktops = hWindow != default && desktopType == VirtualDesktopAssignmentType.AllDesktops;
             var isDesktopVisible = hWindow != default ? isAllDesktops || desktopType == VirtualDesktopAssignmentType.CurrentDesktop : IsDesktopVisible(desktop);
-
+            var comVirtualDesktop = DesktopManager.VirtualDesktopManagerInternal.FindDesktop(ref desktop);
             return new VDesktop()
             {
                 Id = desktop,
@@ -506,6 +538,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 IsVisible = isDesktopVisible || isAllDesktops,
                 IsAllDesktopsView = isAllDesktops,
                 Position = GetDesktopPositionType(desktop),
+                ComVirtualDesktop = comVirtualDesktop
             };
         }
 

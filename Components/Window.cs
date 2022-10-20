@@ -72,6 +72,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal VDesktop Desktop { get; }
 
+        internal bool IsFlowWindow { get; set; }
+
         /// <summary>
         /// Gets the name of the class for the window represented
         /// </summary>

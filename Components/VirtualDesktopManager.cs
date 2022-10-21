@@ -1,6 +1,5 @@
 ﻿#nullable disable
 using System;
-using Flow.Launcher.Plugin;
 using Flow.Plugin.WindowWalker.Components.COM;
 
 namespace Flow.Plugin.WindowWalker.Components

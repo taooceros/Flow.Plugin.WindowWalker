@@ -70,7 +70,6 @@ namespace Flow.Plugin.WindowWalker
 
             VirtualDesktopHelperInstance.UpdateDesktopList();
             OpenWindows.Instance.UpdateOpenWindowsList();
-            var currentDesktop = VirtualDesktopHelperInstance.GetCurrentDesktop();
             var searchResults = SearchController.GetResult(query.Search, Settings.SearchWindowsAcrossAllVDesktop);
 
             var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
@@ -85,6 +84,8 @@ namespace Flow.Plugin.WindowWalker
                     ContextData = x.Result,
                     Action = c =>
                     {
+                        OpenWindows.Instance.UpdateFlowWindow();
+
                         if (c.SpecialKeyState.CtrlPressed)
                         {
                             x.Result.CloseThisWindow(true);

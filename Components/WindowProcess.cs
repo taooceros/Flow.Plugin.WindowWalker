@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Documents;
 using Windows.Win32;
+using Windows.Win32.Foundation;
 using Windows.Win32.System.Threading;
 using static Windows.Win32.PInvoke;
 
@@ -74,7 +75,7 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             get
             {
-                IntPtr hShellWindow = NativeMethods.GetShellWindow();
+                HWND hShellWindow = PInvoke.GetShellWindow();
                 return GetProcessIDFromWindowHandle(hShellWindow) == ProcessID;
             }
         }
@@ -151,12 +152,12 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="hwnd">The handle to the window</param>
         /// <returns>The process ID</returns>
-        internal static uint GetProcessIDFromWindowHandle(IntPtr hwnd)
+        internal static uint GetProcessIDFromWindowHandle(HWND hwnd)
         {
             uint processId;
             unsafe
             {
-                GetWindowThreadProcessId(new(hwnd), &processId);
+                GetWindowThreadProcessId(hwnd, &processId);
             }
             return processId;
         }
@@ -166,12 +167,12 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="hwnd">The handle to the window</param>
         /// <returns>The thread ID</returns>
-        internal static uint GetThreadIDFromWindowHandle(IntPtr hwnd)
+        internal static uint GetThreadIDFromWindowHandle(HWND hwnd)
         {
             uint processId;
             unsafe
             {
-                var threadId = GetWindowThreadProcessId(new(hwnd), &processId);
+                var threadId = GetWindowThreadProcessId(hwnd, &processId);
                 return threadId;
             }
         }
@@ -179,26 +180,27 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the process name for the process ID
         /// </summary>
-        /// <param name="pid">The id of the process/param>
+        /// <param name="pid">The id of the process</param>
         /// <returns>A string representing the process name or an empty string if the function fails</returns>
         internal static (string, string) GetProcessNameAndImageFromProcessID(uint pid)
         {
             using var processHandle = OpenProcess_SafeHandle(PROCESS_ACCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION, true, pid);
-            var processName = String.Empty;
-            var processImage = String.Empty;
-            uint capacity = MaximumFileNameLength;
-            Span<char> buffer = stackalloc char[(int)capacity];
+            var processName = string.Empty;
+            var processImage = string.Empty;
+            const int capacity = MaximumFileNameLength;
+            Span<char> buffer = stackalloc char[capacity];
+            uint length = capacity;
             unsafe
             {
                 fixed (char* p = buffer)
                 {
-                    if (QueryFullProcessImageName(processHandle, 0, p, ref capacity))
+                    if (QueryFullProcessImageName(processHandle, 0, p, ref length))
                     {
-                        processImage = buffer[..(int)capacity].ToString();
+                        processImage = buffer[..(int)length].ToString();
                     }
 
-                    if (K32GetProcessImageFileName(processHandle, p, MaximumFileNameLength) != 0)
-                        processName = buffer[(buffer[..(int)capacity].LastIndexOf('\\') + 1)..(int)capacity].ToString();
+                    if ((length = K32GetProcessImageFileName(processHandle, p, MaximumFileNameLength)) != 0)
+                        processName = buffer[(buffer[..(int)length].LastIndexOf('\\') + 1)..(int)length].ToString();
                 }
             }
 
@@ -234,22 +236,6 @@ namespace Flow.Plugin.WindowWalker.Components
             {
                 Process.GetProcessById((int)ProcessID).Kill(killProcessTree);
             }
-        }
-
-        /// <summary>
-        /// Validate that the handle is not null and close it.
-        /// </summary>
-        /// <param name="handle">Handle to close.</param>
-        /// <returns>Zero if native method fails and nonzero if the native method succeeds.</returns>
-        public static bool CloseHandleIfNotNull(IntPtr handle)
-        {
-            if (handle == IntPtr.Zero)
-            {
-                // Return true if there is nothing to close.
-                return true;
-            }
-
-            return NativeMethods.CloseHandle(handle);
         }
 
         /// <summary>

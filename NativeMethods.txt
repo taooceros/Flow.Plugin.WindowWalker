@@ -21,4 +21,6 @@ DWM_CLOAKED_SHELL
 GetClassName
 GetWindowPlacement
 GetForegroundWindow
+SendMessage
+GetShellWindow
 // CVirtualDesktopManager

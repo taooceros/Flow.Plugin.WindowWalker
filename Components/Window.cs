@@ -73,7 +73,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the handle to the window
         /// </summary>
-        internal IntPtr Hwnd => hwnd;
+        internal HWND Hwnd => hwnd;
 
         /// <summary>
         /// Gets the object of with the process information of the window
@@ -104,7 +104,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets a value indicating whether the specified window handle identifies an existing window.
         /// </summary>
-        internal bool IsWindow => PInvoke.IsWindow(new(Hwnd));
+        internal bool IsWindow => PInvoke.IsWindow(Hwnd);
 
         /// <summary>
         /// Gets a value indicating whether the window is a toolwindow
@@ -123,7 +123,14 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets a value indicating whether the window has ITaskList_Deleted property
         /// </summary>
-        internal bool TaskListDeleted => PInvoke.GetProp(hwnd, "ITaskList_Deleted").IsInvalid;
+        internal bool TaskListDeleted
+        {
+            get
+            {
+                using var handle = PInvoke.GetProp(hwnd, "ITaskList_Deleted");
+                return !handle.IsInvalid;
+            }
+        }
 
         /// <summary>
         /// Gets a value indicating whether the specified windows is the owner (i.e. doesn't have an owner)
@@ -145,7 +152,7 @@ namespace Flow.Plugin.WindowWalker.Components
             // TODO: Add verification as to whether the window handle is valid
             this.hwnd = hwnd;
             Process = CreateWindowProcessInstance(hwnd);
-            Desktop = Main.VirtualDesktopHelperInstance.GetWindowDesktop(hwnd);
+            Desktop = VirtualDesktopHelperInstance.GetWindowDesktop(hwnd);
         }
 
         /// <summary>
@@ -160,14 +167,14 @@ namespace Flow.Plugin.WindowWalker.Components
             // Using Ordinal since this is internal
             if (Process.Name.ToUpperInvariant().Equals("IEXPLORE.EXE", StringComparison.Ordinal) || !Minimized)
             {
-                PInvoke.SetForegroundWindow(new(Hwnd));
+                PInvoke.SetForegroundWindow(Hwnd);
             }
             else
             {
-                if (!PInvoke.ShowWindow(new(Hwnd), SHOW_WINDOW_CMD.SW_RESTORE))
+                if (!PInvoke.ShowWindow(Hwnd, SHOW_WINDOW_CMD.SW_RESTORE))
                 {
                     // ShowWindow doesn't work if the process is running elevated: fallback to SendMessage
-                    _ = NativeMethods.SendMessage(Hwnd, Win32Constants.WM_SYSCOMMAND, Win32Constants.SC_RESTORE);
+                    _ = PInvoke.SendMessage(Hwnd, Win32Constants.WM_SYSCOMMAND, new WPARAM(Win32Constants.SC_RESTORE), new LPARAM());
                 }
             }
 
@@ -184,7 +191,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 SwitchToWindow();
             }
 
-            _ = NativeMethods.SendMessage(Hwnd, Win32Constants.WM_SYSCOMMAND, Win32Constants.SC_CLOSE);
+            _ = PInvoke.SendMessage(Hwnd, Win32Constants.WM_SYSCOMMAND, Win32Constants.SC_CLOSE, new LPARAM());
         }
 
         /// <summary>
@@ -204,7 +211,7 @@ namespace Flow.Plugin.WindowWalker.Components
         internal WindowSizeState GetWindowSizeState()
         {
             Windows.Win32.UI.WindowsAndMessaging.WINDOWPLACEMENT placement = default;
-            PInvoke.GetWindowPlacement(new(Hwnd),  ref placement);
+            PInvoke.GetWindowPlacement(Hwnd, ref placement);
 
             switch (placement.showCmd)
             {
@@ -242,7 +249,7 @@ namespace Flow.Plugin.WindowWalker.Components
             int isCloakedState;
             unsafe
             {
-                _ = PInvoke.DwmGetWindowAttribute(new(Hwnd), DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, &isCloakedState, sizeof(uint));
+                _ = PInvoke.DwmGetWindowAttribute(Hwnd, DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, &isCloakedState, sizeof(uint));
             }
 
             switch (isCloakedState)
@@ -278,12 +285,12 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="hwnd">Handle to the window.</param>
         /// <returns>Class name</returns>
-        private static unsafe string GetWindowClassName(IntPtr hwnd)
+        private static unsafe string GetWindowClassName(HWND hwnd)
         {
             Span<char> classNameBuffer = stackalloc char[256];
             fixed (char* p = classNameBuffer)
             {
-                var numCharactersWritten = PInvoke.GetClassName(new(hwnd), p, classNameBuffer.Length);
+                var numCharactersWritten = PInvoke.GetClassName(hwnd, p, classNameBuffer.Length);
 
                 if (numCharactersWritten == 0)
                 {
@@ -298,7 +305,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="hWindow">The handle to the window</param>
         /// <returns>A new Instance of type <see cref="WindowProcess"/></returns>
-        private static WindowProcess CreateWindowProcessInstance(IntPtr hWindow)
+        private static WindowProcess CreateWindowProcessInstance(HWND hWindow)
         {
             lock (_handlesToProcessCache)
             {

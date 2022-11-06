@@ -327,7 +327,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 return CreateVDesktopInstance(Guid.Empty);
             }
 
-            int hr = _virtualDesktopManager.GetWindowDesktopId((Windows.Win32.Foundation.HWND)hWindow, out Guid desktopId);
+            int hr = _virtualDesktopManager.GetWindowDesktopId((HWND)hWindow, out Guid desktopId);
             return hr != (int)HRESULT.S_OK || desktopId == Guid.Empty ? VDesktop.Empty : CreateVDesktopInstance(desktopId, hWindow);
         }
 

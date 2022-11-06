@@ -57,7 +57,7 @@ namespace Flow.Plugin.WindowWalker.Components
         public void UpdateOpenWindowsList()
         {
             windows.Clear();
-            PInvoke.EnumWindows(WindowEnumerationCallBack, 0);
+            PInvoke.EnumWindows(WindowEnumerationCallBack, new LPARAM());
         }
 
         private static string flowLauncherExe = "Flow.Launcher.exe";
@@ -81,8 +81,8 @@ namespace Flow.Plugin.WindowWalker.Components
                 && (!newWindow.IsCloaked ||
                     newWindow.GetWindowCloakState() ==
                     Window.WindowCloakState.OtherDesktop)
-               // To hide (not add) preloaded uwp app windows that are invisible to the user and other cloaked windows,
-               // we check the cloak state.
+                // To hide (not add) preloaded uwp app windows that are invisible to the user and other cloaked windows,
+                // we check the cloak state.
                )
             {
                 windows.Add(newWindow);

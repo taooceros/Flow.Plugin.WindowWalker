@@ -50,7 +50,7 @@ namespace Flow.Plugin.WindowWalker
                         new Result
                         {
                             Title = window.Title,
-                            IcoPath = IconPath,
+                            IcoPath = !String.IsNullOrEmpty(window.Process.Image) ? window.Process.Image: IconPath,
                             Score = cachedWindowsScore,
                             SubTitle = $"{wox_plugin_windowwalker_running} : {window.Process.Name}",
                             ContextData = window,
@@ -77,7 +77,7 @@ namespace Flow.Plugin.WindowWalker
                 .Select(x => new Result()
                 {
                     Title = x.Result.Title,
-                    IcoPath = IconPath,
+                    IcoPath = !String.IsNullOrEmpty(x.Result.Process.Image) ? x.Result.Process.Image : IconPath,
                     Score = x.Score,
                     TitleHighlightData = x.SearchMatchesInTitle?.MatchData,
                     SubTitle =

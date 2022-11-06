@@ -13,6 +13,13 @@ namespace Flow.Plugin.WindowWalker.Components
     [SuppressMessage("Interoperability", "CA1401:P/Invokes should not be visible", Justification = "We want plugins to share this NativeMethods class, instead of each one creating its own.")]
     public static class NativeMethods
     {
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern bool QueryFullProcessImageName(
+            [In] IntPtr hProcess,
+            [In] int dwFlags,
+            [Out] StringBuilder lpExeName,
+            ref int lpdwSize);
+
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern int EnumWindows(EnumWindowsProc callPtr, int lPar);
 
@@ -113,7 +120,7 @@ namespace Flow.Plugin.WindowWalker.Components
 
         [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
         public static extern HRESULT SHCreateStreamOnFileEx(string fileName, STGM grfMode, uint attributes, bool create, System.Runtime.InteropServices.ComTypes.IStream reserved, out System.Runtime.InteropServices.ComTypes.IStream stream);
-        
+
         /// <summary>
         ///     Retrieves a handle to the foreground window (the window with which the user is currently working). The system
         ///     assigns a slightly higher priority to the thread that creates the foreground window than it does to other threads.

@@ -23,4 +23,3 @@ GetWindowPlacement
 GetForegroundWindow
 SendMessage
 GetShellWindow
-// CVirtualDesktopManager

@@ -5,6 +5,8 @@
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
 
 using System;
+using Windows.Win32;
+using Windows.Win32.Graphics.Dwm;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -17,14 +19,14 @@ namespace Flow.Plugin.WindowWalker.Components
         /// Makes sure that a window is excluded from the live preview
         /// </summary>
         /// <param name="hwnd">handle to the window to exclude</param>
-        public static void SetWindowExclusionFromLivePreview(IntPtr hwnd)
+        public static unsafe void SetWindowExclusionFromLivePreview(IntPtr hwnd)
         {
             var renderPolicy = (int)DwmNCRenderingPolicies.Enabled;
 
-            _ = NativeMethods.DwmSetWindowAttribute(
-                hwnd,
-                12,
-                ref renderPolicy,
+            _ = PInvoke.DwmSetWindowAttribute(
+                new(hwnd),
+                DWMWINDOWATTRIBUTE.DWMWA_EXCLUDED_FROM_PEEK,
+                &renderPolicy,
                 sizeof(int));
         }
 
@@ -35,6 +37,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <param name="windowToSpare">the window which should not be transparent but is not the target window</param>
         public static void ActivateLivePreview(IntPtr targetWindow, IntPtr windowToSpare)
         {
+            
             _ = NativeMethods.DwmpActivateLivePreview(
                     true,
                     targetWindow,

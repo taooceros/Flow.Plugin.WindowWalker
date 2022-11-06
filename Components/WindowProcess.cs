@@ -8,6 +8,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Windows.Documents;
+using Windows.Win32;
+using Windows.Win32.System.Threading;
+using static Windows.Win32.PInvoke;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -26,7 +30,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal uint ProcessID
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -34,7 +39,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal uint ThreadID
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -42,7 +48,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal string Name
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -50,7 +57,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal string Image
         {
-            get; private set;
+            get;
+            private set;
         } = String.Empty;
 
         /// <summary>
@@ -102,7 +110,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal bool IsFullAccessDenied
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -144,7 +153,11 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns>The process ID</returns>
         internal static uint GetProcessIDFromWindowHandle(IntPtr hwnd)
         {
-            _ = NativeMethods.GetWindowThreadProcessId(hwnd, out uint processId);
+            uint processId;
+            unsafe
+            {
+                GetWindowThreadProcessId(new(hwnd), &processId);
+            }
             return processId;
         }
 
@@ -155,8 +168,12 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns>The thread ID</returns>
         internal static uint GetThreadIDFromWindowHandle(IntPtr hwnd)
         {
-            uint threadId = NativeMethods.GetWindowThreadProcessId(hwnd, out _);
-            return threadId;
+            uint processId;
+            unsafe
+            {
+                var threadId = GetWindowThreadProcessId(new(hwnd), &processId);
+                return threadId;
+            }
         }
 
         /// <summary>
@@ -164,22 +181,28 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="pid">The id of the process/param>
         /// <returns>A string representing the process name or an empty string if the function fails</returns>
-        internal static (string , string) GetProcessNameAndImageFromProcessID(uint pid)
+        internal static (string, string) GetProcessNameAndImageFromProcessID(uint pid)
         {
-            var processHandle = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, true, (int)pid);
-            var stringBuilder = new StringBuilder(MaximumFileNameLength);
+            using var processHandle = OpenProcess_SafeHandle(PROCESS_ACCESS_RIGHTS.PROCESS_QUERY_LIMITED_INFORMATION, true, pid);
             var processName = String.Empty;
             var processImage = String.Empty;
-            int capacity = MaximumFileNameLength;
+            uint capacity = MaximumFileNameLength;
+            Span<char> buffer = stackalloc char[(int)capacity];
+            unsafe
+            {
+                fixed (char* p = buffer)
+                {
+                    if (QueryFullProcessImageName(processHandle, 0, p, ref capacity))
+                    {
+                        processImage = buffer[..(int)capacity].ToString();
+                    }
 
-            if (NativeMethods.QueryFullProcessImageName(processHandle, 0, stringBuilder, ref capacity))
-                processImage = stringBuilder.ToString();
+                    if (K32GetProcessImageFileName(processHandle, p, MaximumFileNameLength) != 0)
+                        processName = buffer[(buffer[..(int)capacity].LastIndexOf('\\') + 1)..(int)capacity].ToString();
+                }
+            }
 
-            stringBuilder = new StringBuilder(MaximumFileNameLength);
-            if (NativeMethods.GetProcessImageFileName(processHandle, stringBuilder, MaximumFileNameLength) != 0)
-                processName = stringBuilder.ToString().Split('\\').Reverse().ToArray()[0];
-            
-            _ = CloseHandleIfNotNull(processHandle);
+
             return (processName, processImage);
         }
 
@@ -212,7 +235,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 Process.GetProcessById((int)ProcessID).Kill(killProcessTree);
             }
         }
-        
+
         /// <summary>
         /// Validate that the handle is not null and close it.
         /// </summary>
@@ -236,16 +259,9 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns>True if denied and false if not.</returns>
         private static bool TestProcessAccessUsingAllAccessFlag(uint pid)
         {
-            var processHandle = NativeMethods.OpenProcess(ProcessAccessFlags.AllAccess, true, (int)pid);
+            using var processHandle = OpenProcess_SafeHandle(PROCESS_ACCESS_RIGHTS.PROCESS_ALL_ACCESS, true, pid);
 
-            if (Marshal.GetLastWin32Error() == 5)
-            {
-                // Error 5 = ERROR_ACCESS_DENIED
-                _ = CloseHandleIfNotNull(processHandle);
-                return true;
-            }
-            _ = CloseHandleIfNotNull(processHandle);
-            return false;
+            return Marshal.GetLastWin32Error() == 5;
         }
     }
 }

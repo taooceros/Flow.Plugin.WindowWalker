@@ -9,8 +9,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Dwm;
+using Windows.Win32.UI.WindowsAndMessaging;
 using static Flow.Plugin.WindowWalker.Main;
 
 namespace Flow.Plugin.WindowWalker.Components
@@ -23,7 +29,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// The handle to the window
         /// </summary>
-        private readonly IntPtr hwnd;
+        private readonly HWND hwnd;
 
         /// <summary>
         /// A static cache for the process data of all known windows
@@ -38,14 +44,21 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             get
             {
-                int sizeOfTitle = NativeMethods.GetWindowTextLength(hwnd);
+                int sizeOfTitle = PInvoke.GetWindowTextLength(hwnd);
                 if (sizeOfTitle++ > 0)
                 {
-                    StringBuilder titleBuffer = new StringBuilder(sizeOfTitle);
-                    var numCharactersWritten = NativeMethods.GetWindowText(hwnd, titleBuffer, sizeOfTitle);
-                    if (numCharactersWritten == 0)
+                    Span<char> titleBuffer = stackalloc char[sizeOfTitle];
+                    unsafe
                     {
-                        return string.Empty;
+                        fixed (char* pText = titleBuffer)
+                        {
+                            var numCharactersWritten = PInvoke.GetWindowText(hwnd, pText, sizeOfTitle);
+
+                            if (numCharactersWritten == 0)
+                            {
+                                return string.Empty;
+                            }
+                        }
                     }
 
                     return titleBuffer.ToString();
@@ -80,7 +93,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets a value indicating whether the window is visible (might return false if it is a hidden IE tab)
         /// </summary>
-        internal bool Visible => NativeMethods.IsWindowVisible(Hwnd);
+        internal bool Visible => PInvoke.IsWindowVisible(hwnd);
 
         /// <summary>
         /// Gets a value indicating whether the window is cloaked (true) or not (false).
@@ -91,31 +104,31 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets a value indicating whether the specified window handle identifies an existing window.
         /// </summary>
-        internal bool IsWindow => NativeMethods.IsWindow(Hwnd);
+        internal bool IsWindow => PInvoke.IsWindow(new(Hwnd));
 
         /// <summary>
         /// Gets a value indicating whether the window is a toolwindow
         /// </summary>
-        internal bool IsToolWindow => (NativeMethods.GetWindowLong(Hwnd, Win32Constants.GWL_EXSTYLE) &
+        internal bool IsToolWindow => (PInvoke.GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE) &
                                        (uint)ExtendedWindowStyles.WS_EX_TOOLWINDOW) ==
                                       (uint)ExtendedWindowStyles.WS_EX_TOOLWINDOW;
 
         /// <summary>
         /// Gets a value indicating whether the window is an appwindow
         /// </summary>
-        internal bool IsAppWindow => (NativeMethods.GetWindowLong(Hwnd, Win32Constants.GWL_EXSTYLE) &
+        internal bool IsAppWindow => (PInvoke.GetWindowLong(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE) &
                                       (uint)ExtendedWindowStyles.WS_EX_APPWINDOW) ==
                                      (uint)ExtendedWindowStyles.WS_EX_APPWINDOW;
 
         /// <summary>
         /// Gets a value indicating whether the window has ITaskList_Deleted property
         /// </summary>
-        internal bool TaskListDeleted => NativeMethods.GetProp(Hwnd, "ITaskList_Deleted") != IntPtr.Zero;
+        internal bool TaskListDeleted => PInvoke.GetProp(hwnd, "ITaskList_Deleted").IsInvalid;
 
         /// <summary>
         /// Gets a value indicating whether the specified windows is the owner (i.e. doesn't have an owner)
         /// </summary>
-        internal bool IsOwner => NativeMethods.GetWindow(Hwnd, GetWindowCmd.GW_OWNER) == IntPtr.Zero;
+        internal bool IsOwner => PInvoke.GetWindow(hwnd, GET_WINDOW_CMD.GW_OWNER) == IntPtr.Zero;
 
         /// <summary>
         /// Gets a value indicating whether the window is minimized
@@ -127,7 +140,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// Initializes a new Window representation
         /// </summary>
         /// <param name="hwnd">the handle to the window we are representing</param>
-        internal Window(IntPtr hwnd)
+        internal Window(HWND hwnd)
         {
             // TODO: Add verification as to whether the window handle is valid
             this.hwnd = hwnd;
@@ -147,18 +160,18 @@ namespace Flow.Plugin.WindowWalker.Components
             // Using Ordinal since this is internal
             if (Process.Name.ToUpperInvariant().Equals("IEXPLORE.EXE", StringComparison.Ordinal) || !Minimized)
             {
-                NativeMethods.SetForegroundWindow(Hwnd);
+                PInvoke.SetForegroundWindow(new(Hwnd));
             }
             else
             {
-                if (!NativeMethods.ShowWindow(Hwnd, ShowWindowCommand.Restore))
+                if (!PInvoke.ShowWindow(new(Hwnd), SHOW_WINDOW_CMD.SW_RESTORE))
                 {
                     // ShowWindow doesn't work if the process is running elevated: fallback to SendMessage
                     _ = NativeMethods.SendMessage(Hwnd, Win32Constants.WM_SYSCOMMAND, Win32Constants.SC_RESTORE);
                 }
             }
 
-            NativeMethods.FlashWindow(Hwnd, true);
+            PInvoke.FlashWindow(hwnd, true);
         }
 
         /// <summary>
@@ -190,16 +203,17 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns>The state (minimized, maximized, etc..) of the window</returns>
         internal WindowSizeState GetWindowSizeState()
         {
-            NativeMethods.GetWindowPlacement(Hwnd, out WINDOWPLACEMENT placement);
+            Windows.Win32.UI.WindowsAndMessaging.WINDOWPLACEMENT placement = default;
+            PInvoke.GetWindowPlacement(new(Hwnd),  ref placement);
 
-            switch (placement.ShowCmd)
+            switch (placement.showCmd)
             {
-                case ShowWindowCommand.Normal:
+                case SHOW_WINDOW_CMD.SW_NORMAL:
                     return WindowSizeState.Normal;
-                case ShowWindowCommand.Minimize:
-                case ShowWindowCommand.ShowMinimized:
+                case SHOW_WINDOW_CMD.SW_MINIMIZE:
+                case SHOW_WINDOW_CMD.SW_SHOWMINIMIZED:
                     return WindowSizeState.Minimized;
-                case ShowWindowCommand.Maximize: // No need for ShowMaximized here since its also of value 3
+                case SHOW_WINDOW_CMD.SW_MAXIMIZE: // No need for ShowMaximized here since its also of value 3
                     return WindowSizeState.Maximized;
                 default:
                     // throw new Exception("Don't know how to handle window state = " + placement.ShowCmd);
@@ -225,7 +239,11 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns>The state (none, app, ...) of the window</returns>
         internal WindowCloakState GetWindowCloakState()
         {
-            _ = NativeMethods.DwmGetWindowAttribute(Hwnd, (int)DwmWindowAttributes.Cloaked, out int isCloakedState, sizeof(uint));
+            int isCloakedState;
+            unsafe
+            {
+                _ = PInvoke.DwmGetWindowAttribute(new(Hwnd), DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, &isCloakedState, sizeof(uint));
+            }
 
             switch (isCloakedState)
             {
@@ -260,17 +278,19 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="hwnd">Handle to the window.</param>
         /// <returns>Class name</returns>
-        private static string GetWindowClassName(IntPtr hwnd)
+        private static unsafe string GetWindowClassName(IntPtr hwnd)
         {
-            StringBuilder windowClassName = new StringBuilder(300);
-            var numCharactersWritten = NativeMethods.GetClassName(hwnd, windowClassName, windowClassName.MaxCapacity);
-
-            if (numCharactersWritten == 0)
+            Span<char> classNameBuffer = stackalloc char[256];
+            fixed (char* p = classNameBuffer)
             {
-                return string.Empty;
-            }
+                var numCharactersWritten = PInvoke.GetClassName(new(hwnd), p, classNameBuffer.Length);
 
-            return windowClassName.ToString();
+                if (numCharactersWritten == 0)
+                {
+                    return string.Empty;
+                }
+                return classNameBuffer[..numCharactersWritten].ToString();
+            }
         }
 
         /// <summary>
@@ -314,7 +334,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 {
                     new Task(() =>
                     {
-                        EnumWindowsProc callbackptr = new EnumWindowsProc((IntPtr hwnd, IntPtr lParam) =>
+                        BOOL Callbackptr(HWND hwnd, LPARAM _)
                         {
                             // Every uwp app main window has at least three child windows. Only the one we are interested in has a class starting with "Windows.UI.Core." and is assigned to the real app process.
                             // (The other ones have a class name that begins with the string "ApplicationFrame".)
@@ -328,12 +348,10 @@ namespace Flow.Plugin.WindowWalker.Components
                                 _handlesToProcessCache[hWindow].UpdateProcessInfo(childProcessId, childThreadId, childProcessName, childProcessImage);
                                 return false;
                             }
-                            else
-                            {
-                                return true;
-                            }
-                        });
-                        _ = NativeMethods.EnumChildWindows(hWindow, callbackptr, 0);
+                            return true;
+                        }
+
+                        _ = PInvoke.EnumChildWindows(new HWND(hWindow), Callbackptr, 0);
                     }).Start();
                 }
 

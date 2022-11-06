@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using Windows.Win32;
 using static Flow.Plugin.WindowWalker.Properties.Resources;
 using ContextMenu = Flow.Plugin.WindowWalker.Components.ContextMenu;
 
@@ -50,7 +51,7 @@ namespace Flow.Plugin.WindowWalker
                         new Result
                         {
                             Title = window.Title,
-                            IcoPath = !String.IsNullOrEmpty(window.Process.Image) ? window.Process.Image: IconPath,
+                            IcoPath = !String.IsNullOrEmpty(window.Process.Image) ? window.Process.Image : IconPath,
                             Score = cachedWindowsScore,
                             SubTitle = $"{wox_plugin_windowwalker_running} : {window.Process.Name}",
                             ContextData = window,
@@ -135,7 +136,7 @@ namespace Flow.Plugin.WindowWalker
                 state.ShiftPressed == Settings.QuickAccessHotKey.Shift &&
                 state.WinPressed == Settings.QuickAccessHotKey.Win) // 68 is D
             {
-                var foreGroundWindowPtr = NativeMethods.GetForegroundWindow();
+                var foreGroundWindowPtr = PInvoke.GetForegroundWindow();
                 Window foreGroundWindow = new Window(foreGroundWindowPtr);
 
                 var quickAccessWindow = new QuickAccessKeywordAssignedWindow(foreGroundWindow);

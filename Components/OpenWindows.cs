@@ -7,6 +7,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -28,10 +31,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the list of all open windows
         /// </summary>
-        public List<Window> Windows
-        {
-            get { return new List<Window>(windows); }
-        }
+        public List<Window> Windows => new(windows);
 
         /// <summary>
         /// Gets an instance property of this class that makes sure that
@@ -57,8 +57,7 @@ namespace Flow.Plugin.WindowWalker.Components
         public void UpdateOpenWindowsList()
         {
             windows.Clear();
-            EnumWindowsProc callbackptr = WindowEnumerationCallBack;
-            _ = NativeMethods.EnumWindows(callbackptr, 0);
+            PInvoke.EnumWindows(WindowEnumerationCallBack, 0);
         }
 
         private static string flowLauncherExe = "Flow.Launcher.exe";
@@ -70,7 +69,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <param name="lParam">Value being passed from the caller (we don't use this but might come in handy
         /// in the future</param>
         /// <returns>true to make sure to continue enumeration</returns>
-        public bool WindowEnumerationCallBack(IntPtr hwnd, IntPtr lParam)
+        private BOOL WindowEnumerationCallBack(HWND hwnd, LPARAM lParam)
         {
             Window newWindow = new Window(hwnd);
 

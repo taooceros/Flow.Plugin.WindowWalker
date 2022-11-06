@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Dwm;
 using Windows.Win32.UI.Shell;
 
 namespace Flow.Plugin.WindowWalker.Components
@@ -390,7 +391,12 @@ namespace Flow.Plugin.WindowWalker.Components
         public bool IsWindowCloakedByVirtualDesktopManager(IntPtr hWindow, Guid? desktop = null)
         {
             // If a window is hidden because it is moved to an other desktop, then DWM returns type "CloakedShell". If DWM returns an other type the window is not cloaked by shell or VirtualDesktopManager.
-            _ = NativeMethods.DwmGetWindowAttribute(hWindow, (int)DwmWindowAttributes.Cloaked, out var dwmCloakedState, sizeof(uint));
+            int dwmCloakedState;
+            unsafe
+            {
+                _ = PInvoke.DwmGetWindowAttribute(new(hWindow), DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, &dwmCloakedState, sizeof(uint));
+            }
+            
             return GetWindowDesktopAssignmentType(hWindow, desktop) == VirtualDesktopAssignmentType.OtherDesktop && dwmCloakedState == (int)DwmWindowCloakStates.CloakedShell;
         }
 

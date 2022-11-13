@@ -45,6 +45,7 @@ namespace Flow.Plugin.WindowWalker
                 if (cachedWindows[query.Search].IsWindow)
                 {
                     var window = cachedWindows[query.Search];
+
                     return new List<Result>
                     {
                         new Result
@@ -56,7 +57,13 @@ namespace Flow.Plugin.WindowWalker
                             ContextData = window,
                             Action = c =>
                             {
+                                OpenWindows.Instance.UpdateFlowWindow();
+
                                 window.SwitchToWindow();
+                                if (OpenWindows.Instance.FlowWindow is not null &&
+                                    window.Desktop.ComVirtualDesktop is not null)
+                                    VirtualDesktopHelper.MoveWindowToDesktop(OpenWindows.Instance.FlowWindow.Hwnd, window.Desktop.ComVirtualDesktop);
+
                                 return true;
                             }
                         }
@@ -70,7 +77,6 @@ namespace Flow.Plugin.WindowWalker
 
             VirtualDesktopHelperInstance.UpdateDesktopList();
             OpenWindows.Instance.UpdateOpenWindowsList();
-
             var searchResults = SearchController.GetResult(query.Search, Settings.SearchWindowsAcrossAllVDesktop);
 
             var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
@@ -85,14 +91,21 @@ namespace Flow.Plugin.WindowWalker
                     ContextData = x.Result,
                     Action = c =>
                     {
+                        OpenWindows.Instance.UpdateFlowWindow();
+
                         if (c.SpecialKeyState.CtrlPressed)
                         {
                             x.Result.CloseThisWindow(true);
+                            // Re-query
+                            Context.API.ChangeQuery(query.RawQuery, true);
+                            OpenWindows.Instance.Windows.Remove(x.Result);
                         }
                         else
-                        {
                             x.Result.SwitchToWindow();
-                        }
+
+                        if (OpenWindows.Instance.FlowWindow is not null &&
+                            x.Result.Desktop.ComVirtualDesktop is not null)
+                            VirtualDesktopHelper.MoveWindowToDesktop(OpenWindows.Instance.FlowWindow.Hwnd, x.Result.Desktop.ComVirtualDesktop);
 
                         return true;
                     },

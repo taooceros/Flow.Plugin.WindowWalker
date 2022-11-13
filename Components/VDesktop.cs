@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Flow.Plugin.WindowWalker.Components.COM;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -68,6 +69,12 @@ namespace Flow.Plugin.WindowWalker.Components
             init;
         }
 
+        public IVirtualDesktop? ComVirtualDesktop
+        {
+            get;
+            init;
+        } = null;
+
         /// <summary>
         /// Gets an empty instance of <see cref="VDesktop"/>
         /// </summary>
@@ -79,6 +86,7 @@ namespace Flow.Plugin.WindowWalker.Components
             IsVisible = true, // Setting this always to true to simulate a visible desktop
             IsAllDesktopsView = false,
             Position = VirtualDesktopPosition.NotApplicable,
+            ComVirtualDesktop = null
         };
     }
 }

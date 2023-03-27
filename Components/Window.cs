@@ -38,22 +38,14 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             get
             {
-                int sizeOfTitle = NativeMethods.GetWindowTextLength(hwnd);
-                if (sizeOfTitle++ > 0)
-                {
-                    StringBuilder titleBuffer = new StringBuilder(sizeOfTitle);
-                    var numCharactersWritten = NativeMethods.GetWindowText(hwnd, titleBuffer, sizeOfTitle);
-                    if (numCharactersWritten == 0)
-                    {
-                        return string.Empty;
-                    }
+                var sizeOfTitle = NativeMethods.GetWindowTextLength(hwnd);
 
-                    return titleBuffer.ToString();
-                }
-                else
-                {
+                if (sizeOfTitle++ <= 0)
                     return string.Empty;
-                }
+
+                Span<char> titleBuffer = stackalloc char[sizeOfTitle];
+                var numCharactersWritten = NativeMethods.GetWindowText(hwnd, titleBuffer, sizeOfTitle);
+                return numCharactersWritten == 0 ? string.Empty : titleBuffer[..numCharactersWritten].ToString();
             }
         }
 
@@ -227,7 +219,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns>The state (none, app, ...) of the window</returns>
         internal WindowCloakState GetWindowCloakState()
         {
-            _ = NativeMethods.DwmGetWindowAttribute(Hwnd, (int)DwmWindowAttributes.Cloaked, out int isCloakedState, sizeof(uint));
+            _ = NativeMethods.DwmGetWindowAttribute(Hwnd, (int)DwmWindowAttributes.Cloaked, out int isCloakedState, sizeof(uint), out _);
 
             switch (isCloakedState)
             {
@@ -264,15 +256,11 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns>Class name</returns>
         private static string GetWindowClassName(IntPtr hwnd)
         {
-            StringBuilder windowClassName = new StringBuilder(300);
-            var numCharactersWritten = NativeMethods.GetClassName(hwnd, windowClassName, windowClassName.MaxCapacity);
+            Span<char> windowClassName = stackalloc char[300];
+            var numCharactersWritten = NativeMethods.GetClassName(hwnd, windowClassName, windowClassName.Length);
 
-            if (numCharactersWritten == 0)
-            {
-                return string.Empty;
-            }
+            return numCharactersWritten == 0 ? string.Empty : windowClassName.ToString();
 
-            return windowClassName.ToString();
         }
 
         /// <summary>

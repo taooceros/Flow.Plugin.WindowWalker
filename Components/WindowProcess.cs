@@ -26,7 +26,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal uint ProcessID
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -34,7 +35,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal uint ThreadID
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -42,7 +44,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal string Name
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -50,7 +53,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal string Image
         {
-            get; private set;
+            get;
+            private set;
         } = String.Empty;
 
         /// <summary>
@@ -67,6 +71,7 @@ namespace Flow.Plugin.WindowWalker.Components
             get
             {
                 IntPtr hShellWindow = NativeMethods.GetShellWindow();
+
                 return GetProcessIDFromWindowHandle(hShellWindow) == ProcessID;
             }
         }
@@ -82,6 +87,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 {
                     var p = Process.GetProcessById((int)ProcessID);
                     p.Dispose();
+
                     return true;
                 }
                 catch (InvalidOperationException)
@@ -102,7 +108,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         internal bool IsFullAccessDenied
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -145,6 +152,7 @@ namespace Flow.Plugin.WindowWalker.Components
         internal static uint GetProcessIDFromWindowHandle(IntPtr hwnd)
         {
             _ = NativeMethods.GetWindowThreadProcessId(hwnd, out uint processId);
+
             return processId;
         }
 
@@ -156,6 +164,7 @@ namespace Flow.Plugin.WindowWalker.Components
         internal static uint GetThreadIDFromWindowHandle(IntPtr hwnd)
         {
             uint threadId = NativeMethods.GetWindowThreadProcessId(hwnd, out _);
+
             return threadId;
         }
 
@@ -164,22 +173,24 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="pid">The id of the process/param>
         /// <returns>A string representing the process name or an empty string if the function fails</returns>
-        internal static (string , string) GetProcessNameAndImageFromProcessID(uint pid)
+        internal static (string, string) GetProcessNameAndImageFromProcessID(uint pid)
         {
             var processHandle = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, true, (int)pid);
-            var stringBuilder = new StringBuilder(MaximumFileNameLength);
-            var processName = String.Empty;
-            var processImage = String.Empty;
-            int capacity = MaximumFileNameLength;
+            Span<char> buffer = stackalloc char[MaximumFileNameLength];
+            uint numCharRead;
+            var processName = string.Empty;
+            var processImage = string.Empty;
+            var capacity = MaximumFileNameLength;
 
-            if (NativeMethods.QueryFullProcessImageName(processHandle, 0, stringBuilder, ref capacity))
-                processImage = stringBuilder.ToString();
+            if (NativeMethods.QueryFullProcessImageName(processHandle, 0, buffer, ref capacity))
+                processImage = buffer[..capacity].ToString();
 
-            stringBuilder = new StringBuilder(MaximumFileNameLength);
-            if (NativeMethods.GetProcessImageFileName(processHandle, stringBuilder, MaximumFileNameLength) != 0)
-                processName = stringBuilder.ToString().Split('\\').Reverse().ToArray()[0];
             
+            if ((numCharRead = NativeMethods.GetProcessImageFileName(processHandle, buffer, MaximumFileNameLength)) != 0)
+                processName = buffer[..(int)numCharRead].ToString().Split('\\').Reverse().ToArray()[0];
+
             _ = CloseHandleIfNotNull(processHandle);
+
             return (processName, processImage);
         }
 
@@ -205,6 +216,7 @@ namespace Flow.Plugin.WindowWalker.Components
                     Verb = "runas",
                     CreateNoWindow = true
                 };
+
                 ShellCommand.Execute(processInfo);
             }
             else
@@ -212,7 +224,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 Process.GetProcessById((int)ProcessID).Kill(killProcessTree);
             }
         }
-        
+
         /// <summary>
         /// Validate that the handle is not null and close it.
         /// </summary>
@@ -242,9 +254,12 @@ namespace Flow.Plugin.WindowWalker.Components
             {
                 // Error 5 = ERROR_ACCESS_DENIED
                 _ = CloseHandleIfNotNull(processHandle);
+
                 return true;
             }
+
             _ = CloseHandleIfNotNull(processHandle);
+
             return false;
         }
     }

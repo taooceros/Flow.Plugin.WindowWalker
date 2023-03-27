@@ -25,7 +25,8 @@ namespace Flow.Plugin.WindowWalker.Components
                 hwnd,
                 12,
                 ref renderPolicy,
-                sizeof(int));
+                sizeof(int),
+                out _);
         }
 
         /// <summary>

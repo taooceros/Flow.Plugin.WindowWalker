@@ -71,7 +71,7 @@ namespace Flow.Plugin.WindowWalker
             VirtualDesktopHelperInstance.UpdateDesktopList();
             OpenWindows.Instance.UpdateOpenWindowsList();
 
-            var searchResults = SearchController.GetResult(query.Search);
+            var searchResults = SearchController.GetResult(query.Search, Settings.SearchWindowsAcrossAllVDesktop);
 
             var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
                 .Select(x => new Result()

@@ -121,10 +121,10 @@
     <value>Window Walker</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternative enabling searching through your windows.</value>
+    <value>Alternativa vyhledávání v oknech pomocí klávesy Alt-Tab.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Running</value>
+    <value>Spuštěné</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,16 +139,16 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Quick Access Window Hotkey</value>
+    <value>Klávesová zkratka okna rychlého přístupu</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>Plocha {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>On all Desktops</value><comment>The window is shown on all desktops.</comment>
+    <value>Na všech pracovních plochách</value><comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>Plocha</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>Hotovo</value>
@@ -157,18 +157,18 @@
     <value>Zrušit</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>Keyword for quick accessing this window</value>
+    <value>Aktivační příkaz pro rychlý přístup k tomuto oknu</value>
   </data>
   <data name="Keyword" xml:space="preserve">
-    <value>Keyword</value>
+    <value>Aktivační příkaz</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>Quick AccessKeyword Assigned Window</value>
+    <value>Přiřazení klávesové zkratky pro okno</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Okno</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Search Windows Across All Desktop</value>
+    <value>Vyhledávání oken na všech pracovních plochách</value>
   </data>
 </root>

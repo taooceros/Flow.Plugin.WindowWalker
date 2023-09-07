@@ -98,7 +98,6 @@ namespace Flow.Plugin.WindowWalker
                             x.Result.CloseThisWindow(true);
                             // Re-query
                             Context.API.ChangeQuery(query.RawQuery, true);
-                            OpenWindows.Instance.Windows.Remove(x.Result);
                         }
                         else
                             x.Result.SwitchToWindow();

@@ -19,7 +19,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// List of all the open _windows
         /// </summary>
-        private readonly List<Window> _windows = new List<Window>();
+        private readonly List<Window> windows = new List<Window>();
 
         /// <summary>
         /// An instance of the class OpenWindows
@@ -29,7 +29,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the list of all open _windows
         /// </summary>
-        public List<Window> Windows => _windows;
+        public IReadOnlyList<Window> Windows => windows;
 
         public Window? FlowWindow { get; private set; }
 
@@ -67,7 +67,7 @@ namespace Flow.Plugin.WindowWalker.Components
         public void UpdateOpenWindowsList()
         {
             FlowWindow = null;
-            _windows.Clear();
+            windows.Clear();
             EnumWindowsProc callbackptr = WindowEnumerationCallBack;
             _ = NativeMethods.EnumWindows(callbackptr, 0);
         }
@@ -125,7 +125,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 // we check the cloak state.
                )
             {
-                _windows.Add(window);
+                windows.Add(window);
             }
 
             return true;

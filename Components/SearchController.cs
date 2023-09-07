@@ -60,7 +60,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="openWindows">what windows are open</param>
         /// <returns>Returns search results</returns>
-        private static List<SearchResult> FuzzySearchOpenWindows(List<Window> openWindows)
+        private static List<SearchResult> FuzzySearchOpenWindows(IReadOnlyList<Window> openWindows)
         {
             var result = new List<SearchResult>(openWindows.Count);
 

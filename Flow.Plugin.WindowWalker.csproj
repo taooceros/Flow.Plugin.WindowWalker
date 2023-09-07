@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0-windows</TargetFramework>
+        <TargetFramework>net7.0-windows</TargetFramework>
         <ProjectGuid>{74F1B9ED-F59C-4FE7-B473-7B453E30837E}</ProjectGuid>
         <OutputType>library</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>

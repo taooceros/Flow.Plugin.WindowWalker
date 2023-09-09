@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net7.0-windows7.0": {
+      "Flow.Launcher.Plugin": {
+        "type": "Direct",
+        "requested": "[2.1.1, )",
+        "resolved": "2.1.1",
+        "contentHash": "KXfeYJr2+8IemOi79ywqf+xR/9rPRCCPIeg/SEatjB0gcutz0Ff9jCNtDyV1lMrL0yXT0mH9IGdK3CASwe8qlw==",
+        "dependencies": {
+          "JetBrains.Annotations": "2021.2.0",
+          "PropertyChanged.Fody": "3.4.0"
+        }
+      },
+      "JetBrains.Annotations": {
+        "type": "Direct",
+        "requested": "[2022.1.0, )",
+        "resolved": "2022.1.0",
+        "contentHash": "ASfpoFJxiRsC9Xc4TWuPM41Zb/gl64xwfMOhnOZ3RnVWGYIZchjpWQV5zshJgoc/ZxVtgjaF7b577lURj7E6ig=="
+      },
+      "Microsoft.CodeAnalysis.NetAnalyzers": {
+        "type": "Direct",
+        "requested": "[6.0.0, )",
+        "resolved": "6.0.0",
+        "contentHash": "cjG06LMeOADNUeCUaklOfVgrnVkLy80H5PVll4QHDUXv+C+6G9rHczrNdWjfb3xKv3Ts9s4UsP6J2ZWe52Gz4Q=="
+      },
+      "Microsoft.Windows.CsWin32": {
+        "type": "Direct",
+        "requested": "[0.2.1-beta, )",
+        "resolved": "0.2.1-beta",
+        "contentHash": "J6S3g4+4UCWNkYaBOnF6FtcUWnBwd81odeXEy+hRBUIHicOQHHjbeoF8A4128SO/OUGL7WTA7Me9tu4PnqOEQQ==",
+        "dependencies": {
+          "Microsoft.Windows.SDK.Win32Docs": "0.1.7-alpha",
+          "Microsoft.Windows.SDK.Win32Metadata": "23.0.2-preview",
+          "System.Memory": "4.5.4"
+        }
+      },
+      "Microsoft.Windows.SDK.Win32Metadata": {
+        "type": "Direct",
+        "requested": "[23.0.2-preview, )",
+        "resolved": "23.0.2-preview",
+        "contentHash": "ayRPARDzJgvebolzpb2/BJRlt2ytgrVitPoGKdAFa9JTVChs+uS2XncMyj5+4rxMu6a2FSfUjpiLFLT8m8Lr4A=="
+      },
+      "System.Runtime": {
+        "type": "Direct",
+        "requested": "[4.3.1, )",
+        "resolved": "4.3.1",
+        "contentHash": "abhfv1dTK6NXOmu4bgHIONxHyEqFjW8HwXPmpY9gmll+ix9UNo4XDcmzJn6oLooftxNssVHdJC1pGT9jkSynQg==",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.1",
+          "Microsoft.NETCore.Targets": "1.1.3"
+        }
+      },
+      "Fody": {
+        "type": "Transitive",
+        "resolved": "6.5.1",
+        "contentHash": "DEw9rPG5vrpaK4vPPze0f4q6Zd0mfzjGNKy49nrmINkftIHpkyf8KH+uC/qF8y6v1askPWu9NbJS9bkmN5wXaA=="
+      },
+      "Microsoft.NETCore.Platforms": {
+        "type": "Transitive",
+        "resolved": "1.1.1",
+        "contentHash": "TMBuzAHpTenGbGgk0SMTwyEkyijY/Eae4ZGsFNYJvAr/LDn1ku3Etp3FPxChmDp5HHF3kzJuoaa08N0xjqAJfQ=="
+      },
+      "Microsoft.NETCore.Targets": {
+        "type": "Transitive",
+        "resolved": "1.1.3",
+        "contentHash": "3Wrmi0kJDzClwAC+iBdUBpEKmEle8FQNsCs77fkiOIw/9oYA07bL1EZNX0kQ2OMN3xpwvl0vAtOCYY3ndDNlhQ=="
+      },
+      "Microsoft.Windows.SDK.Win32Docs": {
+        "type": "Transitive",
+        "resolved": "0.1.7-alpha",
+        "contentHash": "+8ygOfBME88Sq75zMopFfqCdxBxZoKDlizPK6iYxzSGf6j51rd9ISNJ20UKfOSr746tgn9GNyVI+jc0JXfnuZA=="
+      },
+      "PropertyChanged.Fody": {
+        "type": "Transitive",
+        "resolved": "3.4.0",
+        "contentHash": "IAZyq0uolKo2WYm4mjx+q7A8fSGFT0x2e1s3y+ODn4JI0kqTDoo9GF2tdaypUzRFJZfdMxfC5HZW9QzdJLtOnA==",
+        "dependencies": {
+          "Fody": "6.5.1"
+        }
+      },
+      "System.Memory": {
+        "type": "Transitive",
+        "resolved": "4.5.4",
+        "contentHash": "1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw=="
+      }
+    }
+  }
+}

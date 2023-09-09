@@ -4,6 +4,7 @@
         <TargetFramework>net7.0-windows</TargetFramework>
         <ProjectGuid>{74F1B9ED-F59C-4FE7-B473-7B453E30837E}</ProjectGuid>
         <OutputType>library</OutputType>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>Flow.Plugin.WindowWalker</RootNamespace>
         <AssemblyName>Flow.Plugin.WindowWalker</AssemblyName>

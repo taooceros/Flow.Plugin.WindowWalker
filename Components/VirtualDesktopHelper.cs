@@ -13,6 +13,7 @@ using Windows.Win32.Foundation;
 using Flow.Plugin.WindowWalker.Components.COM;
 using IVirtualDesktopManager = Windows.Win32.UI.Shell.IVirtualDesktopManager;
 using System.Windows.Controls;
+using Windows.Win32.Graphics.Dwm;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -327,7 +328,6 @@ namespace Flow.Plugin.WindowWalker.Components
                 Log.Error("VirtualDesktopHelper.GetWindowDesktop() failed: The instance of <IVirtualDesktopHelper> isn't available.", typeof(VirtualDesktopHelper));
                 return CreateVDesktopInstance(Guid.Empty);
             }
-
             int hr = _virtualDesktopManager.GetWindowDesktopId((Windows.Win32.Foundation.HWND)hWindow, out Guid desktopId);
             return hr != (int)HRESULT.S_OK || desktopId == Guid.Empty ? VDesktop.Empty : CreateVDesktopInstance(desktopId, hWindow);
         }
@@ -389,10 +389,11 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <param name="hWindow">Handle of the window.</param>
         /// <param name="desktop">Optional the desktop id if known</param>
         /// <returns>A value indicating if the window is cloaked by Virtual Desktop Manager, because it is moved to an other desktop.</returns>
-        public bool IsWindowCloakedByVirtualDesktopManager(IntPtr hWindow, Guid? desktop = null)
+        internal unsafe bool IsWindowCloakedByVirtualDesktopManager(HWND hWindow, Guid? desktop = null)
         {
+            var dwmCloakedState = 0;
             // If a window is hidden because it is moved to an other desktop, then DWM returns type "CloakedShell". If DWM returns an other type the window is not cloaked by shell or VirtualDesktopManager.
-            _ = NativeMethods.DwmGetWindowAttribute(hWindow, (int)DwmWindowAttributes.Cloaked, out var dwmCloakedState, sizeof(uint));
+            _ = PInvoke.DwmGetWindowAttribute(hWindow, DWMWINDOWATTRIBUTE.DWMWA_CLOAKED, &dwmCloakedState, sizeof(uint));
             return GetWindowDesktopAssignmentType(hWindow, desktop) == VirtualDesktopAssignmentType.OtherDesktop && dwmCloakedState == (int)DwmWindowCloakStates.CloakedShell;
         }
 
@@ -409,11 +410,12 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <param name="hWindow">Handle of the top level window.</param>
         /// <param name="desktopId">Guid of the target desktop.</param>
         /// <returns><see langword="True"/> on success and <see langword="false"/> on failure.</returns>
-        public static bool MoveWindowToDesktop(IntPtr hWnd, IVirtualDesktop comVirtualDesktop)
+        internal static unsafe bool MoveWindowToDesktop(HWND hWnd, IVirtualDesktop comVirtualDesktop)
         {
             // move window to this desktop
-            if (hWnd == IntPtr.Zero) throw new ArgumentNullException();
-            _ = NativeMethods.GetWindowThreadProcessId(hWnd, out var processId);
+            if (hWnd == nint.Zero) throw new ArgumentNullException();
+            uint processId = 0;
+            _ = PInvoke.GetWindowThreadProcessId(hWnd, &processId);
 
             if (Process.GetCurrentProcess().Id == processId)
             {
@@ -454,7 +456,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="hWindow">Handle of the top level window.</param>
         /// <returns><see langword="True"/> on success and <see langword="false"/> on failure.</returns>
-        public bool MoveWindowOneDesktopLeft(IntPtr hWindow)
+        internal bool MoveWindowOneDesktopLeft(HWND hWindow)
         {
             var hr = GetWindowDesktopId(hWindow, out var windowDesktop);
             if (hr != (int)HRESULT.S_OK)
@@ -486,7 +488,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="hWindow">Handle of the top level window.</param>
         /// <returns><see langword="True"/> on success and <see langword="false"/> on failure.</returns>
-        public bool MoveWindowOneDesktopRight(IntPtr hWindow)
+        internal bool MoveWindowOneDesktopRight(HWND hWindow)
         {
             var hr = GetWindowDesktopId(hWindow, out var windowDesktop);
             if (hr != (int)HRESULT.S_OK)

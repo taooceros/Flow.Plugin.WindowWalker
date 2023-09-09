@@ -8,6 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -57,8 +59,7 @@ namespace Flow.Plugin.WindowWalker.Components
         public void UpdateFlowWindow()
         {
             FlowWindow = null;
-            EnumWindowsProc callbackptr = FlowWindowCallback;
-            _ = NativeMethods.EnumWindows(callbackptr, 0);
+            _ = PInvoke.EnumWindows(FlowWindowCallback, 0);
         }
 
         /// <summary>
@@ -68,11 +69,10 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             FlowWindow = null;
             windows.Clear();
-            EnumWindowsProc callbackptr = WindowEnumerationCallBack;
-            _ = NativeMethods.EnumWindows(callbackptr, 0);
+            _ = PInvoke.EnumWindows(WindowEnumerationCallBack, 0);
         }
 
-        private static string flowLauncherExe = "Flow.Launcher.exe";
+        private const string FlowLauncherExe = "Flow.Launcher.exe";
 
         /// <summary>
         /// Call back method for window enumeration, to find the Flow Window
@@ -81,11 +81,11 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <param name="lParam">Value being passed from the caller (we don't use this but might come in handy
         /// in the future</param>
         /// <returns>true to make sure to continue enumeration</returns>
-        public bool FlowWindowCallback(IntPtr hwnd, IntPtr lParam)
+        private BOOL FlowWindowCallback(HWND hwnd, LPARAM lParam)
         {
             Window window = new Window(hwnd);
 
-            if (window.Process.Name == flowLauncherExe && window.IsWindow)
+            if (window.Process.Name == FlowLauncherExe && window.IsWindow)
             {
                 window.IsFlowWindow = true;
                 FlowWindow = window;
@@ -102,11 +102,11 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <param name="lParam">Value being passed from the caller (we don't use this but might come in handy
         /// in the future</param>
         /// <returns>true to make sure to continue enumeration</returns>
-        public bool WindowEnumerationCallBack(IntPtr hwnd, IntPtr lParam)
+        private BOOL WindowEnumerationCallBack(HWND hwnd, LPARAM lParam)
         {
-            Window window = new Window(hwnd);
+            var window = new Window(hwnd);
 
-            if (window.Process.Name == flowLauncherExe && window.IsWindow)
+            if (window.Process.Name == FlowLauncherExe && window.IsWindow)
             {
                 window.IsFlowWindow = true;
                 FlowWindow = window;
@@ -117,7 +117,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 && (!window.IsToolWindow || window.IsAppWindow) && !window.TaskListDeleted
                 && (SearchWindowsAcrossAllVDesktop || (window.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2))
                 && window.ClassName != "Windows.UI.Core.CoreWindow"
-                && window.Process.Name != flowLauncherExe
+                && window.Process.Name != FlowLauncherExe
                 && (!window.IsCloaked ||
                     window.GetWindowCloakState() ==
                     Window.WindowCloakState.OtherDesktop)

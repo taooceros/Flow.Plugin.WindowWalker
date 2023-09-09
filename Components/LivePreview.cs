@@ -5,6 +5,10 @@
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
 
 using System;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Dwm;
+using Windows.Win32.UI.Shell;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -17,14 +21,14 @@ namespace Flow.Plugin.WindowWalker.Components
         /// Makes sure that a window is excluded from the live preview
         /// </summary>
         /// <param name="hwnd">handle to the window to exclude</param>
-        public static void SetWindowExclusionFromLivePreview(IntPtr hwnd)
+        public static unsafe void SetWindowExclusionFromLivePreview(HWND hwnd)
         {
             var renderPolicy = (int)DwmNCRenderingPolicies.Enabled;
 
-            _ = NativeMethods.DwmSetWindowAttribute(
+            _ = PInvoke.DwmSetWindowAttribute(
                 hwnd,
-                12,
-                ref renderPolicy,
+                DWMWINDOWATTRIBUTE.DWMWA_EXCLUDED_FROM_PEEK,
+                &renderPolicy,
                 sizeof(int));
         }
 

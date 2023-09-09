@@ -1,2 +1,26 @@
 ﻿IVirtualDesktopManager
+EnumWindows
+GetWindow
+GetProp
+GetWindowPlacement
+GetWindowLong
+EnumChildWindows
+GetWindowText
+GetWindowTextLength
+IsWindowVisible
+IsWindow
+SetForegroundWindow
+ShowWindow
+FlashWindow
+GetWindowThreadProcessId
+GetShellWindow
+SendMessage
+GetForegroundWindow
+CloseHandle
+QueryFullProcessImageName
+OpenProcess
+DwmSetWindowAttribute
+DwmGetWindowAttribute
+GetClassName
+K32GetProcessImageFileName
 // CVirtualDesktopManager

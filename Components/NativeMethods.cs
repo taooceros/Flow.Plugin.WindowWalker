@@ -21,52 +21,9 @@ namespace Flow.Plugin.WindowWalker.Components
             ref int lpdwSize);
 
         // get process id to window handle
-        [DllImport("user32.dll")]
-        private static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern int EnumWindows(EnumWindowsProc callPtr, int lPar);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr GetWindow(IntPtr hWnd, GetWindowCmd uCmd);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern int EnumChildWindows(IntPtr hWnd, EnumWindowsProc callPtr, int lPar);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern int GetWindowText(IntPtr hwnd, StringBuilder lpString, int nMaxCount);
-
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern int GetWindowTextLength(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern bool IsWindowVisible(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern bool IsWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool ShowWindow(IntPtr hWnd, ShowWindowCommand nCmdShow);
-
-        [DllImport("user32.dll")]
-        public static extern bool FlashWindow(IntPtr hwnd, bool bInvert);
-
-        [DllImport("user32.dll", SetLastError = true)]
-        public static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
         [DllImport("psapi.dll", BestFitMapping = false, CharSet = CharSet.Unicode)]
         public static extern uint GetProcessImageFileName(IntPtr hProcess, [Out] StringBuilder lpImageFileName, [In][MarshalAs(UnmanagedType.U4)] int nSize);
-
-        [DllImport("user32.dll", SetLastError = true, BestFitMapping = false, CharSet = CharSet.Unicode)]
-        public static extern IntPtr GetProp(IntPtr hWnd, string lpString);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr OpenProcess(ProcessAccessFlags dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, int dwProcessId);

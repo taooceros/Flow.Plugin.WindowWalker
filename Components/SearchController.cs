@@ -7,6 +7,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Windows.Win32;
 
 namespace Flow.Plugin.WindowWalker.Components
 {

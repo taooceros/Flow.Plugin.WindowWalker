@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="wox_plugin_windowwalker_plugin_name" xml:space="preserve">
-    <value>Window Walker</value>
+    <value>Віконний ходок</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternative enabling searching through your windows.</value>
+    <value>Альтернатива Alt-Tab, що дозволяє здійснювати пошук по вікнах.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Running</value>
+    <value>Працює</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,16 +139,16 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Quick Access Window Hotkey</value>
+    <value>Гаряча клавіша швидкого доступу до вікна</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>Робочий стіл {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>On all Desktops</value><comment>The window is shown on all desktops.</comment>
+    <value>На всіх робочих столах</value><comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>Робочий стіл</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>Готово</value>
@@ -157,18 +157,18 @@
     <value>Скасувати</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>Keyword for quick accessing this window</value>
+    <value>Ключове слово для швидкого доступу до цього вікна</value>
   </data>
   <data name="Keyword" xml:space="preserve">
-    <value>Keyword</value>
+    <value>Ключове слово</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>Quick AccessKeyword Assigned Window</value>
+    <value>Вікно швидкого доступу до призначеного ключового слова</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Вікно</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Search Windows Across All Desktop</value>
+    <value>Пошук вікон на всіх робочих столах</value>
   </data>
 </root>

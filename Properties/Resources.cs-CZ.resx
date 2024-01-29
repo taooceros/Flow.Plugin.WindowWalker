@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="wox_plugin_windowwalker_plugin_name" xml:space="preserve">
-    <value>Віконний ходок</value>
+    <value>Window Walker</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Альтернатива Alt-Tab, що дозволяє здійснювати пошук по вікнах.</value>
+    <value>Alternativa vyhledávání v oknech pomocí klávesy Alt-Tab.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Працює</value>
+    <value>Spuštěné</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,36 +139,36 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Гаряча клавіша швидкого доступу до вікна</value>
+    <value>Klávesová zkratka okna rychlého přístupu</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>Робочий стіл {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>Plocha {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>На всіх робочих столах</value><comment>The window is shown on all desktops.</comment>
+    <value>Na všech pracovních plochách</value><comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
-    <value>Робочий стіл</value>
+    <value>Plocha</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Готово</value>
+    <value>Hotovo</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Скасувати</value>
+    <value>Zrušit</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>Ключове слово для швидкого доступу до цього вікна</value>
+    <value>Aktivační příkaz pro rychlý přístup k tomuto oknu</value>
   </data>
   <data name="Keyword" xml:space="preserve">
-    <value>Ключове слово</value>
+    <value>Aktivační příkaz</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>Вікно швидкого доступу до призначеного ключового слова</value>
+    <value>Přiřazení klávesové zkratky pro okno</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Вікно</value>
+    <value>Okno</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Пошук вікон на всіх робочих столах</value>
+    <value>Vyhledávání oken na všech pracovních plochách</value>
   </data>
 </root>

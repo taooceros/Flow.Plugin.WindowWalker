@@ -5,6 +5,7 @@
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,11 +18,6 @@ namespace Flow.Plugin.WindowWalker.Components
     internal class OpenWindows
     {
         /// <summary>
-        /// List of all the open _windows
-        /// </summary>
-        private readonly List<Window> windows = new List<Window>();
-
-        /// <summary>
         /// An instance of the class OpenWindows
         /// </summary>
         private static OpenWindows? instance;
@@ -29,7 +25,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the list of all open _windows
         /// </summary>
-        public IReadOnlyList<Window> Windows => windows;
+        public ConcurrentBag<Window> Windows { get; } = new ();
 
         public Window? FlowWindow { get; private set; }
 
@@ -67,7 +63,7 @@ namespace Flow.Plugin.WindowWalker.Components
         public void UpdateOpenWindowsList()
         {
             FlowWindow = null;
-            windows.Clear();
+            Windows.Clear();
             EnumWindowsProc callbackptr = WindowEnumerationCallBack;
             _ = NativeMethods.EnumWindows(callbackptr, 0);
         }
@@ -125,7 +121,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 // we check the cloak state.
                )
             {
-                windows.Add(window);
+                Windows.Add(window);
             }
 
             return true;

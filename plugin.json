@@ -3,7 +3,7 @@
   "ActionKeywords": [ "*" ],
   "Name": "Window Walker",
   "Description": "Alt-Tab alternative enabling searching through your windows.",
-  "Author": "betadele",
+  "Author": "taooceros",
   "Version": "2.3.0",
   "Language": "csharp",
   "Website": "https://github.com/taooceros/Flow.Plugin.WindowWalker",

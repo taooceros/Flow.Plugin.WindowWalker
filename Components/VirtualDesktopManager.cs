@@ -36,7 +36,7 @@ namespace Flow.Plugin.WindowWalker.Components
 
         private static void InitializeVirtualDesktopManagerInternal(IServiceProvider10? shell)
         {
-            if (Environment.OSVersion.Version.MinorRevision > 23000)
+            if (Environment.OSVersion.Version.Build >= 22631)
                 VirtualDesktopManagerInternal = (IVirtualDesktopManagerInternal?)shell?.QueryService(
                     Guids.CLSID_VirtualDesktopManagerInternal,
                     typeof(IVirtualDesktopManagerInternal).GUID);

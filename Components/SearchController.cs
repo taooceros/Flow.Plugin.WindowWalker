@@ -52,7 +52,7 @@ namespace Flow.Plugin.WindowWalker.Components
 
             return string.IsNullOrWhiteSpace(SearchText)
                 ? snapshotOfOpenWindows.Select(x => new SearchResult(x)).ToList()
-                : FuzzySearchOpenWindows(snapshotOfOpenWindows);
+                : FuzzySearchOpenWindows(snapshotOfOpenWindows.ToList());
         }
 
         /// <summary>

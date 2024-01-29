@@ -18,7 +18,6 @@
         <Nullable>enable</Nullable>
         <Platforms>x64</Platforms>
         <NeutralLanguage>en-US</NeutralLanguage>
-        <LangVersion>9.0</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

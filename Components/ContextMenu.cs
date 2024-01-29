@@ -27,11 +27,13 @@ namespace Flow.Plugin.WindowWalker.Components
 
             var currentDesktop = Main.VirtualDesktopHelperInstance.GetCurrentDesktop();
             var isWindowPinned = VirtualDesktopHelper.IsWindowPinned(window.Hwnd);
-            if (!isWindowPinned && window.Desktop.Id != currentDesktop.Id && currentDesktop.ComVirtualDesktop is not null)
+            if (isWindowPinned.HasValue && !isWindowPinned.Value && window.Desktop.Id != currentDesktop.Id &&
+                currentDesktop.ComVirtualDesktop is not null)
             {
                 contextMenuItems.Add(new Result
                 {
-                    Title = String.Format(System.Globalization.CultureInfo.InvariantCulture, Resources.ContextMenu_MoveToCurrentDesktop, currentDesktop.Name),
+                    Title = String.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        Resources.ContextMenu_MoveToCurrentDesktop, currentDesktop.Name),
                     IcoPath = Main.IconPath,
                     Action = _ =>
                     {

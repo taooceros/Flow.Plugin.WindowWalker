@@ -158,43 +158,34 @@ namespace Flow.Plugin.WindowWalker.Components.COM
 
     [ComImport]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    [Guid("B2F925B9-5A0F-4D2E-9F4D-2B1507593C10")]
+    [Guid("A3175F2D-239C-4BD2-8AA0-EEBA8B0B138E")]
     internal interface IVirtualDesktopManagerInternal
     {
-        int GetCount(IntPtr hWndOrMon);
+        int GetCount();
         void MoveViewToDesktop(IApplicationView view, IVirtualDesktop desktop);
         bool CanViewMoveDesktops(IApplicationView view);
-        IVirtualDesktop GetCurrentDesktop(IntPtr hWndOrMon);
-
-        /////////////////////////////////////////////////////////////////
-        // COM Interface "B2F925B9-5A0F-4D2E-9F4D-2B1507593C10"
-        // for windows 11 22H2 (>22489) COM Interface require this func.
-        // for windows 11 21H2 (22000.xxx) this func must be commented
-        IObjectArray GetAllCurrentDesktops();
-        void GetDesktops(IntPtr hWndOrMon, out IObjectArray desktops);
-
+        IVirtualDesktop GetCurrentDesktop();
+        void GetDesktops(out IObjectArray desktops);
         [PreserveSig]
         int GetAdjacentDesktop(IVirtualDesktop from, int direction, out IVirtualDesktop desktop);
-
-        void SwitchDesktop(IntPtr hWndOrMon, IVirtualDesktop desktop);
-        IVirtualDesktop CreateDesktop(IntPtr hWndOrMon);
-        void MoveDesktop(IVirtualDesktop desktop, IntPtr hWndOrMon, int nIndex);
+        void SwitchDesktop(IVirtualDesktop desktop);
+//		void SwitchDesktopAndMoveForegroundView(IVirtualDesktop desktop);
+        IVirtualDesktop CreateDesktop();
+        void MoveDesktop(IVirtualDesktop desktop, int nIndex);
         void RemoveDesktop(IVirtualDesktop desktop, IVirtualDesktop fallback);
-        IVirtualDesktop FindDesktop(ref Guid desktopId);
+        IVirtualDesktop FindDesktop(ref Guid desktopid);
         void GetDesktopSwitchIncludeExcludeViews(IVirtualDesktop desktop, out IObjectArray unknown1, out IObjectArray unknown2);
-#if NET5_0_OR_GREATER
-        void SetName( IVirtualDesktop      desktop, IntPtr newName );
-        void SetWallpaper( IVirtualDesktop desktop, IntPtr path );
-#else
         void SetDesktopName(IVirtualDesktop desktop, [MarshalAs(UnmanagedType.HString)] string name);
         void SetDesktopWallpaper(IVirtualDesktop desktop, [MarshalAs(UnmanagedType.HString)] string path);
-#endif
         void UpdateWallpaperPathForAllDesktops([MarshalAs(UnmanagedType.HString)] string path);
         void CopyDesktopState(IApplicationView pView0, IApplicationView pView1);
-        int GetDesktopIsPerMonitor();
-        void SetDesktopIsPerMonitor(bool state);
+        void CreateRemoteDesktop([MarshalAs(UnmanagedType.HString)] string path, out IVirtualDesktop desktop);
+        void SwitchRemoteDesktop(IVirtualDesktop desktop);
+        void SwitchDesktopWithAnimation(IVirtualDesktop desktop);
+        void GetLastActiveDesktop(out IVirtualDesktop desktop);
+        void WaitForAnimationToComplete();
     }
-
+    
     [ComImport]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     [Guid("A5CD92FF-29BE-454C-8D04-D82879FB3F1B")]

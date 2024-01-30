@@ -4,7 +4,7 @@
   "Name": "Window Walker",
   "Description": "Alt-Tab alternative enabling searching through your windows.",
   "Author": "taooceros",
-  "Version": "2.3.0",
+  "Version": "3.0.0",
   "Language": "csharp",
   "Website": "https://github.com/taooceros/Flow.Plugin.WindowWalker",
   "ExecuteFileName": "Flow.Plugin.WindowWalker.dll",

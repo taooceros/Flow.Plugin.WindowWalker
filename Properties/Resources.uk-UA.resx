@@ -173,9 +173,9 @@
     <value>Пошук вікон на всіх робочих столах</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
-    <value>Move to this desktop ({0})</value>
+    <value>Перемістити на цей робочий стіл ({0})</value>
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
-    <value>Create Quick Access for this window</value>
+    <value>Створити швидкий доступ для цього вікна</value>
   </data>
 </root>

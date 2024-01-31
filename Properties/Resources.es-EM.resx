@@ -173,9 +173,9 @@
     <value>Buscar ventanas en todo el escritorio</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
-    <value>Move to this desktop ({0})</value>
+    <value>Mover al escritorio ({0})</value>
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
-    <value>Create Quick Access for this window</value>
+    <value>Crear acceso rápido para esta ventana</value>
   </data>
 </root>

@@ -173,9 +173,9 @@
     <value>Rechercher des fenêtres sur tous les bureaux</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
-    <value>Move to this desktop ({0})</value>
+    <value>Déplacer vers ce bureau ({0})</value>
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
-    <value>Create Quick Access for this window</value>
+    <value>Créer un accès rapide pour cette fenêtre</value>
   </data>
 </root>

@@ -173,9 +173,9 @@
     <value>Vyhľadávať okná vo všetkých pracovných plochách</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
-    <value>Move to this desktop ({0})</value>
+    <value>Presunúť na túto plochu ({0})</value>
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
-    <value>Create Quick Access for this window</value>
+    <value>Vytvoriť rýchly prístup pre toto okno</value>
   </data>
 </root>

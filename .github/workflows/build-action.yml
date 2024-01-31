@@ -16,7 +16,8 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
+        cache: true
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -25,4 +26,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: WindowsWalker
-        path: Output/Release/
+        path: Output/Release/Flow.Plugin.WindowWalker

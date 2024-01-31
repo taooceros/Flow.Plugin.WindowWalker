@@ -10,7 +10,9 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32;
 using Windows.Win32;
 using Windows.Win32.Foundation;
-using Windows.Win32.UI.Shell;
+using Flow.Plugin.WindowWalker.Components.COM;
+using IVirtualDesktopManager = Windows.Win32.UI.Shell.IVirtualDesktopManager;
+using System.Windows.Controls;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -65,7 +67,9 @@ namespace Flow.Plugin.WindowWalker.Components
             }
             catch (COMException ex)
             {
-                Log.Exception("Initialization of <VirtualDesktopHelper> failed: An exception was thrown when creating the instance of COM interface <IVirtualDesktopManager>.", ex, typeof(VirtualDesktopHelper));
+                Log.Exception(
+                    "Initialization of <VirtualDesktopHelper> failed: An exception was thrown when creating the instance of COM interface <IVirtualDesktopManager>.",
+                    ex, typeof(VirtualDesktopHelper));
                 return;
             }
 
@@ -90,11 +94,14 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             // Registry paths
             var userSessionId = Process.GetCurrentProcess().SessionId;
-            var registrySessionVirtualDesktops = $"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SessionInfo\\{userSessionId}\\VirtualDesktops";
-            var registryExplorerVirtualDesktops = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VirtualDesktops";
+            var registrySessionVirtualDesktops =
+                $"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SessionInfo\\{userSessionId}\\VirtualDesktops";
+            var registryExplorerVirtualDesktops =
+                "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VirtualDesktops";
 
             // List of all desktops
-            var allDeskValue = (byte[]?)Registry.CurrentUser.OpenSubKey(registryExplorerVirtualDesktops, false)?.GetValue("VirtualDesktopIDs", null);
+            var allDeskValue = (byte[]?)Registry.CurrentUser.OpenSubKey(registryExplorerVirtualDesktops, false)
+                ?.GetValue("VirtualDesktopIDs", null);
             if (allDeskValue != null)
             {
                 // We clear only, if we can read from registry. Otherwise we keep the existing values.
@@ -111,12 +118,16 @@ namespace Flow.Plugin.WindowWalker.Components
             }
             else
             {
-                Log.Debug("VirtualDesktopHelper.UpdateDesktopList() failed to read the list of existing desktops form registry.", typeof(VirtualDesktopHelper));
+                Log.Debug(
+                    "VirtualDesktopHelper.UpdateDesktopList() failed to read the list of existing desktops form registry.",
+                    typeof(VirtualDesktopHelper));
             }
 
             // Guid for current desktop
-            var currentDeskSessionValue = Registry.CurrentUser.OpenSubKey(registrySessionVirtualDesktops, false)?.GetValue("CurrentVirtualDesktop", null); // Windows 10
-            var currentDeskExplorerValue = Registry.CurrentUser.OpenSubKey(registryExplorerVirtualDesktops, false)?.GetValue("CurrentVirtualDesktop", null); // Windows 11
+            var currentDeskSessionValue = Registry.CurrentUser.OpenSubKey(registrySessionVirtualDesktops, false)
+                ?.GetValue("CurrentVirtualDesktop", null); // Windows 10
+            var currentDeskExplorerValue = Registry.CurrentUser.OpenSubKey(registryExplorerVirtualDesktops, false)
+                ?.GetValue("CurrentVirtualDesktop", null); // Windows 11
             var currentDeskValue = _IsWindowsEleven ? currentDeskExplorerValue : currentDeskSessionValue;
             if (currentDeskValue != null)
             {
@@ -126,7 +137,9 @@ namespace Flow.Plugin.WindowWalker.Components
             {
                 // The registry value is missing when the user hasn't switched the desktop at least one time before reading the registry. In this case we can set it to desktop one.
                 // We can only set it to desktop one, if we have at least one desktop in the desktops list. Otherwise we keep the existing value.
-                Log.Debug("VirtualDesktopHelper.UpdateDesktopList() failed to read the id for the current desktop form registry.", typeof(VirtualDesktopHelper));
+                Log.Debug(
+                    "VirtualDesktopHelper.UpdateDesktopList() failed to read the id for the current desktop form registry.",
+                    typeof(VirtualDesktopHelper));
                 currentDesktop = availableDesktops.Count >= 1 ? availableDesktops[0] : currentDesktop;
             }
         }
@@ -247,14 +260,18 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             if (desktop == Guid.Empty || !GetDesktopIdList().Contains(desktop))
             {
-                Log.Debug($"VirtualDesktopHelper.GetDesktopName() failed. Parameter contains an invalid desktop guid ({desktop}) that doesn't belongs to an available desktop. Maybe the guid belongs to the generic 'AllDesktops' view.", typeof(VirtualDesktopHelper));
+                Log.Debug(
+                    $"VirtualDesktopHelper.GetDesktopName() failed. Parameter contains an invalid desktop guid ({desktop}) that doesn't belongs to an available desktop. Maybe the guid belongs to the generic 'AllDesktops' view.",
+                    typeof(VirtualDesktopHelper));
                 return string.Empty;
             }
 
             // If the desktop name was not changed by the user, it isn't saved to the registry. Then we need the default name for the desktop.
-            var defaultName = string.Format(System.Globalization.CultureInfo.InvariantCulture, Resources.VirtualDesktopHelper_Desktop, GetDesktopNumber(desktop));
+            var defaultName = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                Resources.VirtualDesktopHelper_Desktop, GetDesktopNumber(desktop));
 
-            var registryPath = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VirtualDesktops\\Desktops\\{" + desktop.ToString().ToUpper(System.Globalization.CultureInfo.InvariantCulture) + "}";
+            var registryPath = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\VirtualDesktops\\Desktops\\{" +
+                               desktop.ToString().ToUpper(System.Globalization.CultureInfo.InvariantCulture) + "}";
             var deskSubKey = Registry.CurrentUser.OpenSubKey(registryPath, false);
             var desktopName = deskSubKey?.GetValue("Name");
 
@@ -305,12 +322,15 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             if (_virtualDesktopManager == null)
             {
-                Log.Error("VirtualDesktopHelper.GetWindowDesktopId() failed: The instance of <IVirtualDesktopHelper> isn't available.", typeof(VirtualDesktopHelper));
+                Log.Error(
+                    "VirtualDesktopHelper.GetWindowDesktopId() failed: The instance of <IVirtualDesktopHelper> isn't available.",
+                    typeof(VirtualDesktopHelper));
                 desktopId = Guid.Empty;
                 return unchecked((int)HRESULT.E_UNEXPECTED);
             }
 
-            return _virtualDesktopManager.GetWindowDesktopId(new Windows.Win32.Foundation.HWND((nint)hWindow), out desktopId);
+            return _virtualDesktopManager.GetWindowDesktopId(new Windows.Win32.Foundation.HWND((nint)hWindow),
+                out desktopId);
         }
 
         /// <summary>
@@ -322,12 +342,17 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             if (_virtualDesktopManager == null)
             {
-                Log.Error("VirtualDesktopHelper.GetWindowDesktop() failed: The instance of <IVirtualDesktopHelper> isn't available.", typeof(VirtualDesktopHelper));
+                Log.Error(
+                    "VirtualDesktopHelper.GetWindowDesktop() failed: The instance of <IVirtualDesktopHelper> isn't available.",
+                    typeof(VirtualDesktopHelper));
                 return CreateVDesktopInstance(Guid.Empty);
             }
 
-            int hr = _virtualDesktopManager.GetWindowDesktopId((Windows.Win32.Foundation.HWND)hWindow, out Guid desktopId);
-            return hr != (int)HRESULT.S_OK || desktopId == Guid.Empty ? VDesktop.Empty : CreateVDesktopInstance(desktopId, hWindow);
+            int hr = _virtualDesktopManager.GetWindowDesktopId((Windows.Win32.Foundation.HWND)hWindow,
+                out Guid desktopId);
+            return hr != (int)HRESULT.S_OK || desktopId == Guid.Empty
+                ? VDesktop.Empty
+                : CreateVDesktopInstance(desktopId, hWindow);
         }
 
         /// <summary>
@@ -340,32 +365,39 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             if (_virtualDesktopManager == null)
             {
-                Log.Error("VirtualDesktopHelper.GetWindowDesktopAssignmentType() failed: The instance of <IVirtualDesktopHelper> isn't available.", typeof(VirtualDesktopHelper));
+                Log.Error(
+                    "VirtualDesktopHelper.GetWindowDesktopAssignmentType() failed: The instance of <IVirtualDesktopHelper> isn't available.",
+                    typeof(VirtualDesktopHelper));
                 return VirtualDesktopAssignmentType.Unknown;
             }
 
             _ = _virtualDesktopManager.IsWindowOnCurrentVirtualDesktop((HWND)hWindow, out var isOnCurrentDesktop);
-            var windowDesktopId = desktop ?? Guid.Empty; // Prepare variable in case we have no input parameter for desktop
+            var windowDesktopId =
+                desktop ?? Guid.Empty; // Prepare variable in case we have no input parameter for desktop
             var hResult = desktop is null ? GetWindowDesktopId(hWindow, out windowDesktopId) : 0;
 
             if (hResult != (int)HRESULT.S_OK)
             {
                 return VirtualDesktopAssignmentType.Unknown;
             }
+
             if (windowDesktopId == Guid.Empty)
             {
                 return VirtualDesktopAssignmentType.NotAssigned;
             }
+
             if (isOnCurrentDesktop && !GetDesktopIdList().Contains(windowDesktopId))
             {
                 // These windows are marked as visible on the current desktop, but the desktop id doesn't belongs to an existing desktop.
                 // In this case the desktop id belongs to the generic view 'AllDesktops'.
                 return VirtualDesktopAssignmentType.AllDesktops;
             }
+
             if (isOnCurrentDesktop)
             {
                 return VirtualDesktopAssignmentType.CurrentDesktop;
             }
+
             return VirtualDesktopAssignmentType.OtherDesktop;
         }
 
@@ -377,7 +409,8 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns><see langword="True"/> if the desktop with the window is visible or if the window is assigned to all desktops. <see langword="False"/> if the desktop is not visible and on failure,</returns>
         public bool IsWindowOnVisibleDesktop(IntPtr hWindow, Guid? desktop = null)
         {
-            return GetWindowDesktopAssignmentType(hWindow, desktop) == VirtualDesktopAssignmentType.CurrentDesktop || GetWindowDesktopAssignmentType(hWindow, desktop) == VirtualDesktopAssignmentType.AllDesktops;
+            return GetWindowDesktopAssignmentType(hWindow, desktop) == VirtualDesktopAssignmentType.CurrentDesktop ||
+                   GetWindowDesktopAssignmentType(hWindow, desktop) == VirtualDesktopAssignmentType.AllDesktops;
         }
 
         /// <summary>
@@ -390,8 +423,17 @@ namespace Flow.Plugin.WindowWalker.Components
         public bool IsWindowCloakedByVirtualDesktopManager(IntPtr hWindow, Guid? desktop = null)
         {
             // If a window is hidden because it is moved to an other desktop, then DWM returns type "CloakedShell". If DWM returns an other type the window is not cloaked by shell or VirtualDesktopManager.
-            _ = NativeMethods.DwmGetWindowAttribute(hWindow, (int)DwmWindowAttributes.Cloaked, out var dwmCloakedState, sizeof(uint));
-            return GetWindowDesktopAssignmentType(hWindow, desktop) == VirtualDesktopAssignmentType.OtherDesktop && dwmCloakedState == (int)DwmWindowCloakStates.CloakedShell;
+            _ = NativeMethods.DwmGetWindowAttribute(hWindow, (int)DwmWindowAttributes.Cloaked, out var dwmCloakedState,
+                sizeof(uint));
+            return GetWindowDesktopAssignmentType(hWindow, desktop) == VirtualDesktopAssignmentType.OtherDesktop &&
+                   dwmCloakedState == (int)DwmWindowCloakStates.CloakedShell;
+        }
+
+        public static bool? IsWindowPinned(IntPtr hWnd)
+        {
+            // return true if window is pinned to all desktops
+            if (hWnd == IntPtr.Zero) throw new ArgumentNullException();
+            return DesktopManager.VirtualDesktopPinnedApps?.IsViewPinned(hWnd.GetApplicationView());
         }
 
         /// <summary>
@@ -400,19 +442,50 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <param name="hWindow">Handle of the top level window.</param>
         /// <param name="desktopId">Guid of the target desktop.</param>
         /// <returns><see langword="True"/> on success and <see langword="false"/> on failure.</returns>
-        public bool MoveWindowToDesktop(IntPtr hWindow, in Guid desktopId)
+        public static bool MoveWindowToDesktop(IntPtr hWnd, IVirtualDesktop comVirtualDesktop)
         {
-            if (_virtualDesktopManager == null)
-            {
-                Log.Error("VirtualDesktopHelper.MoveWindowToDesktop() failed: The instance of <IVirtualDesktopHelper> isn't available.", typeof(VirtualDesktopHelper));
+            if (DesktopManager.VirtualDesktopManager == null)
                 return false;
-            }
 
-            var hr = _virtualDesktopManager.MoveWindowToDesktop((HWND)hWindow, desktopId);
-            if (hr != (int)HRESULT.S_OK)
+            // move window to this desktop
+            if (hWnd == IntPtr.Zero) throw new ArgumentNullException();
+            _ = NativeMethods.GetWindowThreadProcessId(hWnd, out var processId);
+
+            if (Process.GetCurrentProcess().Id == processId)
             {
-                Log.Exception($"VirtualDesktopHelper.MoveWindowToDesktop() failed: An exception was thrown when moving the window ({hWindow}) to an other desktop ({desktopId}).", Marshal.GetExceptionForHR(hr), typeof(VirtualDesktopHelper));
-                return false;
+                // window of process
+                try // the easy way (if we are owner)
+                {
+                    DesktopManager.VirtualDesktopManager.MoveWindowToDesktop(hWnd, comVirtualDesktop.GetId());
+                }
+                catch // window of process, but we are not the owner
+                {
+                    if (DesktopManager.ApplicationViewCollection == null)
+                        return false;
+                    DesktopManager.ApplicationViewCollection.GetViewForHWnd(hWnd, out var view);
+                    DesktopManager.VirtualDesktopManagerInternal?.MoveViewToDesktop(view, comVirtualDesktop);
+                }
+            }
+            else
+            {
+                // window of other proces
+
+                if (DesktopManager.ApplicationViewCollection != null)
+                {
+                    DesktopManager.ApplicationViewCollection.GetViewForHWnd(hWnd, out var view);
+                    try
+                    {
+                        DesktopManager.VirtualDesktopManagerInternal?.MoveViewToDesktop(view, comVirtualDesktop);
+                    }
+                    catch
+                    {
+                        // could not move active window, try main window (or whatever windows thinks is the main window)
+                        DesktopManager.ApplicationViewCollection.GetViewForHWnd(
+                            Process.GetProcessById((int)processId).MainWindowHandle,
+                            out view);
+                        DesktopManager.VirtualDesktopManagerInternal?.MoveViewToDesktop(view, comVirtualDesktop);
+                    }
+                }
             }
 
             return true;
@@ -428,25 +501,35 @@ namespace Flow.Plugin.WindowWalker.Components
             var hr = GetWindowDesktopId(hWindow, out var windowDesktop);
             if (hr != (int)HRESULT.S_OK)
             {
-                Log.Error($"VirtualDesktopHelper.MoveWindowOneDesktopLeft() failed when moving the window ({hWindow}) one desktop left: Can't get current desktop of the window.", typeof(VirtualDesktopHelper));
+                Log.Error(
+                    $"VirtualDesktopHelper.MoveWindowOneDesktopLeft() failed when moving the window ({hWindow}) one desktop left: Can't get current desktop of the window.",
+                    typeof(VirtualDesktopHelper));
                 return false;
             }
 
-            if (GetDesktopIdList().Count == 0 || GetWindowDesktopAssignmentType(hWindow, windowDesktop) == VirtualDesktopAssignmentType.Unknown || GetWindowDesktopAssignmentType(hWindow, windowDesktop) == VirtualDesktopAssignmentType.NotAssigned)
+            if (GetDesktopIdList().Count == 0 ||
+                GetWindowDesktopAssignmentType(hWindow, windowDesktop) == VirtualDesktopAssignmentType.Unknown ||
+                GetWindowDesktopAssignmentType(hWindow, windowDesktop) == VirtualDesktopAssignmentType.NotAssigned)
             {
-                Log.Error($"VirtualDesktopHelper.MoveWindowOneDesktopLeft() failed when moving the window ({hWindow}) one desktop left: We can't find the target desktop. This can happen if the desktop list is empty or if the window isn't assigned to a specific desktop.", typeof(VirtualDesktopHelper));
+                Log.Error(
+                    $"VirtualDesktopHelper.MoveWindowOneDesktopLeft() failed when moving the window ({hWindow}) one desktop left: We can't find the target desktop. This can happen if the desktop list is empty or if the window isn't assigned to a specific desktop.",
+                    typeof(VirtualDesktopHelper));
                 return false;
             }
 
             var windowDesktopNumber = GetDesktopIdList().IndexOf(windowDesktop);
             if (windowDesktopNumber == 1)
             {
-                Log.Error($"VirtualDesktopHelper.MoveWindowOneDesktopLeft() failed when moving the window ({hWindow}) one desktop left: The window is on the first desktop.", typeof(VirtualDesktopHelper));
+                Log.Error(
+                    $"VirtualDesktopHelper.MoveWindowOneDesktopLeft() failed when moving the window ({hWindow}) one desktop left: The window is on the first desktop.",
+                    typeof(VirtualDesktopHelper));
                 return false;
             }
 
             var newDesktop = availableDesktops[windowDesktopNumber - 1];
-            return MoveWindowToDesktop(hWindow, newDesktop);
+
+            return DesktopManager.VirtualDesktopManagerInternal != null && MoveWindowToDesktop(hWindow,
+                DesktopManager.VirtualDesktopManagerInternal.FindDesktop(ref newDesktop));
         }
 
         /// <summary>
@@ -459,25 +542,34 @@ namespace Flow.Plugin.WindowWalker.Components
             var hr = GetWindowDesktopId(hWindow, out var windowDesktop);
             if (hr != (int)HRESULT.S_OK)
             {
-                Log.Error($"VirtualDesktopHelper.MoveWindowOneDesktopRight() failed when moving the window ({hWindow}) one desktop right: Can't get current desktop of the window.", typeof(VirtualDesktopHelper));
+                Log.Error(
+                    $"VirtualDesktopHelper.MoveWindowOneDesktopRight() failed when moving the window ({hWindow}) one desktop right: Can't get current desktop of the window.",
+                    typeof(VirtualDesktopHelper));
                 return false;
             }
 
-            if (GetDesktopIdList().Count == 0 || GetWindowDesktopAssignmentType(hWindow, windowDesktop) == VirtualDesktopAssignmentType.Unknown || GetWindowDesktopAssignmentType(hWindow, windowDesktop) == VirtualDesktopAssignmentType.NotAssigned)
+            if (GetDesktopIdList().Count == 0 ||
+                GetWindowDesktopAssignmentType(hWindow, windowDesktop) == VirtualDesktopAssignmentType.Unknown ||
+                GetWindowDesktopAssignmentType(hWindow, windowDesktop) == VirtualDesktopAssignmentType.NotAssigned)
             {
-                Log.Error($"VirtualDesktopHelper.MoveWindowOneDesktopRight() failed when moving the window ({hWindow}) one desktop right: We can't find the target desktop. This can happen if the desktop list is empty or if the window isn't assigned to a specific desktop.", typeof(VirtualDesktopHelper));
+                Log.Error(
+                    $"VirtualDesktopHelper.MoveWindowOneDesktopRight() failed when moving the window ({hWindow}) one desktop right: We can't find the target desktop. This can happen if the desktop list is empty or if the window isn't assigned to a specific desktop.",
+                    typeof(VirtualDesktopHelper));
                 return false;
             }
 
             var windowDesktopNumber = GetDesktopIdList().IndexOf(windowDesktop);
             if (windowDesktopNumber == GetDesktopCount())
             {
-                Log.Error($"VirtualDesktopHelper.MoveWindowOneDesktopRight() failed when moving the window ({hWindow}) one desktop right: The window is on the last desktop.", typeof(VirtualDesktopHelper));
+                Log.Error(
+                    $"VirtualDesktopHelper.MoveWindowOneDesktopRight() failed when moving the window ({hWindow}) one desktop right: The window is on the last desktop.",
+                    typeof(VirtualDesktopHelper));
                 return false;
             }
 
             var newDesktop = availableDesktops[windowDesktopNumber + 1];
-            return MoveWindowToDesktop(hWindow, newDesktop);
+            return DesktopManager.VirtualDesktopManagerInternal != null && MoveWindowToDesktop(hWindow,
+                DesktopManager.VirtualDesktopManagerInternal.FindDesktop(ref newDesktop));
         }
 
         /// <summary>
@@ -494,10 +586,14 @@ namespace Flow.Plugin.WindowWalker.Components
             }
 
             // Can be only detected if method is invoked with window handle parameter.
-            var desktopType = hWindow != default ? GetWindowDesktopAssignmentType(hWindow, desktop) : VirtualDesktopAssignmentType.Unknown;
+            var desktopType = hWindow != default
+                ? GetWindowDesktopAssignmentType(hWindow, desktop)
+                : VirtualDesktopAssignmentType.Unknown;
             var isAllDesktops = hWindow != default && desktopType == VirtualDesktopAssignmentType.AllDesktops;
-            var isDesktopVisible = hWindow != default ? isAllDesktops || desktopType == VirtualDesktopAssignmentType.CurrentDesktop : IsDesktopVisible(desktop);
-
+            var isDesktopVisible = hWindow != default
+                ? isAllDesktops || desktopType == VirtualDesktopAssignmentType.CurrentDesktop
+                : IsDesktopVisible(desktop);
+            var comVirtualDesktop = DesktopManager.VirtualDesktopManagerInternal?.FindDesktop(ref desktop);
             return new VDesktop()
             {
                 Id = desktop,
@@ -506,6 +602,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 IsVisible = isDesktopVisible || isAllDesktops,
                 IsAllDesktopsView = isAllDesktops,
                 Position = GetDesktopPositionType(desktop),
+                ComVirtualDesktop = comVirtualDesktop
             };
         }
 
@@ -515,11 +612,17 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns><see langword="True"/> if yes and <see langword="false"/> if no.</returns>
         private static bool IsWindowsElevenOrLater()
         {
-            var currentBuildString = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", false)?.GetValue("CurrentBuild", null) ?? uint.MinValue;
+            var currentBuildString =
+                Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", false)
+                    ?.GetValue("CurrentBuild", null) ?? uint.MinValue;
             var currentBuild = uint.TryParse(currentBuildString as string, out var build) ? build : uint.MinValue;
 
-            var currentBuildNumberString = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", false)?.GetValue("CurrentBuildNumber", null) ?? uint.MinValue;
-            var currentBuildNumber = uint.TryParse(currentBuildNumberString as string, out var buildNumber) ? buildNumber : uint.MinValue;
+            var currentBuildNumberString =
+                Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", false)
+                    ?.GetValue("CurrentBuildNumber", null) ?? uint.MinValue;
+            var currentBuildNumber = uint.TryParse(currentBuildNumberString as string, out var buildNumber)
+                ? buildNumber
+                : uint.MinValue;
 
             var currentWindowsBuild = currentBuild != uint.MinValue ? currentBuild : currentBuildNumber;
             return currentWindowsBuild >= 22000;

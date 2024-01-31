@@ -5,8 +5,10 @@
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -16,22 +18,16 @@ namespace Flow.Plugin.WindowWalker.Components
     internal class OpenWindows
     {
         /// <summary>
-        /// List of all the open windows
-        /// </summary>
-        private readonly List<Window> windows = new List<Window>();
-
-        /// <summary>
         /// An instance of the class OpenWindows
         /// </summary>
         private static OpenWindows? instance;
 
         /// <summary>
-        /// Gets the list of all open windows
+        /// Gets the list of all open _windows
         /// </summary>
-        public List<Window> Windows
-        {
-            get { return new List<Window>(windows); }
-        }
+        public ConcurrentBag<Window> Windows { get; } = new ();
+
+        public Window? FlowWindow { get; private set; }
 
         /// <summary>
         /// Gets an instance property of this class that makes sure that
@@ -52,16 +48,48 @@ namespace Flow.Plugin.WindowWalker.Components
         }
 
         /// <summary>
-        /// Updates the list of open windows
+        /// Updates the reference to FlowWindow
+        /// </summary>
+        public void UpdateFlowWindow()
+        {
+            FlowWindow = null;
+            EnumWindowsProc callbackptr = FlowWindowCallback;
+            _ = NativeMethods.EnumWindows(callbackptr, 0);
+        }
+
+        /// <summary>
+        /// Updates the list of open _windows
         /// </summary>
         public void UpdateOpenWindowsList()
         {
-            windows.Clear();
+            FlowWindow = null;
+            Windows.Clear();
             EnumWindowsProc callbackptr = WindowEnumerationCallBack;
             _ = NativeMethods.EnumWindows(callbackptr, 0);
         }
 
         private static string flowLauncherExe = "Flow.Launcher.exe";
+
+        /// <summary>
+        /// Call back method for window enumeration, to find the Flow Window
+        /// </summary>
+        /// <param name="hwnd">The handle to the current window being enumerated</param>
+        /// <param name="lParam">Value being passed from the caller (we don't use this but might come in handy
+        /// in the future</param>
+        /// <returns>true to make sure to continue enumeration</returns>
+        public bool FlowWindowCallback(IntPtr hwnd, IntPtr lParam)
+        {
+            Window window = new Window(hwnd);
+
+            if (window.Process.Name == flowLauncherExe && window.IsWindow)
+            {
+                window.IsFlowWindow = true;
+                FlowWindow = window;
+                return false; // Stop enumeration
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Call back method for window enumeration
@@ -72,21 +100,28 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns>true to make sure to continue enumeration</returns>
         public bool WindowEnumerationCallBack(IntPtr hwnd, IntPtr lParam)
         {
-            Window newWindow = new Window(hwnd);
+            Window window = new Window(hwnd);
 
-            if (newWindow.IsWindow && newWindow.Visible && newWindow.IsOwner
-                && (!newWindow.IsToolWindow || newWindow.IsAppWindow) && !newWindow.TaskListDeleted
-                && (SearchWindowsAcrossAllVDesktop || (newWindow.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2))
-                && newWindow.ClassName != "Windows.UI.Core.CoreWindow"
-                && newWindow.Process.Name != flowLauncherExe
-                && (!newWindow.IsCloaked ||
-                    newWindow.GetWindowCloakState() ==
+            if (window.Process.Name == flowLauncherExe && window.IsWindow)
+            {
+                window.IsFlowWindow = true;
+                FlowWindow = window;
+                return true;
+            }
+
+            if (window.IsWindow && window.Visible && window.IsOwner
+                && (!window.IsToolWindow || window.IsAppWindow) && !window.TaskListDeleted
+                && (SearchWindowsAcrossAllVDesktop || (window.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2))
+                && window.ClassName != "Windows.UI.Core.CoreWindow"
+                && window.Process.Name != flowLauncherExe
+                && (!window.IsCloaked ||
+                    window.GetWindowCloakState() ==
                     Window.WindowCloakState.OtherDesktop)
-               // To hide (not add) preloaded uwp app windows that are invisible to the user and other cloaked windows,
-               // we check the cloak state.
+                // To hide (not add) preloaded uwp app _windows that are invisible to the user and other cloaked _windows,
+                // we check the cloak state.
                )
             {
-                windows.Add(newWindow);
+                Windows.Add(window);
             }
 
             return true;

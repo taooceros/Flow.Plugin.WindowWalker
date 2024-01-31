@@ -46,6 +46,14 @@ namespace Flow.Plugin.WindowWalker.Components
         }
 
         /// <summary>
+        /// Gets the image of the process
+        /// </summary>
+        internal string Image
+        {
+            get; private set;
+        } = String.Empty;
+
+        /// <summary>
         /// Gets a value indicating whether the window belongs to an 'Universal Windows Platform (UWP)' process
         /// </summary>
         internal bool IsUwpApp { get; }
@@ -103,9 +111,10 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <param name="pid">New process id.</param>
         /// <param name="tid">New thread id.</param>
         /// <param name="name">New process name.</param>
-        internal WindowProcess(uint pid, uint tid, string name)
+        /// <param name="image">New process image.</param>
+        internal WindowProcess(uint pid, uint tid, string name, string image)
         {
-            UpdateProcessInfo(pid, tid, name);
+            UpdateProcessInfo(pid, tid, name, image);
             IsUwpApp = Name!.ToUpperInvariant().Equals("APPLICATIONFRAMEHOST.EXE", StringComparison.Ordinal);
         }
 
@@ -115,12 +124,14 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <param name="pid">New process id.</param>
         /// <param name="tid">New thread id.</param>
         /// <param name="name">New process name.</param>
-        internal void UpdateProcessInfo(uint pid, uint tid, string name)
+        /// <param name="image">New process image.</param>
+        internal void UpdateProcessInfo(uint pid, uint tid, string name, string image)
         {
-            // TODO: Add verification as to wether the process id and thread id is valid
+            // TODO: Add verification as to whether the process id and thread id is valid
             ProcessID = pid;
             ThreadID = tid;
             Name = name;
+            Image = image;
 
             // Process can be elevated only if process id is not 0 (Dummy value on error)
             IsFullAccessDenied = pid != 0 && TestProcessAccessUsingAllAccessFlag(pid);
@@ -153,21 +164,23 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         /// <param name="pid">The id of the process/param>
         /// <returns>A string representing the process name or an empty string if the function fails</returns>
-        internal static string GetProcessNameFromProcessID(uint pid)
+        internal static (string , string) GetProcessNameAndImageFromProcessID(uint pid)
         {
             var processHandle = NativeMethods.OpenProcess(ProcessAccessFlags.QueryLimitedInformation, true, (int)pid);
-            var processName = new StringBuilder(MaximumFileNameLength);
+            var stringBuilder = new StringBuilder(MaximumFileNameLength);
+            var processName = String.Empty;
+            var processImage = String.Empty;
+            int capacity = MaximumFileNameLength;
 
-            if (NativeMethods.GetProcessImageFileName(processHandle, processName, MaximumFileNameLength) != 0)
-            {
-                _ = CloseHandleIfNotNull(processHandle);
-                return processName.ToString().Split('\\').Reverse().ToArray()[0];
-            }
-            else
-            {
-                _ = CloseHandleIfNotNull(processHandle);
-                return string.Empty;
-            }
+            if (NativeMethods.QueryFullProcessImageName(processHandle, 0, stringBuilder, ref capacity))
+                processImage = stringBuilder.ToString();
+
+            stringBuilder = new StringBuilder(MaximumFileNameLength);
+            if (NativeMethods.GetProcessImageFileName(processHandle, stringBuilder, MaximumFileNameLength) != 0)
+                processName = stringBuilder.ToString().Split('\\').Reverse().ToArray()[0];
+            
+            _ = CloseHandleIfNotNull(processHandle);
+            return (processName, processImage);
         }
 
         /// <summary>

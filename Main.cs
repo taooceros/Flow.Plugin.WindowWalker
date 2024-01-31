@@ -45,18 +45,25 @@ namespace Flow.Plugin.WindowWalker
                 if (cachedWindows[query.Search].IsWindow)
                 {
                     var window = cachedWindows[query.Search];
+
                     return new List<Result>
                     {
                         new Result
                         {
                             Title = window.Title,
-                            IcoPath = IconPath,
+                            IcoPath = !String.IsNullOrEmpty(window.Process.Image) ? window.Process.Image: IconPath,
                             Score = cachedWindowsScore,
                             SubTitle = $"{wox_plugin_windowwalker_running} : {window.Process.Name}",
                             ContextData = window,
                             Action = c =>
                             {
+                                OpenWindows.Instance.UpdateFlowWindow();
+
                                 window.SwitchToWindow();
+                                if (OpenWindows.Instance.FlowWindow is not null &&
+                                    window.Desktop.ComVirtualDesktop is not null)
+                                    VirtualDesktopHelper.MoveWindowToDesktop(OpenWindows.Instance.FlowWindow.Hwnd, window.Desktop.ComVirtualDesktop);
+
                                 return true;
                             }
                         }
@@ -70,14 +77,13 @@ namespace Flow.Plugin.WindowWalker
 
             VirtualDesktopHelperInstance.UpdateDesktopList();
             OpenWindows.Instance.UpdateOpenWindowsList();
-
             var searchResults = SearchController.GetResult(query.Search, Settings.SearchWindowsAcrossAllVDesktop);
 
             var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
                 .Select(x => new Result()
                 {
                     Title = x.Result.Title,
-                    IcoPath = IconPath,
+                    IcoPath = !String.IsNullOrEmpty(x.Result.Process.Image) ? x.Result.Process.Image : IconPath,
                     Score = x.Score,
                     TitleHighlightData = x.SearchMatchesInTitle?.MatchData,
                     SubTitle =
@@ -85,14 +91,20 @@ namespace Flow.Plugin.WindowWalker
                     ContextData = x.Result,
                     Action = c =>
                     {
+                        OpenWindows.Instance.UpdateFlowWindow();
+
                         if (c.SpecialKeyState.CtrlPressed)
                         {
                             x.Result.CloseThisWindow(true);
+                            // Re-query
+                            Context.API.ChangeQuery(query.RawQuery, true);
                         }
                         else
-                        {
                             x.Result.SwitchToWindow();
-                        }
+
+                        if (OpenWindows.Instance.FlowWindow is not null &&
+                            x.Result.Desktop.ComVirtualDesktop is not null)
+                            VirtualDesktopHelper.MoveWindowToDesktop(OpenWindows.Instance.FlowWindow.Hwnd, x.Result.Desktop.ComVirtualDesktop);
 
                         return true;
                     },

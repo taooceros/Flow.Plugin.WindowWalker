@@ -173,9 +173,9 @@
     <value>Pesquisar janelas em todos os ambientes de trabalho</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
-    <value>Move to this desktop ({0})</value>
+    <value>Mover para o ambiente de trabalho ({0})</value>
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
-    <value>Create Quick Access for this window</value>
+    <value>Criar acesso rápido para esta janela</value>
   </data>
 </root>

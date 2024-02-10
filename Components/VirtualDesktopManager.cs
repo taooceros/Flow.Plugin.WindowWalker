@@ -6,7 +6,7 @@ namespace Flow.Plugin.WindowWalker.Components
 {
     public static class DesktopManager
     {
-        internal static IVirtualDesktopManagerInternal? VirtualDesktopManagerInternal;
+        internal static IVirtualDesktopManagerInternal? VirtualDesktopManagerInternal = null;
         internal static IVirtualDesktopManager? VirtualDesktopManager;
         internal static IVirtualDesktopPinnedApps? VirtualDesktopPinnedApps;
         public static IApplicationViewCollection? ApplicationViewCollection;

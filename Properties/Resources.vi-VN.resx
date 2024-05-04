@@ -121,10 +121,10 @@
     <value>Window Walker</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt+Tab 的替代品。搜索打开的窗口。</value>
+    <value>Alt-Tab thay thế cho phép tìm kiếm thông qua các cửa sổ của bạn.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>运行中</value>
+    <value>Running</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,38 +139,38 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>快速访问窗口快捷键</value>
+    <value>Quick Access Window Hotkey</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>桌面 {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>在所有桌面</value>
+    <value>On all Desktops</value>
     <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
-    <value>桌面</value>
+    <value>Desktop</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>确认</value>
+    <value>Xong</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>取消</value>
+    <value>Hủy</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>快速访问此窗口的关键字</value>
+    <value>Keyword for quick accessing this window</value>
   </data>
   <data name="Keyword" xml:space="preserve">
-    <value>关键字</value>
+    <value>Keyword</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>快速访问关键字分配窗口</value>
+    <value>Quick AccessKeyword Assigned Window</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>窗口</value>
+    <value>Window</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>在所有桌面搜索窗口</value>
+    <value>Search Windows Across All Desktop</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
     <value>Move to this desktop ({0})</value>

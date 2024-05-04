@@ -145,7 +145,8 @@
     <value>Ambiente de trabalho {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>Em todos os ambientes de trabalho</value><comment>The window is shown on all desktops.</comment>
+    <value>Em todos os ambientes de trabalho</value>
+    <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
     <value>Ambiente de trabalho</value>
@@ -170,5 +171,11 @@
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>Pesquisar janelas em todos os ambientes de trabalho</value>
+  </data>
+  <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
+    <value>Mover para o ambiente de trabalho ({0})</value>
+  </data>
+  <data name="ContextMenu_QuickAccess" xml:space="preserve">
+    <value>Criar acesso rápido para esta janela</value>
   </data>
 </root>

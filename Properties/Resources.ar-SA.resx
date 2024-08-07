@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="wox_plugin_windowwalker_plugin_name" xml:space="preserve">
-    <value>Window Walker</value>
+    <value>Windows Walker</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternative enabling searching through your windows.</value>
+    <value>بديل Alt-Tab يمكّن من البحث عبر النوافذ.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Running</value>
+    <value>تشغيل</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,43 +139,43 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Quick Access Window Hotkey</value>
+    <value>اختصار الوصول السريع</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>سطح المكتب {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>On all Desktops</value>
+    <value>على جميع الأسطح</value>
     <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>سطح المكتب</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>ت</value>
+    <value>تم</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>إلغاء</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>Keyword for quick accessing this window</value>
+    <value>الكلمة الرئيسية للوصول السريع إلى هذه النافذة</value>
   </data>
   <data name="Keyword" xml:space="preserve">
-    <value>Keyword</value>
+    <value>كلمة مفتاحية</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>Quick AccessKeyword Assigned Window</value>
+    <value>نافذة مخصصة للوصول السريع</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>نافذة</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Search Windows Across All Desktop</value>
+    <value>البحث عن النوافذ عبر جميع الأسطح</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
-    <value>Move to this desktop ({0})</value>
+    <value>نقل إلى هذا السطح ({0})</value>
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
-    <value>Create Quick Access for this window</value>
+    <value>إنشاء وصول سريع لهذه النافذة</value>
   </data>
 </root>

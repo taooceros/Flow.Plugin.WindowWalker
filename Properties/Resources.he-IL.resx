@@ -152,10 +152,10 @@
     <value>Desktop</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done</value>
+    <value>בוצע</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>ביטול</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
     <value>Keyword for quick accessing this window</value>

@@ -171,4 +171,7 @@
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>在所有桌面搜索窗口</value>
   </data>
+  <data name="setting_searchCloakedWindows" xml:space="preserve">
+    <value>Search Cloaked Windows</value>
+  </data>
 </root>

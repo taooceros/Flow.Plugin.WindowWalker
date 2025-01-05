@@ -31,6 +31,12 @@
                     Margin="15,15,0,15"
                     Content="{x:Static p:Resources.setting_searchWindowsAllDesktop}"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <CheckBox 
+                    IsChecked="{Binding SearchCloakedWindows}" 
+                    Margin="15,15,0,15"
+                    Content="{x:Static p:Resources.setting_searchCloakedWindows}"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -159,6 +159,15 @@ namespace Flow.Plugin.WindowWalker.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Search Cloaked Windows.
+        /// </summary>
+        public static string setting_searchCloakedWindows {
+            get {
+                return ResourceManager.GetString("setting_searchCloakedWindows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Shift.
         /// </summary>
         public static string Shift {

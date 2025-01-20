@@ -11,9 +11,9 @@ jobs:
   publish:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '7.0.x'
           cache: true
@@ -30,7 +30,7 @@ jobs:
           7z a -tzip "WindowWalker-${{steps.version.outputs.prop}}.zip" "./WindowWalker-${{steps.version.outputs.prop}}/*"
           rm -r "WindowWalker-${{steps.version.outputs.prop}}"
       - name: Publish
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: "WindowWalker*"
           tag_name: "v${{steps.version.outputs.prop}}"

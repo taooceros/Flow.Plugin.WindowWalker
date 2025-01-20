@@ -145,7 +145,8 @@
     <value>Pracovná plocha {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>Na všetkých pracovných plochách</value><comment>The window is shown on all desktops.</comment>
+    <value>Na všetkých pracovných plochách</value>
+    <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
     <value>Pracovná plocha</value>
@@ -170,5 +171,11 @@
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>Vyhľadávať okná vo všetkých pracovných plochách</value>
+  </data>
+  <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
+    <value>Presunúť na túto plochu ({0})</value>
+  </data>
+  <data name="ContextMenu_QuickAccess" xml:space="preserve">
+    <value>Vytvoriť rýchly prístup pre toto okno</value>
   </data>
 </root>

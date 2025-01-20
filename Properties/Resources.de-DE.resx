@@ -121,16 +121,16 @@
     <value>Window Walker</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternative enabling searching through your windows.</value>
+    <value>Alternative zu Alt-Tab, um Ihre Fenster zu durchsuchen.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Running</value>
+    <value>Läuft</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
   </data>
   <data name="Ctrl" xml:space="preserve">
-    <value>Ctrl</value>
+    <value>Strg</value>
   </data>
   <data name="Shift" xml:space="preserve">
     <value>Shift</value>
@@ -139,13 +139,14 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Quick Access Window Hotkey</value>
+    <value>Tastenkombination für Schnellzugriff</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
     <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>On all Desktops</value><comment>The window is shown on all desktops.</comment>
+    <value>Auf allen Desktops</value>
+    <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
     <value>Desktop</value>
@@ -157,18 +158,24 @@
     <value>Abbrechen</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>Keyword for quick accessing this window</value>
+    <value>Schlüsselwort für schnellen Zugriff auf dieses Fenster</value>
   </data>
   <data name="Keyword" xml:space="preserve">
-    <value>Keyword</value>
+    <value>Schlüsselwort</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>Quick AccessKeyword Assigned Window</value>
+    <value>Titel des Fensters, für welches das Schlüsselwort zugeordnet werden soll</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Fenster</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Search Windows Across All Desktop</value>
+    <value>Suche Fenster auf dem gesamten Desktop</value>
+  </data>
+  <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
+    <value>Auf diesen Desktop verschieben ({0})</value>
+  </data>
+  <data name="ContextMenu_QuickAccess" xml:space="preserve">
+    <value>Schnellzugriff für dieses Fenster erstellen</value>
   </data>
 </root>

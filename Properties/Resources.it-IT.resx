@@ -145,7 +145,8 @@
     <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>Su tutti i desktop</value><comment>The window is shown on all desktops.</comment>
+    <value>Su tutti i desktop</value>
+    <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
     <value>Desktop</value>
@@ -170,5 +171,11 @@
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>Ricerca delle finestre su tutti i desktop</value>
+  </data>
+  <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
+    <value>Sposta su questo desktop ({0})</value>
+  </data>
+  <data name="ContextMenu_QuickAccess" xml:space="preserve">
+    <value>Crea Accesso Rapido per questa finestra</value>
   </data>
 </root>

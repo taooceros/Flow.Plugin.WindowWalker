@@ -121,10 +121,10 @@
     <value>Window Walker</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternative enabling searching through your windows.</value>
+    <value>Alt-Tab alternativ som muliggjør søk gjennom vinduene.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Running</value>
+    <value>Kjører</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,36 +139,43 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Quick Access Window Hotkey</value>
+    <value>Hurtigtast for hurtigtilgang til vindu</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>Skrivebord {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>On all Desktops</value><comment>The window is shown on all desktops.</comment>
+    <value>På alle skrivebord</value>
+    <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>Skrivebord</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done</value>
+    <value>Utført</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Avbryt</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>Keyword for quick accessing this window</value>
+    <value>Nøkkelord for rask tilgang til dette vinduet</value>
   </data>
   <data name="Keyword" xml:space="preserve">
-    <value>Keyword</value>
+    <value>Nøkkelord</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>Quick AccessKeyword Assigned Window</value>
+    <value>HurtigtilgangNøkkelordtildelt vindu</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Vindu</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Search Windows Across All Desktop</value>
+    <value>Søk i Windows på alle skrivebord</value>
+  </data>
+  <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
+    <value>Flytt til dette skrivebordet ({0})</value>
+  </data>
+  <data name="ContextMenu_QuickAccess" xml:space="preserve">
+    <value>Opprett hurtigtilgang for dette vinduet</value>
   </data>
 </root>

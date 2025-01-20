@@ -139,13 +139,14 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>快速访问窗口快捷键</value>
+    <value>快速访问窗口热键</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
     <value>桌面 {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>在所有桌面</value><comment>The window is shown on all desktops.</comment>
+    <value>在所有桌面</value>
+    <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
     <value>桌面</value>
@@ -170,5 +171,11 @@
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>在所有桌面搜索窗口</value>
+  </data>
+  <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
+    <value>移至此桌面 ({0})</value>
+  </data>
+  <data name="ContextMenu_QuickAccess" xml:space="preserve">
+    <value>将此窗口创建快速访问</value>
   </data>
 </root>

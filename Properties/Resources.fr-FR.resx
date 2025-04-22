@@ -173,7 +173,7 @@
     <value>Rechercher des fenêtres sur tous les bureaux</value>
   </data>
   <data name="setting_searchCloakedWindows" xml:space="preserve">
-    <value>Search Cloaked Windows</value>
+    <value>Rechercher dans les fenêtres masquées</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
     <value>Déplacer vers ce bureau ({0})</value>

@@ -178,4 +178,7 @@
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
     <value>Schnellzugriff für dieses Fenster erstellen</value>
   </data>
+  <data name="setting_searchCloakedWindows" xml:space="preserve">
+    <value>Search Cloaked Windows</value>
+  </data>
 </root>

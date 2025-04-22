@@ -145,13 +145,14 @@
     <value>Bureau {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>Sur tous les bureaux</value><comment>The window is shown on all desktops.</comment>
+    <value>Sur tous les bureaux</value>
+    <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
     <value>Bureau</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Termin</value>
+    <value>Terminer</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Annuler</value>
@@ -171,7 +172,10 @@
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>Rechercher des fenêtres sur tous les bureaux</value>
   </data>
-  <data name="setting_searchCloakedWindows" xml:space="preserve">
-    <value>Search Cloaked Windows</value>
+  <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
+    <value>Déplacer vers ce bureau ({0})</value>
+  </data>
+  <data name="ContextMenu_QuickAccess" xml:space="preserve">
+    <value>Créer un accès rapide pour cette fenêtre</value>
   </data>
 </root>

@@ -121,10 +121,10 @@
     <value>Window Walker</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>L'alternativa è Alt-Tab che consente la ricerca nelle finestre.</value>
+    <value>Alt-Tab alternative enabling searching through your windows.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>In esecuzione</value>
+    <value>Running</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,43 +139,43 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Tasto di accesso rapido alla finestra</value>
+    <value>Quick Access Window Hotkey</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
     <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>Su tutti i desktop</value>
+    <value>On all Desktops</value>
     <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
     <value>Desktop</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Conferma</value>
+    <value>בוצע</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>Annulla</value>
+    <value>ביטול</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>Keyword per accedere rapidamente a questa finestra</value>
+    <value>Keyword for quick accessing this window</value>
   </data>
   <data name="Keyword" xml:space="preserve">
     <value>Keyword</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>Finestra Di AccessKeyword Rapida Assegnata</value>
+    <value>Quick AccessKeyword Assigned Window</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Finestra</value>
+    <value>Window</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Ricerca delle finestre su tutti i desktop</value>
+    <value>Search Windows Across All Desktop</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
-    <value>Sposta su questo desktop ({0})</value>
+    <value>Move to this desktop ({0})</value>
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
-    <value>Crea Accesso Rapido per questa finestra</value>
+    <value>Create Quick Access for this window</value>
   </data>
 </root>

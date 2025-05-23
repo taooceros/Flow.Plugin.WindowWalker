@@ -173,7 +173,7 @@
     <value>חפש חלונות בכל שולחנות העבודה</value>
   </data>
   <data name="setting_searchCloakedWindows" xml:space="preserve">
-    <value>Search Cloaked Windows</value>
+    <value>חיפוש חלונות מוסווים</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
     <value>העבר לשולחן עבודה זה ({0})</value>

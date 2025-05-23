@@ -172,6 +172,9 @@
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>البحث عن النوافذ عبر جميع الأسطح</value>
   </data>
+  <data name="setting_searchCloakedWindows" xml:space="preserve">
+    <value>Search Cloaked Windows</value>
+  </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
     <value>نقل إلى هذا السطح ({0})</value>
   </data>

@@ -9,32 +9,32 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}, Path=Settings}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="500">
-    <Grid>
+    <Grid Margin="{StaticResource SettingPanelMargin}">
         <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
+            <WrapPanel Orientation="Horizontal">
                 <CheckBox
                     IsChecked="{Binding EnableQuickAccessHotKey}"
-                    Margin="15,15,0,15" 
+                    Margin="{StaticResource SettingPanelItemRightTopBottomMargin}"
                     Content="{x:Static p:Resources.QuickAccessHotkey}"/>
                 <TextBox x:Name="QuickAccessWindowKeySet"
                          Width="250"
-                         Margin="15"
+                         Margin="{StaticResource SettingPanelItemTopBottomMargin}"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Center"
                          Text="{Binding QuickAccessHotKey, Mode=TwoWay}"
                          IsEnabled="{Binding EnableQuickAccessHotKey}"
                          PreviewKeyDown="OnAccessKeyChange" />
-            </StackPanel>
+            </WrapPanel>
             <StackPanel Orientation="Horizontal">
                 <CheckBox 
                     IsChecked="{Binding SearchWindowsAcrossAllVDesktop}" 
-                    Margin="15,15,0,15"
+                    Margin="{StaticResource SettingPanelItemTopBottomMargin}"
                     Content="{x:Static p:Resources.setting_searchWindowsAllDesktop}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <CheckBox 
                     IsChecked="{Binding SearchCloakedWindows}" 
-                    Margin="15,15,0,15"
+                    Margin="{StaticResource SettingPanelItemTopBottomMargin}"
                     Content="{x:Static p:Resources.setting_searchCloakedWindows}"/>
             </StackPanel>
         </StackPanel>

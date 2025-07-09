@@ -98,6 +98,9 @@
         <None Update="Images\windowwalker.light.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
+        <None Update="Images\walker_badge.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
     <ItemGroup>
       <None Remove="NativeMethods.json" />

@@ -18,8 +18,7 @@ namespace Flow.Plugin.WindowWalker
     {
         internal static readonly Dictionary<string, Window> cachedWindows = new Dictionary<string, Window>();
 
-
-        public const string IconPath = "Images/windowwalker.light.png";
+        public const string IconPath = "Images/windowwalker.dark.png";
 
         // High score to displayed on top against results 
         // that are frequently selected by user which recieve a boost too from Flow.
@@ -65,7 +64,9 @@ namespace Flow.Plugin.WindowWalker
                                     VirtualDesktopHelper.MoveWindowToDesktop(OpenWindows.Instance.FlowWindow.Hwnd, window.Desktop.ComVirtualDesktop);
 
                                 return true;
-                            }
+                            },
+                            ShowBadge = true,
+                            BadgeIcoPath = IconPath,
                         }
                     };
                 }
@@ -108,6 +109,8 @@ namespace Flow.Plugin.WindowWalker
 
                         return true;
                     },
+                    ShowBadge = true,
+                    BadgeIcoPath = IconPath,
                 }).ToList();
 
             foreach (var result in results)

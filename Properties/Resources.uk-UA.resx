@@ -172,6 +172,9 @@
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>Пошук вікон на всіх робочих столах</value>
   </data>
+  <data name="setting_searchCloakedWindows" xml:space="preserve">
+    <value>Пошук прихованих вікон</value>
+  </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
     <value>Перемістити на цей робочий стіл ({0})</value>
   </data>

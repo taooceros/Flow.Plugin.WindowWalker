@@ -124,7 +124,7 @@
     <value>Alternative zu Alt-Tab, um Ihre Fenster zu durchsuchen.</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Läuft</value>
+    <value>Wird ausgeführt</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,7 +139,7 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Tastenkombination für Schnellzugriff</value>
+    <value>Hotkey für Schnellzugriffsfenster</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
     <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
@@ -171,6 +171,9 @@
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>Suche Fenster auf dem gesamten Desktop</value>
+  </data>
+  <data name="setting_searchCloakedWindows" xml:space="preserve">
+    <value>Getarnte Fenster suchen</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
     <value>Auf diesen Desktop verschieben ({0})</value>

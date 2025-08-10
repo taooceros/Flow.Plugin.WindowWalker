@@ -55,29 +55,29 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <returns>List of context menu items</returns>
         internal static List<Result> GetBrowserTabContextMenu(BrowserTab tab)
         {
-            var results = new List<Result>();
-
-            results.Add(new Result
+            var results = new List<Result>
             {
-                Title = Resources.BrowserTab_SwitchToTab,
-                IcoPath = Main.IconPath,
-                Action = c =>
+                new Result
                 {
-                    BrowserTabManager.ActivateTab(tab);
-                    return true;
-                }
-            });
-
-            results.Add(new Result
-            {
-                Title = Resources.BrowserTab_CloseTab,
-                IcoPath = Main.IconPath,
-                Action = c =>
+                    Title = Resources.BrowserTab_SwitchToTab,
+                    IcoPath = Main.IconPath,
+                    Action = c =>
+                    {
+                        BrowserTabManager.ActivateTab(tab);
+                        return true;
+                    }
+                },
+                new Result
                 {
-                    BrowserTabManager.CloseTab(tab);
-                    return true;
+                    Title = Resources.BrowserTab_CloseTab,
+                    IcoPath = Main.IconPath,
+                    Action = c =>
+                    {
+                        BrowserTabManager.CloseTab(tab);
+                        return true;
+                    }
                 }
-            });
+            };
 
             return results;
         }

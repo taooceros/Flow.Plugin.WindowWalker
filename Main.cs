@@ -214,8 +214,14 @@ namespace Flow.Plugin.WindowWalker
         {
             if (selectedResult == null)
                 return new List<Result>();
-            return selectedResult.ContextData is not Window window ? new List<Result>() : ContextMenu.GetContextMenu(window);
 
+            if (selectedResult.ContextData is Window window)
+                return ContextMenu.GetContextMenu(window);
+
+            if (selectedResult.ContextData is BrowserTab tab)
+                return ContextMenu.GetBrowserTabContextMenu(tab);
+
+            return new List<Result>();
         }
 
         public Control CreateSettingPanel()

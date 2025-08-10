@@ -3,6 +3,7 @@ using Flow.Launcher.Plugin;
 using Flow.Plugin.WindowWalker.Views;
 using System.Collections.Generic;
 using Flow.Plugin.WindowWalker.Properties;
+using BrowserTabs;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -45,6 +46,40 @@ namespace Flow.Plugin.WindowWalker.Components
             }
 
             return contextMenuItems;
+        }
+
+        /// <summary>
+        /// Gets context menu for browser tabs
+        /// </summary>
+        /// <param name="tab">The browser tab</param>
+        /// <returns>List of context menu items</returns>
+        internal static List<Result> GetBrowserTabContextMenu(BrowserTab tab)
+        {
+            var results = new List<Result>();
+
+            results.Add(new Result
+            {
+                Title = Resources.BrowserTab_SwitchToTab,
+                IcoPath = Main.IconPath,
+                Action = c =>
+                {
+                    BrowserTabManager.ActivateTab(tab);
+                    return true;
+                }
+            });
+
+            results.Add(new Result
+            {
+                Title = Resources.BrowserTab_CloseTab,
+                IcoPath = Main.IconPath,
+                Action = c =>
+                {
+                    BrowserTabManager.CloseTab(tab);
+                    return true;
+                }
+            });
+
+            return results;
         }
     }
 }

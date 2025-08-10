@@ -26,7 +26,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the browser tab reference for the search result
         /// </summary>
-        public BrowserTab? BrowserTab
+        public BrowserTab? BrowserTabResult
         {
             get;
             internal set;
@@ -103,7 +103,7 @@ namespace Flow.Plugin.WindowWalker.Components
         /// </summary>
         public SearchResult(BrowserTab tab, MatchResult titleMatch, MatchResult browserNameMatch)
         {
-            BrowserTab = tab;
+            BrowserTabResult = tab;
             SearchMatchesInTitle = titleMatch;
             SearchMatchesInBrowserName = browserNameMatch;
             GetBestScoreForBrowserTab();

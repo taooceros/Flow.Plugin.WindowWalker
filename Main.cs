@@ -81,37 +81,74 @@ namespace Flow.Plugin.WindowWalker
             OpenWindows.Instance.UpdateOpenWindowsList();
             var searchResults = SearchController.GetResult(query.Search, Settings.SearchWindowsAcrossAllVDesktop);
 
-            var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
-                .Select(x => new Result()
+            var results = searchResults.Where(x =>
+                (x.Result != null && !string.IsNullOrEmpty(x.Result.Title)) ||
+                (x.BrowserTabResult != null && !string.IsNullOrEmpty(x.BrowserTabResult.Title)))
+                .Select(x =>
                 {
-                    Title = x.Result.Title,
-                    IcoPath = !String.IsNullOrEmpty(x.Result.Process.Image) ? x.Result.Process.Image : IconPath,
-                    Score = x.Score,
-                    TitleHighlightData = x.SearchMatchesInTitle?.MatchData,
-                    SubTitle =
-                        $"{wox_plugin_windowwalker_running} : {x.Result.Process.Name}{(VirtualDesktopHelperInstance.GetDesktopCount() > 1 ? $" - {wox_plugin_windowwalker_Desktop}: {x.Result.Desktop.Name}" : "")}",
-                    ContextData = x.Result,
-                    Action = c =>
+                    if (x.BrowserTabResult != null)
                     {
-                        OpenWindows.Instance.UpdateFlowWindow();
-
-                        if (c.SpecialKeyState.CtrlPressed)
+                        // Handle browser tab result
+                        return new Result()
                         {
-                            x.Result.CloseThisWindow(true);
-                            // Re-query
-                            Context.API.ChangeQuery(query.RawQuery, true);
-                        }
-                        else
-                            x.Result.SwitchToWindow();
+                            Title = x.BrowserTabResult.Title,
+                            IcoPath = IconPath, // Use default icon for browser tabs
+                            Score = x.Score,
+                            TitleHighlightData = x.SearchMatchesInTitle?.MatchData,
+                            SubTitle = $"{x.BrowserTabResult.BrowserName} - {x.BrowserTabResult.Url}",
+                            ContextData = x.BrowserTabResult,
+                            Action = c =>
+                            {
+                                if (c.SpecialKeyState.CtrlPressed)
+                                {
+                                    BrowserTabManager.CloseTab(x.BrowserTabResult);
+                                    // Re-query
+                                    Context.API.ChangeQuery(query.RawQuery, true);
+                                }
+                                else
+                                    BrowserTabManager.ActivateTab(x.BrowserTabResult);
 
-                        if (OpenWindows.Instance.FlowWindow is not null &&
-                            x.Result.Desktop.ComVirtualDesktop is not null)
-                            VirtualDesktopHelper.MoveWindowToDesktop(OpenWindows.Instance.FlowWindow.Hwnd, x.Result.Desktop.ComVirtualDesktop);
+                                return true;
+                            },
+                            ShowBadge = true,
+                            BadgeIcoPath = IconPath,
+                        };
+                    }
+                    else
+                    {
+                        // Handle regular window result
+                        return new Result()
+                        {
+                            Title = x.Result!.Title,
+                            IcoPath = !String.IsNullOrEmpty(x.Result.Process.Image) ? x.Result.Process.Image : IconPath,
+                            Score = x.Score,
+                            TitleHighlightData = x.SearchMatchesInTitle?.MatchData,
+                            SubTitle =
+                                $"{wox_plugin_windowwalker_running} : {x.Result.Process.Name}{(VirtualDesktopHelperInstance.GetDesktopCount() > 1 ? $" - {wox_plugin_windowwalker_Desktop}: {x.Result.Desktop.Name}" : "")}",
+                            ContextData = x.Result,
+                            Action = c =>
+                            {
+                                OpenWindows.Instance.UpdateFlowWindow();
 
-                        return true;
-                    },
-                    ShowBadge = true,
-                    BadgeIcoPath = IconPath,
+                                if (c.SpecialKeyState.CtrlPressed)
+                                {
+                                    x.Result.CloseThisWindow(true);
+                                    // Re-query
+                                    Context.API.ChangeQuery(query.RawQuery, true);
+                                }
+                                else
+                                    x.Result.SwitchToWindow();
+
+                                if (OpenWindows.Instance.FlowWindow is not null &&
+                                    x.Result.Desktop.ComVirtualDesktop is not null)
+                                    VirtualDesktopHelper.MoveWindowToDesktop(OpenWindows.Instance.FlowWindow.Hwnd, x.Result.Desktop.ComVirtualDesktop);
+
+                                return true;
+                            },
+                            ShowBadge = true,
+                            BadgeIcoPath = IconPath,
+                        };
+                    }
                 }).ToList();
 
             foreach (var result in results)

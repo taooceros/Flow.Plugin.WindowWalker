@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="wox_plugin_windowwalker_plugin_name" xml:space="preserve">
     <value>Window Walker</value>
@@ -142,7 +142,8 @@
     <value>Quick Access Window Hotkey</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>Desktop {0}</value>
+    <comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
     <value>On all Desktops</value>
@@ -180,5 +181,11 @@
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
     <value>Create Quick Access for this window</value>
+  </data>
+  <data name="BrowserTab_CloseTab" xml:space="preserve">
+    <value>Close tab</value>
+  </data>
+  <data name="BrowserTab_SwitchToTab" xml:space="preserve">
+    <value>Switch to tab</value>
   </data>
 </root>

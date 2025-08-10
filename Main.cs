@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation
+// Copyright (c) Microsoft Corporation
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -11,6 +11,7 @@ using System.Linq;
 using System.Windows.Controls;
 using static Flow.Plugin.WindowWalker.Properties.Resources;
 using ContextMenu = Flow.Plugin.WindowWalker.Components.ContextMenu;
+using BrowserTabs;
 
 namespace Flow.Plugin.WindowWalker
 {

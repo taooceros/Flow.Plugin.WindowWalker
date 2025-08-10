@@ -4,9 +4,11 @@
 
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using BrowserTabs;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -38,7 +40,13 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             SearchText = searchText;
             OpenWindows.Instance.SearchWindowsAcrossAllVDesktop = searchWindowsAcrossAllVDesktop;
-            return OpenWindowsWithModel();
+
+            var results = OpenWindowsWithModel();
+
+            var browserTabs = GetBrowserTabResults();
+            results.AddRange(browserTabs);
+
+            return results;
         }
 
         /// <summary>
@@ -77,6 +85,39 @@ namespace Flow.Plugin.WindowWalker.Components
             System.Diagnostics.Debug.Print("Found " + result.Count + " windows that match the search text");
 
             return result;
+        }
+
+        /// <summary>
+        /// Gets browser tab search results
+        /// </summary>
+        /// <returns>List of search results for browser tabs</returns>
+        private static List<SearchResult> GetBrowserTabResults()
+        {
+            var results = new List<SearchResult>();
+
+            try
+            {
+                var browserTabs = BrowserTabManager.GetChromiumTabs();
+
+                foreach (var tab in browserTabs)
+                {
+                    var titleMatch = Main.Context.API.FuzzySearch(SearchText, tab.Title);
+                    var browserNameMatch = Main.Context.API.FuzzySearch(SearchText, tab.BrowserName);
+
+                    if (string.IsNullOrWhiteSpace(SearchText) ||
+                        titleMatch.IsSearchPrecisionScoreMet() ||
+                        browserNameMatch.IsSearchPrecisionScoreMet())
+                    {
+                        results.Add(new SearchResult(tab, titleMatch, browserNameMatch));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Exception("Error getting browser tab results", ex, typeof(SearchController));
+            }
+
+            return results;
         }
     }
 }

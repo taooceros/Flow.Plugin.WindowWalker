@@ -5,6 +5,7 @@
 // Code forked from Betsegaw Tadele's https://github.com/betsegaw/windowwalker/
 
 using Flow.Launcher.Plugin.SharedModels;
+using BrowserTabs;
 
 namespace Flow.Plugin.WindowWalker.Components
 {
@@ -16,7 +17,16 @@ namespace Flow.Plugin.WindowWalker.Components
         /// <summary>
         /// Gets the actual window reference for the search result
         /// </summary>
-        public Window Result
+        public Window? Result
+        {
+            get;
+            internal set;
+        }
+
+        /// <summary>
+        /// Gets the browser tab reference for the search result
+        /// </summary>
+        public BrowserTab? BrowserTab
         {
             get;
             internal set;
@@ -39,6 +49,16 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             get;
             set;
+        }
+
+        /// <summary>
+        /// Gets the list of indexes of the matching characters for the search in the
+        /// browser name
+        /// </summary>
+        public MatchResult? SearchMatchesInBrowserName
+        {
+            get;
+            private set;
         }
 
 
@@ -78,6 +98,18 @@ namespace Flow.Plugin.WindowWalker.Components
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SearchResult"/> class for browser tabs.
+        /// Constructor
+        /// </summary>
+        public SearchResult(BrowserTab tab, MatchResult titleMatch, MatchResult browserNameMatch)
+        {
+            BrowserTab = tab;
+            SearchMatchesInTitle = titleMatch;
+            SearchMatchesInBrowserName = browserNameMatch;
+            GetBestScoreForBrowserTab();
+        }
+
+        /// <summary>
         /// Calculates the score for how closely this window matches the search string
         /// </summary>
         /// <remarks>
@@ -98,12 +130,33 @@ namespace Flow.Plugin.WindowWalker.Components
         }
 
         /// <summary>
+        /// Calculates the score for how closely this browser tab matches the search string
+        /// </summary>
+        /// <remarks>
+        /// Higher Score is better
+        /// </remarks>
+        private void GetBestScoreForBrowserTab()
+        {
+            if ((SearchMatchesInTitle?.Score ?? 0) > (SearchMatchesInBrowserName?.Score ?? 0))
+            {
+                Score = SearchMatchesInTitle?.Score ?? 0;
+                BestScoreSource = TextType.WindowTitle;
+            }
+            else
+            {
+                Score = SearchMatchesInBrowserName?.Score ?? 0;
+                BestScoreSource = TextType.BrowserName;
+            }
+        }
+
+        /// <summary>
         /// The type of text that a string represents
         /// </summary>
         public enum TextType
         {
             ProcessName,
             WindowTitle,
+            BrowserName,
         }
 
         /// <summary>

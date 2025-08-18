@@ -97,7 +97,7 @@ namespace Flow.Plugin.WindowWalker.Components
 
             try
             {
-                var browserTabs = BrowserTabManager.GetChromiumTabs();
+                var browserTabs = BrowserTabManager.GetAllChromiumTabs();
 
                 foreach (var tab in browserTabs)
                 {

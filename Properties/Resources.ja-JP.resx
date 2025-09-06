@@ -121,10 +121,10 @@
     <value>Window Walker</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>Alt-Tab alternative enabling searching through your windows.</value>
+    <value>ウィンドウを検索できるAlt-Tabの代替品。</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
-    <value>Running</value>
+    <value>実行中</value>
   </data>
   <data name="Alt" xml:space="preserve">
     <value>Alt</value>
@@ -139,17 +139,17 @@
     <value>Win</value>
   </data>
   <data name="QuickAccessHotkey" xml:space="preserve">
-    <value>Quick Access Window Hotkey</value>
+    <value>クイックアクセスウィンドウ作成のホットキー</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>デスクトップ {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
     <value>On all Desktops</value>
     <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>デスクトップ</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>完</value>
@@ -161,16 +161,16 @@
     <value>Keyword for quick accessing this window</value>
   </data>
   <data name="Keyword" xml:space="preserve">
-    <value>Keyword</value>
+    <value>キーワード</value>
   </data>
   <data name="quick_access_title" xml:space="preserve">
-    <value>Quick AccessKeyword Assigned Window</value>
+    <value>クイックアクセスキーワード割り当てウィンドウ</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>ウィンドウ名</value>
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
-    <value>Search Windows Across All Desktop</value>
+    <value>すべてのデスクトップ上のウィンドウを検索</value>
   </data>
   <data name="setting_searchCloakedWindows" xml:space="preserve">
     <value>Search Cloaked Windows</value>
@@ -179,6 +179,6 @@
     <value>Move to this desktop ({0})</value>
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
-    <value>Create Quick Access for this window</value>
+    <value>このウィンドウへのクイックアクセスを作成</value>
   </data>
 </root>

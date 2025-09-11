@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="wox_plugin_windowwalker_plugin_name" xml:space="preserve">
-    <value>Window Walker</value>
+    <value>ウィンドウ・ウォーカー</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
     <value>ウィンドウを検索できるAlt-Tabの代替品。</value>
@@ -145,7 +145,7 @@
     <value>デスクトップ {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>On all Desktops</value>
+    <value>すべてのデスクトップ</value>
     <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">
@@ -158,7 +158,7 @@
     <value></value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
-    <value>Keyword for quick accessing this window</value>
+    <value>このウィンドウにクイックアクセスするためのキーワード</value>
   </data>
   <data name="Keyword" xml:space="preserve">
     <value>キーワード</value>
@@ -173,10 +173,10 @@
     <value>すべてのデスクトップ上のウィンドウを検索</value>
   </data>
   <data name="setting_searchCloakedWindows" xml:space="preserve">
-    <value>Search Cloaked Windows</value>
+    <value>隠れたウィンドウを検索</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
-    <value>Move to this desktop ({0})</value>
+    <value>これをデスクトップ ({0}) に移動</value>
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
     <value>このウィンドウへのクイックアクセスを作成</value>

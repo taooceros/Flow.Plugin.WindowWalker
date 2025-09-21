@@ -121,7 +121,7 @@
     <value>ウィンドウ・ウォーカー</value>
   </data>
   <data name="wox_plugin_windowwalker_plugin_description" xml:space="preserve">
-    <value>ウィンドウを検索できるAlt-Tabの代替品。</value>
+    <value>ウィンドウを検索できるAlt-Tabの代替ツール。</value>
   </data>
   <data name="wox_plugin_windowwalker_running" xml:space="preserve">
     <value>実行中</value>
@@ -155,7 +155,7 @@
     <value>完</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value></value>
+    <value>キャンセル</value>
   </data>
   <data name="quick_access_tooltip" xml:space="preserve">
     <value>このウィンドウにクイックアクセスするためのキーワード</value>

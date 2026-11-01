@@ -152,7 +152,7 @@
     <value>Ambiente de trabalho</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Feito</value>
+    <value>OK</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
@@ -171,6 +171,9 @@
   </data>
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>Pesquisar janelas em todos os ambientes de trabalho</value>
+  </data>
+  <data name="setting_searchCloakedWindows" xml:space="preserve">
+    <value>Pesquisar janelas camufladas</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
     <value>Mover para o ambiente de trabalho ({0})</value>

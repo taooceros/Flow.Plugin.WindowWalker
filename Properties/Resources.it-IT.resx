@@ -172,6 +172,9 @@
   <data name="setting_searchWindowsAllDesktop" xml:space="preserve">
     <value>Ricerca delle finestre su tutti i desktop</value>
   </data>
+  <data name="setting_searchCloakedWindows" xml:space="preserve">
+    <value>Search Cloaked Windows</value>
+  </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
     <value>Sposta su questo desktop ({0})</value>
   </data>

@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation
+// Copyright (c) Microsoft Corporation
 // The Microsoft Corporation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -81,6 +81,7 @@ namespace Flow.Plugin.WindowWalker
             var searchResults = SearchController.GetResult(query.Search, Settings.SearchWindowsAcrossAllVDesktop);
 
             var results = searchResults.Where(x => !string.IsNullOrEmpty(x.Result.Title))
+                .DistinctBy(x => x.Result.Hwnd)
                 .Select(x => new Result()
                 {
                     Title = x.Result.Title,

@@ -142,7 +142,7 @@
     <value>快速存取快捷鍵</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>桌面 {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
     <value>在所有桌面上</value>
@@ -173,10 +173,10 @@
     <value>在所有桌面上搜尋視窗</value>
   </data>
   <data name="setting_searchCloakedWindows" xml:space="preserve">
-    <value>搜尋最小化的視窗</value>
+    <value>搜尋隱藏的視窗</value>
   </data>
   <data name="ContextMenu_MoveToCurrentDesktop" xml:space="preserve">
-    <value>移動到桌面{0}</value>
+    <value>移動到 {0}</value>
   </data>
   <data name="ContextMenu_QuickAccess" xml:space="preserve">
     <value>為此視窗建立快速存取</value>

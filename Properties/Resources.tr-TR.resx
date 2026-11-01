@@ -142,10 +142,10 @@
     <value>Hızlı Erişim Penceresi Kısayol Tuşu</value>
   </data>
   <data name="VirtualDesktopHelper_Desktop" xml:space="preserve">
-    <value>Masaüstü {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
+    <value>Desktop {0}</value><comment>Default name for virtual desktops. Do not translate '{0}' as this is a place holder and will be converted in code.</comment>
   </data>
   <data name="VirtualDesktopHelper_AllDesktops" xml:space="preserve">
-    <value>Tüm Masaüstü Bilgisayarlarda</value>
+    <value>On all Desktops</value>
     <comment>The window is shown on all desktops.</comment>
   </data>
   <data name="wox_plugin_windowwalker_Desktop" xml:space="preserve">

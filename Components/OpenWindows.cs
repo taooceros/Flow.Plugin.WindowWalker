@@ -114,7 +114,8 @@ namespace Flow.Plugin.WindowWalker.Components
                 && (SearchWindowsAcrossAllVDesktop || (window.Desktop.IsVisible || Main.VirtualDesktopHelperInstance.GetDesktopCount() < 2))
                 && window.ClassName != "Windows.UI.Core.CoreWindow"
                 && window.Process.Name != flowLauncherExe
-                && (!window.IsCloaked ||
+                && (Main.Settings.SearchCloakedWindows ||
+                    !window.IsCloaked ||
                     window.GetWindowCloakState() ==
                     Window.WindowCloakState.OtherDesktop)
                 // To hide (not add) preloaded uwp app _windows that are invisible to the user and other cloaked _windows,

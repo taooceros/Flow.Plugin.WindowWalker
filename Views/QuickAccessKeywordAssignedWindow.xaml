@@ -5,45 +5,129 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:p="clr-namespace:Flow.Plugin.WindowWalker.Properties"
         mc:Ignorable="d"
+        Background="{DynamicResource PopuBGColor}"
         WindowStartupLocation="CenterScreen"
+        Foreground="{DynamicResource PopupTextColor}"
         Loaded="OnLoad"
-        Title="{x:Static p:Resources.quick_access_title}" Width="300" Height="240"
+        Title="{x:Static p:Resources.quick_access_title}"
+        Width="530"
+        ResizeMode="NoResize"
+        SizeToContent="Height"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="32" ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}" />
+    </WindowChrome.WindowChrome>
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="Close" />
+    </Window.InputBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="cmdEsc_OnPress" />
+    </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition />
+            <RowDefinition Height="80" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Grid.ColumnSpan="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left">
-            <TextBlock Margin="20,0,0,0"
-                       Text="{x:Static p:Resources.Window}"/>
-            <TextBlock Margin="20,0,0,0"
-                       Text="{Binding WindowName, Mode=OneTime}"
-                       Width="auto"/>
+        <StackPanel Grid.Row="0">
+            <StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Grid.Column="1"
+                        Click="BtnCancel_OnClick"
+                        Style="{StaticResource TitleBarCloseButtonStyle}">
+                        <Path
+                            Width="46"
+                            Height="32"
+                            Data="M 18,11 27,20 M 18,20 27,11"
+                            Stroke="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}"
+                            StrokeThickness="1">
+                            <Path.Style>
+                                <Style TargetType="Path">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" Value="False">
+                                            <Setter Property="Opacity" Value="0.5" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Path.Style>
+                        </Path>
+                    </Button>
+                </Grid>
+            </StackPanel>
+            <StackPanel Margin="26 0 26 0">
+                <TextBlock
+                    Margin="0 0 0 12"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Text="{x:Static p:Resources.quick_access_title}"
+                    TextAlignment="Left" />
+
+                <Grid Width="478" Margin="0 20 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Row="0" Grid.Column="0"
+                        Margin="10" FontSize="14"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Text="{x:Static p:Resources.Window}"/>
+                    <TextBlock
+                        Grid.Row="0" Grid.Column="1"
+                        Margin="10" FontSize="14"
+                        Text="{Binding WindowName, Mode=OneTime}"
+                        Width="auto"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"/>
+                    <TextBlock
+                        Grid.Row="1" Grid.Column="0"
+                        Margin="10" FontSize="14"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        ToolTip="{x:Static p:Resources.quick_access_tooltip}"
+                        Text="{x:Static p:Resources.Keyword}"/>
+                    <TextBox
+                        Grid.Row="1" Grid.Column="1"
+                        Margin="10"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Text="{Binding ActionKeyword, Mode=OneWay}"
+                        PreviewKeyDown="KeywordBoxOnKeywordDown"
+                        Name="KeywordBox"/>
+                </Grid>
+            </StackPanel>
         </StackPanel>
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
-            <TextBlock Margin="20,0,20,0"
-                       Height="20"
-                       ToolTip="{x:Static p:Resources.quick_access_tooltip}"
-                       Text="{x:Static p:Resources.Keyword}"/>
-            <TextBox
-                Width="100"
-                Height="40"
-                Text="{Binding ActionKeyword, Mode=OneWay}"
-                PreviewKeyDown="KeywordBoxOnKeywordDown"
-                Name="KeywordBox"/>
-        </StackPanel>
-        <StackPanel Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2">
-            <Button Click="BtnCancel_OnClick" Margin="75 0 10 0" Width="80" Height="30"
-                    Content="{x:Static p:Resources.Cancel}"/>
-            <Button Margin="10 0 10 0" Width="80" Height="30" Click="BtnDone_OnClick">
-                <TextBlock Text="{x:Static p:Resources.Done}" />
-            </Button>
-        </StackPanel>
+        <Border
+            Grid.Row="1"
+            Margin="0 14 0 0"
+            Background="{DynamicResource PopupButtonAreaBGColor}"
+            BorderBrush="{DynamicResource PopupButtonAreaBorderColor}"
+            BorderThickness="0 1 0 0">
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button
+                    x:Name="btnCancel"
+                    MinWidth="140"
+                    Margin="10 0 5 0"
+                    Click="BtnCancel_OnClick"
+                    Content="{x:Static p:Resources.Cancel}" />
+                <Button
+                    x:Name="btnAdd"
+                    MinWidth="140"
+                    Content="{x:Static p:Resources.Done}"
+                    Margin="5 0 10 0"
+                    Click="BtnDone_OnClick"
+                    Style="{StaticResource AccentButtonStyle}" />
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

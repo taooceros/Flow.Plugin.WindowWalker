@@ -30,6 +30,8 @@ namespace Flow.Plugin.WindowWalker.Components
 
         public bool SearchWindowsAcrossAllVDesktop { get; set; } = false;
         
+        public bool SearchCloakedWindows { get; set; } = false;
+        
         private void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

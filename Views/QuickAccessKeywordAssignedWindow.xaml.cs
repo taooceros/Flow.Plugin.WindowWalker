@@ -43,5 +43,10 @@ namespace Flow.Plugin.WindowWalker.Views
                 BtnDone_OnClick(this, new RoutedEventArgs());
             }
         }
+
+        private void cmdEsc_OnPress(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

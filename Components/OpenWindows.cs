@@ -23,6 +23,8 @@ namespace Flow.Plugin.WindowWalker.Components
 
         private IReadOnlyList<Window> _windows = Array.Empty<Window>();
 
+        private Window? _flowWindow;
+
         /// <summary>
         /// Gets the list of all open _windows (thread-safe snapshot)
         /// </summary>
@@ -37,7 +39,16 @@ namespace Flow.Plugin.WindowWalker.Components
             }
         }
 
-        public Window? FlowWindow { get; private set; }
+        public Window? FlowWindow
+        {
+            get
+            {
+                lock (_enumWindowsLock)
+                {
+                    return _flowWindow;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets an instance property of this class that makes sure that
@@ -64,34 +75,23 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             lock (_enumWindowsLock)
             {
-                FlowWindow = null;
-                EnumWindowsProc callbackptr = FlowWindowCallback;
-                _ = NativeMethods.EnumWindows(callbackptr, 0);
+                Window? flowWindow = null;
+                _ = NativeMethods.EnumWindows((hwnd, _) =>
+                {
+                    Window window = new Window(hwnd);
+                    if (window.Process.Name == flowLauncherExe && window.IsWindow)
+                    {
+                        window.IsFlowWindow = true;
+                        flowWindow = window;
+                        return false;
+                    }
+                    return true;
+                }, 0);
+                _flowWindow = flowWindow;
             }
         }
 
         private static string flowLauncherExe = "Flow.Launcher.exe";
-
-        /// <summary>
-        /// Call back method for window enumeration, to find the Flow Window
-        /// </summary>
-        /// <param name="hwnd">The handle to the current window being enumerated</param>
-        /// <param name="lParam">Value being passed from the caller (we don't use this but might come in handy
-        /// in the future</param>
-        /// <returns>true to make sure to continue enumeration</returns>
-        public bool FlowWindowCallback(IntPtr hwnd, IntPtr lParam)
-        {
-            Window window = new Window(hwnd);
-
-            if (window.Process.Name == flowLauncherExe && window.IsWindow)
-            {
-                window.IsFlowWindow = true;
-                FlowWindow = window;
-                return false; // Stop enumeration
-            }
-
-            return true;
-        }
 
         /// <summary>
         /// Updates the list of open _windows in a thread-safe manner with HWND deduplication
@@ -100,7 +100,9 @@ namespace Flow.Plugin.WindowWalker.Components
         {
             lock (_enumWindowsLock)
             {
-                FlowWindow = null;
+                Main.VirtualDesktopHelperInstance.UpdateDesktopList();
+                SearchWindowsAcrossAllVDesktop = Main.Settings.SearchWindowsAcrossAllVDesktop;
+                Window? flowWindow = null;
                 var newWindows = new List<Window>();
                 var seenHwnds = new HashSet<IntPtr>();
 
@@ -114,7 +116,7 @@ namespace Flow.Plugin.WindowWalker.Components
                     if (window.Process.Name == flowLauncherExe && window.IsWindow)
                     {
                         window.IsFlowWindow = true;
-                        FlowWindow = window;
+                        flowWindow = window;
                         return true;
                     }
 
@@ -138,6 +140,7 @@ namespace Flow.Plugin.WindowWalker.Components
                 }
 
                 _ = NativeMethods.EnumWindows(Callback, 0);
+                _flowWindow = flowWindow;
                 _windows = newWindows;
             }
         }
